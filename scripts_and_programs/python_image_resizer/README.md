@@ -22,4 +22,6 @@ pip install pillow
 
 ## Notes
 
+- No copies of images are made. Copy your files elsewhere before using this if you are worried about losing data.
+
 - `Image.MAX_IMAGE_PIXELS` is set to `99999999999999` to bypass PIL's built in ddos protection and allow for resizing of huge images.
