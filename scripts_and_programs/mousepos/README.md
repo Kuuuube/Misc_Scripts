@@ -6,8 +6,8 @@
 
 ## Notes
 
-I have no clue where this came from anymore. It wasn't coded by me.
+- I have no clue where this came from anymore. It wasn't coded by me.
 
-It can be decompiled easily due to it being so simple.
+- It can be decompiled easily due to it being so simple.
 
-I may make my own version at some point.
+- I may make my own version at some point.
