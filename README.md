@@ -5,3 +5,5 @@ Miscellaneous scripts, small programs, and notes for other programs I use. Every
 ## [Blank File Generator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/blank_file_generator/)
 
 ## [Number Generator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/number_generator/)
+
+## [Python Image Resizer](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/python_image_resizer/)
