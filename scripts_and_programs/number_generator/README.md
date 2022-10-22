@@ -4,13 +4,13 @@ Generates a newline separated list of numbers with customizeable start, end, pre
 
 ## Usage
 
-Run `numgen.exe` or `numgen.py` and follow the prompts.
+- Run `numgen.exe` or `numgen.py` and follow the prompts.
 
-numgen.exe/numgen.c:
+numgen.exe/numgen.c only:
 
-`Set Input Length` is the length in characters that can be input into the other prompts. 
+- `Set Input Length` is the length in characters that can be input into the other prompts. 
 
-When entering extremely long prefixes or suffixes you may need to use above 1000.
+    When entering extremely long prefixes or suffixes you may need to use above 1000.
 
 ## Building
 
