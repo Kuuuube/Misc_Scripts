@@ -34,6 +34,10 @@ Occasionally I get a bug in League of Legends where none of my hotkeys work. Res
 
 Change mouse settings on windows without admin privileges and without control panel/settings access.
 
+## [Keyboard Layout Translator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/keyboard_layout_translator)
+
+Encode and decode text typed on the wrong keyboard layout.
+
 <br>
 
 ## Contributing
