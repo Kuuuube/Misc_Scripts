@@ -28,6 +28,8 @@ pip install typing
 
     Printing progress for every word also could cause it to be somewhat slower but due to how slow it is already it probably doesnt matter much.
 
+- The larger the word set is the more time it takes to remove a single word. The script becomes unbearably slow on lists over around 10,000 words.
+
 - Only json arrays named `"words"` or `"texts"` are accepted by default but new names can be added by adding another elif on line 64 of `compress.py`
 
     For example: Adding the following on line 64 will search for an array named `something_else`:
