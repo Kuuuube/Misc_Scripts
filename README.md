@@ -7,3 +7,5 @@ Miscellaneous scripts, small programs, and notes for other programs I use. Every
 ## [Number Generator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/number_generator/)
 
 ## [Python Image Resizer](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/python_image_resizer/)
+
+## [MousePos](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/mousepos)
