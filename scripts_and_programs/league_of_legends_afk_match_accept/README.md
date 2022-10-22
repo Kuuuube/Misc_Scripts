@@ -16,7 +16,7 @@ Install [AutoHotKey](https://www.autohotkey.com/) if you want to run from the .a
 
 ## Notes
 
-- As far as I know doing this has never gotten anyone banned.
+- As far as I know, doing this has never gotten anyone banned.
 
 - Don't forget the hotkeys to pause and exit the script or it may be difficult to exit the script due to it controlling your mouse.
 

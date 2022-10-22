@@ -13,3 +13,9 @@ Miscellaneous scripts, small programs, and notes for other programs I've used. E
 ## [EVE Online Targetting Calculator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/eve_online_targetting_calculator)
 
 ## [League of Legends AFK Match Accept](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/league_of_legends_afk_match_accept)
+
+<br>
+
+## Contributing
+
+If you see something stupid in any of these scripts and feel the need to fix it, I will accept PRs.
