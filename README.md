@@ -16,6 +16,8 @@ Miscellaneous scripts, small programs, and notes for other programs I've used. E
 
 ## [League of Legends Fast Restarter](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/league_of_legends_fast_restarter)
 
+## [Mouse Settings Compiler](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/mouse_settings_compiler)
+
 <br>
 
 ## Contributing
