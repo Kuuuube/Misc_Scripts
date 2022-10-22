@@ -38,6 +38,10 @@ Change mouse settings on windows without admin privileges and without control pa
 
 Encode and decode text typed on the wrong keyboard layout.
 
+## [Clemenpine Word List Compressor](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/clemenpine_word_list_compressor)
+
+My fork of a small script written by [ClemenPine](https://github.com/ClemenPine) to compress a word list into the smallest amount of words by removing duplicate trigrams.
+
 <br>
 
 ## Contributing
