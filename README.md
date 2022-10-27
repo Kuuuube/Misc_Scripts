@@ -42,6 +42,10 @@ Encode and decode text typed on the wrong keyboard layout.
 
 My fork of a small script written by [ClemenPine](https://github.com/ClemenPine) to compress a word list into the smallest amount of words by removing duplicate trigrams.
 
+## [osu! Collection Factory Tools](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/osu_collection_factory_tools)
+
+Dumps osu! Collector collection data to OSDB recursively starting at the id in `start_number.txt` and ending at the latest id.
+
 <br>
 
 ## Contributing
