@@ -4,7 +4,7 @@ Tools for handling and generating large collections and large amounts of collect
 
 ## Autodumper osu! Collector
 
-Dumps osu! Collector collection data to OSDB recursively starting at the id in `start_number.txt` and ending at the latest id.
+Dumps [osu! Collector](https://osucollector.com/) collection data to OSDB recursively starting at the id in `start_number.txt` and ending at the latest id.
 
 ### Usage
 
