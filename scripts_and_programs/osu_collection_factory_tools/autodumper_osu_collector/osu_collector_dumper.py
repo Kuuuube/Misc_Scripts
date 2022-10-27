@@ -54,23 +54,23 @@ def osu_collector_dump(collection_id, collection_path):
     try:
         username = collection['uploader']['username']
     except Exception:
-        username = "None"
+        username = ""
 
     try:
         name = collection['name']
     except Exception:
-        name = "None"
+        name = ""
     
     try:
         #python is awful so "\\\\n" is required to write a literal "\n" instead of a newline
         description = re.sub("(\n|\r\n)", "\\\\n", collection['description'])
     except Exception:
-        description = "None"
+        description = ""
     
     try:
         beatmapcount = collection['beatmapCount']
     except Exception:
-        beatmapcount = "None"
+        beatmapcount = ""
     
     mapped_string = "CollectionID: " + str(collection_id_regex.group(0)) + ", Collection Name: " + name + ", Collection Description: " + description + ", Beatmapcount: " + str(beatmapcount) + ", Uploader: " + username
 
