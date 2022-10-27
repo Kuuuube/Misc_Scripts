@@ -45,7 +45,7 @@ try:
             print("Failed")
             print (e)
             with open ("errorlog.txt", "a") as error_log:
-                error_log.write("Failed: " + str(current_number) + " Error: ")
+                error_log.write("Failed: " + str(current_number - 1) + " Error: ")
                 error_log.write(str(e))
                 error_log.write("\n")
             pass
