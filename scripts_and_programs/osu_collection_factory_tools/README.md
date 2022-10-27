@@ -8,7 +8,7 @@ Dumps osu! Collector collection data to OSDB recursively starting at the id in `
 
 ### Usage
 
-- Edit the first line of `start_number.txt` to the collection id to start on
+- Edit the first line of `start_number.txt` to the collection id to start on (the start number will be automatically updated to the most recent id every time the program runs)
 
 - Run `launcher_auto.py`
 
