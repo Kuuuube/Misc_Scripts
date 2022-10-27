@@ -19,9 +19,15 @@ def osu_collector_dump(collection_id, collection_path):
     url = "https://osucollector.com/api/collections/" + collection_id_regex.group(0)
 
     r = requests.get(url)
-    collection = json.loads(r.text)
-
-    print ("osu!Collectior: waiting.")
+    try:
+        collection = json.loads(r.text)
+    except Exception as e:
+        print(str(collection_id) + " Bad json")
+        with open ("errorlog.txt", "a") as error_log:
+            error_log.write("Failed: " + str(collection_id) + " Bad Json. Error: ")
+            error_log.write(str(e))
+            error_log.write("\n")
+        raise ValueError("This error is used to kill the module in case of a bad json. See the previous error for what happened.")
 
     try:
         sets_json = collection['beatmapsets']
@@ -56,7 +62,8 @@ def osu_collector_dump(collection_id, collection_path):
         name = "None"
     
     try:
-        description = collection['description']
+        #python is awful so "\\\\n" is required to write a literal "\n" instead of a newline
+        description = re.sub("(\n|\r\n)", "\\\\n", collection['description'])
     except Exception:
         description = "None"
     
@@ -65,12 +72,13 @@ def osu_collector_dump(collection_id, collection_path):
     except Exception:
         beatmapcount = "None"
     
-    mapped_string = "CollectionID: " + str(collection_id_regex.group(0)) + ", Collection Name: " + str(name) + ", Collection Description: " + str(description) + ", Beatmapcount: " + str(beatmapcount) + ", Uploader: " + str(username)
+    mapped_string = "CollectionID: " + str(collection_id_regex.group(0)) + ", Collection Name: " + name + ", Collection Description: " + description + ", Beatmapcount: " + str(beatmapcount) + ", Uploader: " + username
 
     print (mapped_string)
         
-    with open (metdata_filepath, "a") as id_dump:
+    with open (metdata_filepath, "a", encoding="utf8") as id_dump:
         id_dump.writelines([mapped_string])
         id_dump.writelines(["\n"])
 
+    print ("osu!Collectior: waiting.")
     time.sleep(5)

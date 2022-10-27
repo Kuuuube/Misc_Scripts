@@ -44,6 +44,10 @@ try:
             current_number = str(int(current_number) + 1)
             print("Failed")
             print (e)
+            with open ("errorlog.txt", "a") as error_log:
+                error_log.write("Failed: " + str(current_number) + " Error: ")
+                error_log.write(str(e))
+                error_log.write("\n")
             pass
 
     with open("start_number.txt", "w") as end_number_file:
