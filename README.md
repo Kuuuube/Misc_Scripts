@@ -44,7 +44,7 @@ My fork of a small script written by [ClemenPine](https://github.com/ClemenPine)
 
 ## [osu! Collection Factory Tools](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/osu_collection_factory_tools)
 
-Dumps osu! Collector collection data to OSDB recursively starting at the id in `start_number.txt` and ending at the latest id.
+Tools for handling and generating large collections and large amounts of collections.
 
 <br>
 

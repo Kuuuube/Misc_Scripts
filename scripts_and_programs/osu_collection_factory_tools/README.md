@@ -1,5 +1,7 @@
 # osu! Collection Factory Tools
 
+Tools for handling and generating large collections and large amounts of collections.
+
 ## Autodumper osu! Collector
 
 Dumps osu! Collector collection data to OSDB recursively starting at the id in `start_number.txt` and ending at the latest id.
