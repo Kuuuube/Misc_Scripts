@@ -12,7 +12,7 @@ Dumps [osu! Collector](https://osucollector.com/) collection data to OSDB recurs
 
 - Run `launcher_auto.py` for faster dumping but less data. Each collection requires only one request for the maps and metadata combined. 
 
-    The generated OSDB will contain MapsetID, MapID, and MD5. This is enough data do download the maps and import the collections through [Collection Manager](https://github.com/Piotrekol/CollectionManager) if you already have the maps downloaded but not enough data do fully identify the maps in [Collection Manager](https://github.com/Piotrekol/CollectionManager) without them downloaded.
+    The generated OSDB will contain MapsetID, MapID, and MD5. This is enough data to download the maps and import the collections through [Collection Manager](https://github.com/Piotrekol/CollectionManager) if you already have the maps downloaded but not enough data to fully identify the maps in [Collection Manager](https://github.com/Piotrekol/CollectionManager) without them downloaded.
 
 OR
 
