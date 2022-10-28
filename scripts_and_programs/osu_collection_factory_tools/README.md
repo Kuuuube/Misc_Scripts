@@ -27,3 +27,37 @@ OR
 - The CSV to OSDB conversion is handled by [osu! Collection Converter](https://github.com/Kuuuube/osu_CollectionConverter).
 
 - There is a delay of 5 seconds between each collection request. This is much longer than required and if you are dumping large amounts of collections you may want to change it to 1 second. The delay can be found on the last line of `osu_collector_dump` or `osu_collector_dump_v2_endpoint` in `osu_collector_dumper.py`.
+
+## Autodumper Sheets
+
+Creates collections based off a list of mapIDs or setIDs along with their collection names in `sheet_list.txt`.
+
+### Usage
+
+- Add your api key at the start of `launcher_id_then_name.py`, `launcher_name_then_id.py`, and `launcher_without_generation.py` where it says `api_key = ""`. Your osu! api v1 key should be put between the quotes.
+
+- Add your list of collection names and mapIDs or setIDs to `sheet_list.txt`. The delimiter used between collection names and mapIDs or setIDs is `<||>`. All separate entries must be separated by a newline. Entries can be added in any order and collections of the same name do not need to be grouped together in `sheet_list.txt`.
+
+    For example, to add mapID `123` to a collection named `Example Collection` you would input:
+
+    ```
+    123<||>Example Collection
+    ```
+    OR
+    ```
+    Example Collection<||>123
+    ```
+
+- Run either `launcher_id_then_name.py` or `launcher_name_then_id.py` depending on the order you have entered your collection name and mapIDs or setIDs.
+
+### Notes
+
+- The CSV to OSDB conversion is handled by [osu! Collection Converter](https://github.com/Kuuuube/osu_CollectionConverter).
+
+- There is a delay of 1 second between each osu! api request. This is the recommended speed to use as stated by peppy. I advise against changing this, but if you must, it is located in `list_mapid_info_puller.py` near the end of `id_to_db`.
+
+- If the generation gets interrupted but some collections are already finished you should remove the files that match the names of already generated collections from `files_to_read` then run `launcher_without_generation.py` to finish the collection generation.
+
+- Sometimes the osu! api will time out or you may get ratelimited in the middle of large collections or large amounts of collections being generated. Check `log.txt` to see if any of them failed. If collections did fail, remove all files from `files_to_read` except those matching names of failed collections then run `launcher_without_generation.py`.
+
+- The code for this is somewhat spaghettified. If you need to make major changes to this program I suggest rewriting it instead.
