@@ -30,6 +30,8 @@ pip install requests
 
 ## Notes
 
+- I recommend making these scripts run at least once a day for accurate tracking. If you turn your computer on and off at least once a day this can easily be done by making them run on startup.
+
 - All of these scripts have a 1 second delay between requests. I advise against changing this but if you must, you can search for `time.sleep(1)` in the files.
 
 - Every script besides `osutrack_ameobea_api_auto_updater.py` have error checking. They will pause and print the error if any error is caught. If you need to disable this, remove lines that include `input()`.
