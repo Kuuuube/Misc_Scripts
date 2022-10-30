@@ -46,6 +46,10 @@ My fork of a small script written by [ClemenPine](https://github.com/ClemenPine)
 
 Tools for handling and generating large collections and large amounts of collections.
 
+## [osu! User Trackers](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/osu_user_trackers)
+
+Tools for tracking osu! data from a list of users.
+
 <br>
 
 ## Contributing
