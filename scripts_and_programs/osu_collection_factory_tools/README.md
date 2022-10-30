@@ -20,7 +20,13 @@ OR
 
     The generated OSDB will contain full data. This is enough to fully identify every map in every collection.
 
+## Dependencies
 
+Python `requests` module: To install it, enter the following command in cmd or a terminal:
+
+```
+pip install requests
+```
 
 ### Notes
 
@@ -49,6 +55,14 @@ Creates collections based off a list of mapIDs or setIDs along with their collec
     ```
 
 - Run either `launcher_id_then_name.py` or `launcher_name_then_id.py` depending on the order you have entered your collection name and mapIDs or setIDs.
+
+## Dependencies
+
+Python `requests` module: To install it, enter the following command in cmd or a terminal:
+
+```
+pip install requests
+```
 
 ### Notes
 
