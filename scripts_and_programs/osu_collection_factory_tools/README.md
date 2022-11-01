@@ -28,6 +28,8 @@ Python `requests` module: To install it, enter the following command in cmd or a
 pip install requests
 ```
 
+.Net Runtime 6.0 x64: https://dotnet.microsoft.com/en-us/download/dotnet/6.0
+
 ### Notes
 
 - The CSV to OSDB conversion is handled by [osu! Collection Converter](https://github.com/Kuuuube/osu_CollectionConverter).
@@ -63,6 +65,8 @@ Python `requests` module: To install it, enter the following command in cmd or a
 ```
 pip install requests
 ```
+
+.Net Runtime 6.0 x64: https://dotnet.microsoft.com/en-us/download/dotnet/6.0
 
 ### Notes
 
