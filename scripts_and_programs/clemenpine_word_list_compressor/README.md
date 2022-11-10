@@ -16,6 +16,8 @@ My fork of a small script written by [ClemenPine](https://github.com/ClemenPine)
 
 ## Dependencies
 
+Python 3: [Download link](https://www.python.org/downloads/)
+
 Python `typing` module: To install it, enter the following command in cmd or a terminal:
 
 ```
