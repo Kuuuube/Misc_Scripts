@@ -22,6 +22,8 @@ Tools for tracking osu! data from a list of users.
 
 ## Dependencies
 
+Python 3: [Download link](https://www.python.org/downloads/)
+
 Python `requests` module: To install it, enter the following command in cmd or a terminal:
 
 ```

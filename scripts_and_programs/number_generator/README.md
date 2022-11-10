@@ -30,6 +30,12 @@ numgen.f/numgen.exe in `Fortran` only:
 
 - Enter "" to use an empty prefix or suffix. The prompt will not let you continue by only sending a newline.
 
+## Dependencies
+
+numgen.py only:
+
+- Python 3: [Download link](https://www.python.org/downloads/)
+
 ## Building
 
 numgen.c:

@@ -8,6 +8,10 @@ Encode and decode text typed on the wrong keyboard layout.
 
 - Enter your text and press enter
 
+## Dependencies
+
+Python 3: [Download link](https://www.python.org/downloads/)
+
 ## Notes
 
 - New layouts can be added by defining a new dictionary and adding a new function in `keyboard_layout_encode_and_decode.py`.

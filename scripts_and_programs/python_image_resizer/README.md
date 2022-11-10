@@ -14,6 +14,8 @@ Resizes all images in a folder to a specified size.
 
 ## Dependencies
 
+Python 3: [Download link](https://www.python.org/downloads/)
+
 Python `PIL/Pillow` module: To install it, enter the following command in cmd or a terminal:
 
 ```
