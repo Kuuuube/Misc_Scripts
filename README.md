@@ -50,6 +50,10 @@ Tools for handling and generating large collections and large amounts of collect
 
 Tools for tracking osu! data from a list of users.
 
+## [Hex to Binary Text](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/hex_to_binary_text)
+
+Simple script to convert hex to binary text. This will not read or write a file's hex or binary data. It only reads and writes text.
+
 <br>
 
 ## Contributing
