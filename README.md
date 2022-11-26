@@ -54,6 +54,10 @@ Tools for tracking osu! data from a list of users.
 
 Simple script to convert hex to binary text. This will not read or write a file's hex or binary data. It only reads and writes text.
 
+## [Pcap to Hex](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/pcap_to_hex)
+
+Script to write a hex dump from pcap data for every packet using tshark.
+
 <br>
 
 ## Contributing
