@@ -15,14 +15,10 @@ try:
 
     print(start_number)
 
-    check_latest = requests.get(url="https://osucollector.com/api/collections/recent?cursor=1&perPage=1")
-    #regex_id_find = re.search('(?<=,"id":)\d{1,5}', check_latest.text)
-    #end_number = regex_id_find.group(0)
+    check_latest = requests.get(url="https://osucollector.com/api/metadata")
     json_text = json.loads(check_latest.text)
-    json1 = json_text['collections']
-    json2 = json1[0]
-    json3 = json2['id']
-    end_number = json3
+    json1 = json_text['highestCollectionId']
+    end_number = json1
 
     print(end_number)
 
