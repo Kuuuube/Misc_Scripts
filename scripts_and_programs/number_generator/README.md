@@ -30,6 +30,10 @@ numgen.f/numgen.exe in `Fortran` only:
 
 - Enter "" to use an empty prefix or suffix. The prompt will not let you continue by only sending a newline.
 
+main.rs/numgen.exe in `Rust` only:
+
+- Nothing weird, it just works.
+
 ## Dependencies
 
 numgen.py only:
@@ -54,6 +58,12 @@ Compiled using gcc 12.1.0:
 gfortran -O2 numgen.f -o numgen.exe
 ```
 
+main.rs:
+
+```
+cargo build --release
+```
+
 ## Notes
 
 - Some C compilers will throw errors when compiling `numgen.c` or `numgen_block_dumping_test.c`. Use gcc 12.1.0 if you run into issues.
@@ -65,3 +75,5 @@ gfortran -O2 numgen.f -o numgen.exe
 - The `numgen.f` is very slow. Almost as slow as the python version.
 
 - `numgen.f` has F77 syntax but (I think) uses some non-F77 features.
+
+- `main.rs` is about 20 times slower than `numgen.c` but far faster than `numgen.f` or `numgen.py`. Given how Rust's speed is touted, I'm not sure if this can be greatly improved or if Rust just isn't well optimized for this sort of task yet.
