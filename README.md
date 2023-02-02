@@ -58,6 +58,10 @@ Simple script to convert hex to binary text. This will not read or write a file'
 
 Script to write a hex dump from pcap data for every packet using tshark.
 
+## [Wikipedia Full Width Always](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/wikipedia_full_width_always)
+
+Automatically set wikipedia pages to full width.
+
 <br>
 
 ## Contributing
