@@ -62,6 +62,10 @@ Script to write a hex dump from pcap data for every packet using tshark.
 
 Automatically set wikipedia pages to full width.
 
+## [Youtube Shorts Desktop Redirect](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/youtube_shorts_desktop_redirect)
+
+Redirects youtube shorts to the desktop player.
+
 <br>
 
 ## Contributing
