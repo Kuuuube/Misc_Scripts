@@ -17,5 +17,5 @@ function redirect() {
 
 (function() {
     redirect();
-    window.addEventListener('yt-navigate-finish', function() {redirect()})
+    window.addEventListener("yt-navigate-finish", function() {redirect()})
 })();
