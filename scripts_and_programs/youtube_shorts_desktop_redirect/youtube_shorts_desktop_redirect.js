@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Youtube Shorts Desktop Redirect
 // @namespace    https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/youtube_shorts_desktop_redirect
-// @version      0.3
+// @version      0.4
 // @description  Redirects youtube shorts to the desktop player.
 // @author       Kuuube
+// @run-at document-start
 // @match        *://www.youtube.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // ==/UserScript==
@@ -16,22 +17,20 @@ function redirect() {
     }
 }
 
-var replace_check = true;
-
 function replace() {
     var links = document.getElementsByTagName("a");
-
     for (var i = 0; i < links.length; i++) {
         links[i].href = links[i].href.replace("shorts/", "watch?v=");
     }
-
-    replace_check = true;
 }
 
-function debounce(method, delay) {
-    if (replace_check) {
-        method.debounce_timer = setTimeout(function() {method()}, delay);
-        replace_check = false;
+var debounce_timer = true;
+
+function debounce() {
+    if (debounce_timer) {
+        replace();
+        debounce_timer = false;
+        setTimeout(function() {debounce_timer = true;}, 100);
     }
 }
 
@@ -39,7 +38,9 @@ function debounce(method, delay) {
     redirect();
     window.addEventListener("yt-navigate-start", function() {redirect()});
 
-    replace();
-    window.addEventListener("DOMSubtreeModified", function() {debounce(replace, 100)});
+    window.addEventListener("DOMContentLoaded", function() {replace()});
     window.addEventListener("yt-navigate-finish", function() {replace()});
+
+    const observer = new MutationObserver(function() {debounce()});
+    observer.observe((document.documentElement), {childList: true, subtree: true});
 })();
