@@ -2,21 +2,17 @@
 
 Generates a newline separated list of numbers with customizeable start, end, prefix, and suffix.
 
-## Usage
+## C
 
-- Run `numgen.exe` or `numgen.py` and follow the prompts.
+### Usage
 
-numgen.c/numgen.exe in `C` only:
-
-- `Set Input Length` is the length in characters that can be input into the other prompts. 
-
-    When entering extremely long prefixes or suffixes you may need to use above 1000.
-
-numgen_block_dumping_test.c/numgen_block_dumping_test.exe only:
+- Run `numgen.exe` and follow the prompts.
 
 - `Set Input Length` is the length in characters that can be input into the other prompts. 
 
     When entering extremely long prefixes or suffixes you may need to use above 1000.
+
+numgen_block_dumping_test.exe only:
 
 - `Max memory usage (kb)` sets the max memory to use before dumping to file.
 
@@ -26,23 +22,7 @@ numgen_block_dumping_test.c/numgen_block_dumping_test.exe only:
 
     Entering anything other number will define an amount of memory it will dump to the file before looping again. If the number defined is less than the amount of memory required for two lines it will instead write all data to memory before dumping.
 
-numgen.f/numgen.exe in `Fortran` only:
-
-- Enter "" to use an empty prefix or suffix. The prompt will not let you continue by only sending a newline.
-
-main.rs/numgen.exe in `Rust` only:
-
-- Nothing weird, it just works.
-
-## Dependencies
-
-numgen.py only:
-
-- Python 3: [Download link](https://www.python.org/downloads/)
-
-## Building
-
-numgen.c:
+### Building
 
 Compiled using gcc 12.1.0:
 
@@ -50,7 +30,49 @@ Compiled using gcc 12.1.0:
 gcc numgen.c -O2 -o numgen.exe
 ```
 
-numgen.f:
+### Notes
+
+- Some C compilers will throw errors when compiling `numgen.c` or `numgen_block_dumping_test.c`. Use gcc 12.1.0 if you run into issues.
+
+- `numgen_block_dumping_test.c` isn't actually faster than `numgen.c` in all cases I tested (When `Max memory usage (kb)` is not set to 0 of course).
+
+<br>
+
+## Rust
+
+### Usage
+
+- Run `numgen.exe` and follow the prompts.
+
+### Building
+
+```
+cargo build --release
+```
+
+<br>
+
+## Python
+
+### Usage
+
+- Run `numgen.py` and follow the prompts.
+
+## Dependencies
+
+- Python 3: [Download link](https://www.python.org/downloads/)
+
+<br>
+
+## Fortran
+
+### Usage
+
+- Run `numgen.exe` and follow the prompts.
+
+    Enter "" to use an empty prefix or suffix. The prompt will not let you continue by only sending a newline.
+
+### Building
 
 Compiled using gcc 12.1.0:
 
@@ -58,22 +80,6 @@ Compiled using gcc 12.1.0:
 gfortran -O2 numgen.f -o numgen.exe
 ```
 
-main.rs:
+### Notes
 
-```
-cargo build --release
-```
-
-## Notes
-
-- Some C compilers will throw errors when compiling `numgen.c` or `numgen_block_dumping_test.c`. Use gcc 12.1.0 if you run into issues.
-
-- `numgen_block_dumping_test.c` isn't actually faster than `numgen.c` in all cases I tested (When `Max memory usage (kb)` is not set to 0 of course).
-
-- In Python 3.10.0, `numgen.py` ran nearly 100x slower than `numgen.c` on my pc.
-
-- The `numgen.f` is very slow. Almost as slow as the python version.
-
-- `numgen.f` has F77 syntax but (I think) uses some non-F77 features.
-
-- `main.rs` is about 20 times slower than `numgen.c` but far faster than `numgen.f` or `numgen.py`. Given how Rust's speed is touted, I'm not sure if this can be greatly improved or if Rust just isn't well optimized for this sort of task yet.
+- Has F77 syntax but (I think) uses some non-F77 features.
