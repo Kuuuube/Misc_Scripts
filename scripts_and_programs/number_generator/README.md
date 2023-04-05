@@ -83,3 +83,17 @@ gfortran -O2 numgen.f -o numgen.exe
 ### Notes
 
 - Has F77 syntax but (I think) uses some non-F77 features.
+
+<br>
+
+## Speed Rankings
+
+These are not objective rankings for the speed of these languages, only how fast my code runs. My code is not perfectly optimized.
+
+1. C
+
+2. Rust
+
+3. Fortran
+
+4. Python
