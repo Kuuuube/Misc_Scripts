@@ -1,0 +1,9 @@
+#!/bin/sh
+
+STUFF='brt2.s printn.s printf.s libb.s bilib.s'
+
+./bc $1 temp_bcompile_intermediate.i || exit 1
+./ba temp_bcompile_intermediate.i temp_bcompile_asm.s || exit 1
+cc -o $2 -g -no-pie brt1.s temp_bcompile_asm.s $STUFF || exit 1
+
+rm temp_bcompile_intermediate.i temp_bcompile_asm.s

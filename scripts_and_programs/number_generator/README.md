@@ -86,6 +86,32 @@ gfortran -O2 numgen.f -o numgen.exe
 
 <br>
 
+## B
+
+### Usage
+
+- Run `numgen` with args
+
+    ```
+    numgen {start number} {end number} {prefix} {suffix}
+    ```
+
+### Building
+
+Compiled using [B compiler](https://github.com/aap/b) 2e53fbf and assembled using gcc 9.4.0:
+
+```
+bcompile numgen.b numgen
+```
+
+### Notes
+
+- I have included a build of the compiler and compile script.
+
+- This compiler does not support windows and all binaries included target Linux-x64. Other B compilers do exist that support windows but this code may not compile or function elsewhere.
+
+<br>
+
 ## Speed Rankings
 
 These are not objective rankings for the speed of these languages, only how fast my code runs. My code is not perfectly optimized.
@@ -97,3 +123,5 @@ These are not objective rankings for the speed of these languages, only how fast
 3. Fortran
 
 4. Python
+
+5. B
