@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Shorts Desktop Redirect
 // @namespace    https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/youtube_shorts_desktop_redirect
-// @version      0.4
+// @version      0.5
 // @description  Redirects youtube shorts to the desktop player.
 // @author       Kuuube
 // @run-at document-start
@@ -11,16 +11,16 @@
 
 function redirect() {
     var url = window.location.pathname;
-    if (url.includes("shorts/")) {
+    if (url.includes("youtube.com/shorts/")) {
         window.stop();
-        window.location.replace(url.replace("shorts/", "watch?v="));
+        window.location.replace(url.replace("youtube.com/shorts/", "youtube.com/watch?v="));
     }
 }
 
 function replace() {
     var links = document.getElementsByTagName("a");
     for (var i = 0; i < links.length; i++) {
-        links[i].href = links[i].href.replace("shorts/", "watch?v=");
+        links[i].href = links[i].href.replace("youtube.com/shorts/", "youtube.com/watch?v=");
     }
 }
 
