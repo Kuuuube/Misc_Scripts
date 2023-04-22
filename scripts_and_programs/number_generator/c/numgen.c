@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 int main()
 {
@@ -35,19 +36,47 @@ int main()
 	char number_suffix[length_int];
 	fgets(number_suffix, sizeof(number_suffix), stdin);
 
-	//benchmarking code
-	float start_time = (float)clock()/CLOCKS_PER_SEC;
+	printf("Padding Char (optional, one character only): ");
+	char padding_char = getchar();
+	bool padding;
+	if (padding_char == '\n') {
+		padding = false;
+	} else {
+		padding = true;
+	}
 
 	//remove newlines  at end
-	//suffix newline is not removed
-	size_t ln0 = strlen(number_prefix)-1;
-	if (number_prefix[ln0] == '\n')
-    	number_prefix[ln0] = '\0';
+	if (number_prefix[strlen(number_prefix) - 1] == '\n') {
+		number_prefix[strlen(number_prefix) - 1] = '\0';
+	}
+
+	if (number_suffix[strlen(number_suffix) - 1] == '\n') {
+		number_suffix[strlen(number_suffix) - 1] = '\0';
+	}
+
+	//get lengths after removing newlines
+	int start_number_len = strlen(start_number);
+	int end_number_len = strlen(end_number);
+	int number_prefix_len = strlen(number_prefix);
+	int number_suffix_len = strlen(number_suffix);
 	
 	int current_number = start_number_int;
 	char current_number_char[strlen(end_number)];
 	char* string_combined;
-	string_combined = malloc(strlen(number_prefix) + strlen(end_number) + strlen(number_suffix) + 1);
+	string_combined = malloc(number_prefix_len + end_number_len + number_suffix_len + 1);
+    int memory_size = number_prefix_len + end_number_len + number_suffix_len - 1;
+
+	//fill string with padding char
+	int i = 0;
+	if (padding) {
+		while (i < memory_size) {
+			string_combined[i] = padding_char;
+			i++;
+		}
+	}
+
+	//benchmarking code
+	float start_time = (float)clock()/CLOCKS_PER_SEC;
 
 	FILE *output_file;
 
@@ -56,11 +85,21 @@ int main()
 	while (current_number <= end_number_int)
 	{
 		sprintf(current_number_char, "%d", current_number);
-		strcpy(string_combined, number_prefix);
-		strcat(string_combined, current_number_char);
-		strcat(string_combined, number_suffix);
+		int current_number_char_len = strlen(current_number_char);
 
-		fputs(string_combined, output_file);
+		memcpy(string_combined, number_prefix, number_prefix_len);
+
+		if (padding) {
+			memcpy(string_combined + number_prefix_len + end_number_len - current_number_char_len - 1, current_number_char, current_number_char_len);
+			memcpy(string_combined + number_prefix_len + end_number_len - 1, number_suffix, number_suffix_len);
+			fwrite(string_combined, memory_size, 1, output_file);
+		} else {
+			memcpy(string_combined + number_prefix_len - 1, current_number_char, current_number_char_len);
+			memcpy(string_combined + number_prefix_len + current_number_char_len - 1, number_suffix, number_suffix_len);
+			fwrite(string_combined, number_prefix_len + current_number_char_len + number_suffix_len - 1, 1, output_file);
+		}
+
+		fputc('\n', output_file);
 
 		current_number++;
 	}
