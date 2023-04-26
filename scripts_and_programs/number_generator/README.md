@@ -52,18 +52,6 @@ cargo build --release
 
 <br>
 
-## Python
-
-### Usage
-
-- Run `numgen.py` and follow the prompts.
-
-## Dependencies
-
-- Python 3: [Download link](https://www.python.org/downloads/)
-
-<br>
-
 ## Fortran
 
 ### Usage
@@ -83,6 +71,18 @@ gfortran -O2 numgen.f -o numgen.exe
 ### Notes
 
 - Has F77 syntax but (I think) uses some non-F77 features.
+
+<br>
+
+## Python
+
+### Usage
+
+- Run `numgen.py` and follow the prompts.
+
+## Dependencies
+
+- Python 3: [Download link](https://www.python.org/downloads/)
 
 <br>
 
