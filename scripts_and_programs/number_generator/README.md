@@ -38,6 +38,21 @@ gcc numgen.c -O2 -o numgen.exe
 
 <br>
 
+## Haskell
+
+### Usage
+
+- Run `numgen.exe` and follow the prompts.
+
+### Building
+
+```
+ghc numgen.hs -O2
+strip numgen.exe
+```
+
+<br>
+
 ## Rust
 
 ### Usage
@@ -118,10 +133,12 @@ These are not objective rankings for the speed of these languages, only how fast
 
 1. C
 
-2. Rust
+2. Haskell
 
-3. Fortran
+3. Rust
 
-4. Python
+4. Fortran
 
-5. B
+5. Python
+
+6. B
