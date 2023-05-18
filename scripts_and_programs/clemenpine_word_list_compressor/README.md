@@ -18,12 +18,6 @@ My fork of a small script written by [ClemenPine](https://github.com/ClemenPine)
 
 Python 3: [Download link](https://www.python.org/downloads/)
 
-Python `typing` module: To install it, enter the following command in cmd or a terminal:
-
-```
-pip install typing
-```
-
 ## Notes
 
 - This is very slow I should rewrite it in something faster than python at some point. 

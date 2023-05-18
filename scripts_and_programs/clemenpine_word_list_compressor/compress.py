@@ -1,14 +1,13 @@
 import copy
 import json
 import random
-from typing import List
 
 input_file = input("Input file path: ")
 list_size = int(input("List size to generate: "))
 fancy_formatting = input("Write list numbers (y/n): ")
 lower_words = input("Treat capital and lowercase the same (y/n): ")
 
-def get_trigrams(texts: List[str]):
+def get_trigrams(texts: list[str]):
         
     trigrams = {}
 
