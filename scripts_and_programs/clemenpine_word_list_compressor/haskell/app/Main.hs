@@ -2,13 +2,14 @@ module Main where
 import Data.List (nub, delete, sort)
 import Data.List.Split (splitOn)
 import Debug.Trace (traceShow)
+import Data.Time (getCurrentTime, diffUTCTime)
 
 trigrams :: String -> [String]
 trigrams input_string = [drop offset (take (offset + 3) input_string) | offset <- [0..(length input_string - 3)]]
 
 between_word_trigrams :: [String] -> [String]
 between_word_trigrams input_list = do
-    let starts_and_ends_lists = nub [[take 1 (drop 1 current_word), drop (length current_word - 2) current_word] | current_word <- input_list]
+    let starts_and_ends_lists = nub [[[current_word !! 1], [current_word !! (length current_word - 2)]] | current_word <- input_list]
     let starts_and_ends = concat [[end ++ start | end <- starts_and_ends_lists !! 1] | start <- starts_and_ends_lists !! 0]
     starts_and_ends
 
@@ -50,6 +51,9 @@ main = do
     input_filename <- getLine
     file_data <- readFile input_filename
 
+    time_start <- getCurrentTime --benchmarking time
+    print time_start
+
     let words_list = find_split (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
     let words_list_padded = [" " ++ word ++ " " | word <- words_list]
 
@@ -64,3 +68,8 @@ main = do
     let json_words = concat (["        \"" ++ word ++ "\",\n" | word <- unpadded_list])
 
     writeFile "output.json" ("{\n    \"total\": " ++ show (length unpadded_list) ++ ",\n    \"texts\": [\n" ++ take (length json_words - 2) json_words ++ "\n    ]\n}")
+
+    time_end <- getCurrentTime --benchmarking time
+    print time_end
+    putStr "Generated in: "
+    print (diffUTCTime time_end time_start)
