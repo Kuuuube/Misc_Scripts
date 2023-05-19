@@ -52,7 +52,6 @@ main = do
     file_data <- readFile input_filename
 
     time_start <- getCurrentTime --benchmarking time
-    print time_start
 
     let words_list = find_split (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
     let words_list_padded = [" " ++ word ++ " " | word <- words_list]
@@ -70,6 +69,5 @@ main = do
     writeFile "output.json" ("{\n    \"total\": " ++ show (length unpadded_list) ++ ",\n    \"texts\": [\n" ++ take (length json_words - 2) json_words ++ "\n    ]\n}")
 
     time_end <- getCurrentTime --benchmarking time
-    print time_end
     putStr "Generated in: "
     print (diffUTCTime time_end time_start)
