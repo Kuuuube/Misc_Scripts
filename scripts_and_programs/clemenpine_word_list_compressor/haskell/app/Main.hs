@@ -10,7 +10,7 @@ trigrams input_string = [drop offset (take (offset + 3) input_string) | offset <
 between_word_trigrams :: [String] -> [String]
 between_word_trigrams input_list = do
     let starts_and_ends_lists = nub [[[current_word !! 1], [current_word !! (length current_word - 2)]] | current_word <- input_list]
-    let starts_and_ends = concat [[end ++ start | end <- starts_and_ends_lists !! 1] | start <- starts_and_ends_lists !! 0]
+    let starts_and_ends = concat [[start_and_end !! 1 ++ start_and_end !! 0] | start_and_end <- starts_and_ends_lists]
     starts_and_ends
 
 get_trigrams :: [String] -> [String]
