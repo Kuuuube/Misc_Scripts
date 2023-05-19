@@ -5,7 +5,7 @@ import Debug.Trace (traceShow)
 import Data.Time (getCurrentTime, diffUTCTime)
 
 trigrams :: String -> [String]
-trigrams input_string = [drop offset (take (offset + 3) input_string) | offset <- [0..(length input_string - 3)]]
+trigrams input_string = [take 3 (drop offset input_string) | offset <- [0..(length input_string - 3)]]
 
 between_word_trigrams :: [String] -> [String]
 between_word_trigrams input_list = do
