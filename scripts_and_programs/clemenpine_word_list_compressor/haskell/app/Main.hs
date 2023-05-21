@@ -24,16 +24,16 @@ between_word_trigrams_map input_text = [Data.Text.take 1 (Data.Text.drop 1 input
 get_trigrams :: Seq Text -> Seq Text
 get_trigrams words_seq = middle_word_trigrams words_seq >< between_word_trigrams words_seq
 
-try_remove :: Int -> Int -> Seq Text -> Seq Text -> Seq Text
-try_remove word_index end_index all_words trigrams_seq = do
+try_remove :: Int -> Int -> Int -> Seq Text -> Seq Text
+try_remove word_index end_index trigrams_len all_words = do
     if word_index >= end_index then do
         all_words
     else do
         let new_seq = deleteAt word_index all_words
-        if Data.Sequence.length trigrams_seq == Data.Sequence.length (get_trigrams new_seq) then do
-            try_remove word_index (end_index - 1) new_seq trigrams_seq
+        if trigrams_len == Data.Sequence.length (get_trigrams new_seq) then do
+            try_remove word_index (end_index - 1) trigrams_len new_seq
         else do
-            try_remove (word_index + 1) end_index all_words trigrams_seq
+            try_remove (word_index + 1) end_index trigrams_len all_words
 
 find_split :: String -> [String]
 find_split input_string
@@ -60,9 +60,9 @@ main = do
     let words_list = find_split (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
     let words_seq_padded = fromList [pack (" " ++ word ++ " ")| word <- words_list]
 
-    let trigrams_seq = get_trigrams words_seq_padded
+    let trigrams_len = Data.Sequence.length (get_trigrams words_seq_padded)
 
-    let condensed_list = toList (try_remove 0 (Prelude.length words_list) words_seq_padded trigrams_seq)
+    let condensed_list = toList (try_remove 0 (Prelude.length words_list) trigrams_len words_seq_padded)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
