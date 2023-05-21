@@ -2,7 +2,29 @@
 
 My fork of a small script written by [ClemenPine](https://github.com/ClemenPine) to compress a word list into the smallest amount of words by removing duplicate trigrams.
 
-## Usage
+## Haskell
+
+### Usage
+
+- Extract and run `word_list_compressor.exe` and follow the prompts
+
+    Json files with word lists under an array named `"words"` or `"texts"` are accepted. Monkeytype's `english_5k.json` has been included as an example.
+
+    `Treat capital and lowercase the same` allows for not treating trigrams with capital letters as different trigrams from those with lowercase letters.
+
+### Building
+
+```
+stack build --ghc-options -O2
+```
+
+### Notes
+
+- The haskell version is *much* faster than the python version and I recommend using it. The python version only works decently on small lists.
+
+## Python
+
+### Usage
 
 - Run `compress.py` and follow the prompts.
 
@@ -14,15 +36,11 @@ My fork of a small script written by [ClemenPine](https://github.com/ClemenPine)
 
     `Treat capital and lowercase the same` allows for not treating trigrams with capital letters as different trigrams from those with lowercase letters.
 
-## Dependencies
+### Dependencies
 
 Python 3: [Download link](https://www.python.org/downloads/)
 
-## Notes
-
-- This is very slow I should rewrite it in something faster than python at some point. 
-
-    Printing progress for every word also could cause it to be somewhat slower but due to how slow it is already it probably doesnt matter much.
+### Notes
 
 - The larger the word set is the more time it takes to remove a single word. The script becomes unbearably slow on lists over around 10,000 words.
 
