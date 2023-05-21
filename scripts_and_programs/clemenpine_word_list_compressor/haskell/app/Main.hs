@@ -28,16 +28,15 @@ get_trigrams :: Seq Text -> Seq Text
 get_trigrams words_seq = sort (trigrams words_seq >< between_word_trigrams words_seq)
 
 try_remove :: Int -> Int -> Seq Text -> Seq Text -> Seq Text
-try_remove word_index end_index all_words current_trigrams_seq = do
+try_remove word_index end_index all_words trigrams_seq = do
     if word_index >= end_index then do
         all_words
     else do
         let new_seq = deleteAt word_index all_words
-        let new_trigrams_seq = get_trigrams new_seq
-        if current_trigrams_seq == new_trigrams_seq then do
-            try_remove word_index (end_index - 1) new_seq new_trigrams_seq
+        if trigrams_seq == get_trigrams new_seq then do
+            try_remove word_index (end_index - 1) new_seq trigrams_seq
         else do
-            try_remove (word_index + 1) end_index all_words current_trigrams_seq
+            try_remove (word_index + 1) end_index all_words trigrams_seq
 
 find_split :: String -> [String]
 find_split input_string
