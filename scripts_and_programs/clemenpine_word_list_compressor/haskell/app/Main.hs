@@ -9,11 +9,11 @@ import Data.Text (Text, drop, take, length, pack, unpack)
 import Data.Sequence (Seq, fromList, deleteAt, length, (><))
 import Data.Foldable (toList)
 
-trigrams :: Seq Text -> Seq Text
-trigrams input_seq = fromList (nub (concatMap trigrams_map input_seq))
+middle_word_trigrams :: Seq Text -> Seq Text
+middle_word_trigrams input_seq = fromList (nub (concatMap middle_word_trigrams_map input_seq))
 
-trigrams_map :: Text -> [Text]
-trigrams_map input_string = [Data.Text.take 3 (Data.Text.drop offset input_string) | offset <- [0..(Data.Text.length input_string - 3)]]
+middle_word_trigrams_map :: Text -> [Text]
+middle_word_trigrams_map input_string = [Data.Text.take 3 (Data.Text.drop offset input_string) | offset <- [0..(Data.Text.length input_string - 3)]]
 
 between_word_trigrams :: Seq Text -> Seq Text
 between_word_trigrams input_list = fromList (nub (concatMap between_word_trigrams_map input_list))
@@ -22,7 +22,7 @@ between_word_trigrams_map :: Text -> [Text]
 between_word_trigrams_map input_text = [Data.Text.take 1 (Data.Text.drop 1 input_text), Data.Text.drop (Data.Text.length input_text - 2) input_text]
 
 get_trigrams :: Seq Text -> Seq Text
-get_trigrams words_seq = trigrams words_seq >< between_word_trigrams words_seq
+get_trigrams words_seq = middle_word_trigrams words_seq >< between_word_trigrams words_seq
 
 try_remove :: Int -> Int -> Seq Text -> Seq Text -> Seq Text
 try_remove word_index end_index all_words trigrams_seq = do
