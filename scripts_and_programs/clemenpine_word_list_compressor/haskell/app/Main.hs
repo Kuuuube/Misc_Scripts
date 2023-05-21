@@ -8,6 +8,7 @@ import Data.Time (getCurrentTime, diffUTCTime)
 import Data.Text (Text, drop, take, length, pack, unpack)
 import Data.Sequence (Seq, fromList, deleteAt, length, (><))
 import Data.Foldable (toList)
+import Data.HashSet (fromList, size)
 
 middle_word_trigrams :: Seq Text -> Seq [Text]
 middle_word_trigrams input_seq = fmap middle_word_trigrams_map input_seq
@@ -24,8 +25,8 @@ between_word_trigrams_map input_text = [Data.Text.take 1 (Data.Text.drop 1 input
 get_trigrams :: Seq Text -> Seq [Text]
 get_trigrams words_seq = middle_word_trigrams words_seq >< between_word_trigrams words_seq
 
-concat_trigrams :: Seq [Text] -> Seq Text
-concat_trigrams input_seq_list = fromList (nub (concat input_seq_list))
+concat_trigrams :: Seq [Text] -> Int
+concat_trigrams input_seq_list = size (Data.HashSet.fromList (concat input_seq_list))
 
 try_remove :: Int -> Int -> Int -> Seq [Text] -> Seq Text -> Seq Text
 try_remove word_index end_index trigrams_len trigrams_raw all_words = do
@@ -34,7 +35,7 @@ try_remove word_index end_index trigrams_len trigrams_raw all_words = do
     else do
         let new_seq = deleteAt word_index all_words
         let new_trigrams_raw = deleteAt word_index trigrams_raw
-        if trigrams_len == Data.Sequence.length (concat_trigrams new_trigrams_raw) then do
+        if trigrams_len == concat_trigrams new_trigrams_raw then do
             try_remove word_index (end_index - 1) trigrams_len new_trigrams_raw new_seq
         else do
             try_remove (word_index + 1) end_index trigrams_len trigrams_raw all_words
@@ -62,10 +63,10 @@ main = do
     time_start <- getCurrentTime --benchmarking time
 
     let words_list = find_split (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
-    let words_seq_padded = fromList [pack (" " ++ word ++ " ")| word <- words_list]
+    let words_seq_padded = Data.Sequence.fromList [pack (" " ++ word ++ " ")| word <- words_list]
 
     let trigrams_raw = get_trigrams words_seq_padded
-    let trigrams_len = Data.Sequence.length (concat_trigrams trigrams_raw)
+    let trigrams_len = concat_trigrams trigrams_raw
 
     let condensed_list = toList (try_remove 0 (Prelude.length words_list) trigrams_len trigrams_raw words_seq_padded)
 
