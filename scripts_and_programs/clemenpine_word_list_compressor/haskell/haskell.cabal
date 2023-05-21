@@ -1,5 +1,5 @@
 cabal-version:      3.0
-name:               haskell
+name:               word_list_compressor
 version:            0.1.0.0
 -- synopsis:
 -- description:
