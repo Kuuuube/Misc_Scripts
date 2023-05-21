@@ -1,10 +1,8 @@
-{-# LANGUAGE OverloadedLists #-}
-
 module Main where
 import Data.List.Split (splitOn)
 import Debug.Trace (traceShow)
 import Data.Time (getCurrentTime, diffUTCTime)
-import Data.Text (Text, drop, take, length, pack, unpack)
+import Data.Text (Text, drop, take, length, pack, unpack, toLower)
 import Data.Sequence (Seq, fromList, deleteAt, (><))
 import Data.Foldable (toList)
 import Data.HashSet (fromList, size)
@@ -53,18 +51,25 @@ find_split input_string
         traceShow "Unsupported json key" (pure ())
         []
 
+filter_capitals :: Text -> Text
+filter_capitals input_text = toLower input_text
+
 main :: IO ()
 main = do
     putStrLn "Input file: "
     input_filename <- getLine
     file_data <- readFile input_filename
 
+    putStrLn "Treat capital and lowercase the same (y/n): "
+    capital_lowercase_handling <- getLine
+
     time_start <- getCurrentTime --benchmarking time
 
     let words_list = find_split (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
-    let words_seq_padded = Data.Sequence.fromList [pack (" " ++ word ++ " ")| word <- words_list]
+    let words_seq_padded = Data.Sequence.fromList [(pack (" " ++ word ++ " ")) | word <- words_list]
 
-    let trigrams_raw = get_trigrams words_seq_padded
+    let trigrams_raw = if capital_lowercase_handling == "y" then get_trigrams (fmap filter_capitals words_seq_padded) else get_trigrams words_seq_padded
+
     let trigrams_len = unique_trigrams trigrams_raw
 
     let condensed_list = toList (try_remove 0 (Prelude.length words_list) trigrams_len trigrams_raw words_seq_padded)
