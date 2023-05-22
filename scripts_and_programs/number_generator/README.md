@@ -42,7 +42,7 @@ gcc numgen.c -O2 -o numgen.exe
 
 ### Usage
 
-- Run `numgen.exe` and follow the prompts.
+- Extract `numgen.7z` (7-zip Archive), run `numgen.exe`, and follow the prompts.
 
 ### Building
 

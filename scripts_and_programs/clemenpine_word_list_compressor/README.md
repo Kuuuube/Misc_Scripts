@@ -6,7 +6,7 @@ My fork of a small script written by [ClemenPine](https://github.com/ClemenPine)
 
 ### Usage
 
-- Extract and run `word_list_compressor.exe` and follow the prompts
+- Extract `word_list_compressor.7z` (7-zip Archive), run `word_list_compressor.exe`, and follow the prompts
 
     Json files with word lists under an array named `"words"` or `"texts"` are accepted. Monkeytype's `english_5k.json` has been included as an example.
 
