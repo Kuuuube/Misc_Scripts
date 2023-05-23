@@ -1,6 +1,6 @@
-# ClemenPine Word List Compressor
+# Word List Compressor
 
-My fork of a small script written by [ClemenPine](https://github.com/ClemenPine) to compress a word list into the smallest amount of words by removing duplicate trigrams.
+Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine))
 
 ## Haskell
 
