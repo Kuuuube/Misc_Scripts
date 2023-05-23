@@ -7,38 +7,38 @@ import Data.Sequence (Seq, fromList, deleteAt, (><))
 import Data.Foldable (toList)
 import Data.HashSet (fromList, size)
 
-middle_word_trigrams :: Seq Text -> Seq [Text]
-middle_word_trigrams input_seq = fmap middle_word_trigrams_map input_seq
+middleWordTrigrams :: Seq Text -> Seq [Text]
+middleWordTrigrams input_seq = fmap middleWordTrigramsMap input_seq
 
-middle_word_trigrams_map :: Text -> [Text]
-middle_word_trigrams_map input_string = [Data.Text.take 3 (Data.Text.drop offset input_string) | offset <- [0..(Data.Text.length input_string - 3)]]
+middleWordTrigramsMap :: Text -> [Text]
+middleWordTrigramsMap input_string = [Data.Text.take 3 (Data.Text.drop offset input_string) | offset <- [0..(Data.Text.length input_string - 3)]]
 
-between_word_trigrams :: Seq Text -> Seq [Text]
-between_word_trigrams input_list = fmap between_word_trigrams_map input_list
+betweenWordTrigrams :: Seq Text -> Seq [Text]
+betweenWordTrigrams input_list = fmap betweenWordTrigramsMap input_list
 
-between_word_trigrams_map :: Text -> [Text]
-between_word_trigrams_map input_text = [Data.Text.take 1 (Data.Text.drop 1 input_text), Data.Text.drop (Data.Text.length input_text - 2) input_text]
+betweenWordTrigramsMap :: Text -> [Text]
+betweenWordTrigramsMap input_text = [Data.Text.take 1 (Data.Text.drop 1 input_text), Data.Text.drop (Data.Text.length input_text - 2) input_text]
 
-get_trigrams :: Seq Text -> Seq [Text]
-get_trigrams words_seq = middle_word_trigrams words_seq >< between_word_trigrams words_seq
+getTrigrams :: Seq Text -> Seq [Text]
+getTrigrams words_seq = middleWordTrigrams words_seq >< betweenWordTrigrams words_seq
 
-unique_trigrams :: Seq [Text] -> Int
-unique_trigrams input_seq_list = size (Data.HashSet.fromList (concat input_seq_list))
+uniqueTrigrams :: Seq [Text] -> Int
+uniqueTrigrams input_seq_list = size (Data.HashSet.fromList (concat input_seq_list))
 
-try_remove :: Int -> Int -> Int -> Seq [Text] -> Seq Text -> Seq Text
-try_remove word_index end_index trigrams_len trigrams_raw all_words = do
+tryRemove :: Int -> Int -> Int -> Seq [Text] -> Seq Text -> Seq Text
+tryRemove word_index end_index trigrams_len trigrams_raw all_words = do
     if word_index >= end_index then do
         all_words
     else do
         let new_seq = deleteAt word_index all_words
         let new_trigrams_raw = deleteAt word_index trigrams_raw
-        if trigrams_len == unique_trigrams new_trigrams_raw then do
-            try_remove word_index (end_index - 1) trigrams_len new_trigrams_raw new_seq
+        if trigrams_len == uniqueTrigrams new_trigrams_raw then do
+            tryRemove word_index (end_index - 1) trigrams_len new_trigrams_raw new_seq
         else do
-            try_remove (word_index + 1) end_index trigrams_len trigrams_raw all_words
+            tryRemove (word_index + 1) end_index trigrams_len trigrams_raw all_words
 
-find_split :: String -> [String]
-find_split input_string
+findSplit :: String -> [String]
+findSplit input_string
     | Prelude.length (splitOn "words:[" input_string) > 1 = do
         let split_key = splitOn "words:[" input_string !! 1
         let split_end = splitOn "]" split_key !! 0
@@ -51,8 +51,8 @@ find_split input_string
         traceShow "Unsupported json key" (pure ())
         []
 
-filter_capitals :: Text -> Text
-filter_capitals input_text = toLower input_text
+filterCapitals :: Text -> Text
+filterCapitals input_text = toLower input_text
 
 main :: IO ()
 main = do
@@ -65,14 +65,14 @@ main = do
 
     time_start <- getCurrentTime --benchmarking time
 
-    let words_list = find_split (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
+    let words_list = findSplit (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
     let words_seq_padded = Data.Sequence.fromList [(pack (" " ++ word ++ " ")) | word <- words_list]
 
-    let trigrams_raw = if capital_lowercase_handling == "y" then get_trigrams (fmap filter_capitals words_seq_padded) else get_trigrams words_seq_padded
+    let trigrams_raw = if capital_lowercase_handling == "y" then getTrigrams (fmap filterCapitals words_seq_padded) else getTrigrams words_seq_padded
 
-    let trigrams_len = unique_trigrams trigrams_raw
+    let trigrams_len = uniqueTrigrams trigrams_raw
 
-    let condensed_list = toList (try_remove 0 (Prelude.length words_list) trigrams_len trigrams_raw words_seq_padded)
+    let condensed_list = toList (tryRemove 0 (Prelude.length words_list) trigrams_len trigrams_raw words_seq_padded)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
