@@ -15,7 +15,7 @@ Scripts to compress a word list into the smallest amount of words by removing du
 ### Building
 
 ```
-stack build --ghc-options -O2
+cabal build
 ```
 
 ### Notes
