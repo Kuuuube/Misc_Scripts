@@ -3,26 +3,23 @@ import Data.List.Split (splitOn)
 import Debug.Trace (traceShow)
 import Data.Time (getCurrentTime, diffUTCTime)
 import Data.Text (Text, drop, take, length, pack, unpack, toLower)
-import Data.Sequence (Seq, fromList, deleteAt, (><), length, index)
+import Data.Sequence (Seq, fromList, deleteAt, length, index)
 import Data.Foldable (toList)
 import Data.HashMap.Lazy (HashMap, fromList, unionWith, insertWith, findWithDefault)
 import Text.Read (readMaybe)
 import Data.Maybe (fromMaybe)
 
-middleWordTrigrams :: Seq Text -> Seq [Text]
-middleWordTrigrams input_seq = fmap middleWordTrigramsMap input_seq
+allWordTrigrams :: Text -> [Text]
+allWordTrigrams input_text = middleWordTrigramsMap input_text ++ betweenWordTrigramsMap input_text
 
 middleWordTrigramsMap :: Text -> [Text]
-middleWordTrigramsMap input_string = [Data.Text.take 3 (Data.Text.drop offset input_string) | offset <- [0..(Data.Text.length input_string - 3)]]
-
-betweenWordTrigrams :: Seq Text -> Seq [Text]
-betweenWordTrigrams input_list = fmap betweenWordTrigramsMap input_list
+middleWordTrigramsMap input_text = [Data.Text.take 3 (Data.Text.drop offset input_text) | offset <- [0..(Data.Text.length input_text - 3)]]
 
 betweenWordTrigramsMap :: Text -> [Text]
 betweenWordTrigramsMap input_text = [Data.Text.take 1 (Data.Text.drop 1 input_text), Data.Text.drop (Data.Text.length input_text - 2) input_text]
 
 getTrigrams :: Seq Text -> Seq [Text]
-getTrigrams words_seq = middleWordTrigrams words_seq >< betweenWordTrigrams words_seq
+getTrigrams words_seq = fmap allWordTrigrams words_seq
 
 trigramsToHashMap :: Int -> Int -> Seq [Text] -> HashMap Text Int -> HashMap Text Int
 trigramsToHashMap trigrams_index end_index trigrams hashmap = do
@@ -105,7 +102,7 @@ main = do
 
     let trigrams_raw = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
     let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [(pack "", 1)])
-    let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length words_seq_padded - 1) trigrams_raw words_seq_padded trigrams_hashmap)
+    let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw words_seq_padded trigrams_hashmap)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
