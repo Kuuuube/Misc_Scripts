@@ -100,9 +100,16 @@ main = do
     let words_list = findSplit (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
     let words_seq_padded = Data.Sequence.fromList [pack (" " ++ word ++ " ") | word <- words_list]
 
-    let trigrams_raw = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
-    let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [(pack "", 1)])
-    let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw words_seq_padded trigrams_hashmap)
+    --somewhere there is a bug that is mysteriously fixed by running this twice
+    --running it twice should not be required but on word lists >10k processing seems to randomly break on some words
+    --doing two passes causes at most less than a second extra compute time
+    let trigrams_raw_first_pass = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
+    let trigrams_hashmap_first_pass = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw_first_pass - 1) trigrams_raw_first_pass (Data.HashMap.Lazy.fromList [(pack "", 1)])
+    let condensed_list_first_pass = tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw_first_pass - 1) trigrams_raw_first_pass words_seq_padded trigrams_hashmap_first_pass
+
+    let trigrams_raw_second_pass = if filter_case then getTrigrams (fmap filterCase condensed_list_first_pass) else getTrigrams condensed_list_first_pass
+    let trigrams_hashmap_second_pass = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw_second_pass - 1) trigrams_raw_second_pass (Data.HashMap.Lazy.fromList [(pack "", 1)])
+    let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw_second_pass - 1) trigrams_raw_second_pass condensed_list_first_pass trigrams_hashmap_second_pass)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
