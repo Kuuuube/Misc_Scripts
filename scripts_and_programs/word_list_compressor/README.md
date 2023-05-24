@@ -20,7 +20,20 @@ cabal build
 
 ### Notes
 
-- The haskell version is *much* faster than the python version and I recommend using it. The python version only works decently on small lists.
+- The haskell version is *much* faster than the python version on large lists.
+
+- Estimated calculation times on english wordlists:
+
+    | Wordlist        | Time    |
+    |-----------------|---------|
+    | English 200     | 0.014s  |
+    | English 1,000   | 0.025s  |
+    | English 5,000   | 0.110s  |
+    | English 10,000  | 0.210s  |
+    | English 25,000  | 0.600s  |
+    | English 450,000 | 12.500s |
+
+
 
 ## Python
 
