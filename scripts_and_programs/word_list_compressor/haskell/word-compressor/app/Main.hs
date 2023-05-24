@@ -6,6 +6,8 @@ import Data.Text (Text, drop, take, length, pack, unpack, toLower)
 import Data.Sequence (Seq, fromList, deleteAt, (><), length, chunksOf, index)
 import Data.Foldable (toList)
 import Data.HashSet (fromList, size)
+import Text.Read (readMaybe)
+import Data.Maybe (fromMaybe)
 
 middleWordTrigrams :: Seq Text -> Seq [Text]
 middleWordTrigrams input_seq = fmap middleWordTrigramsMap input_seq
@@ -79,18 +81,19 @@ main = do
     putStrLn "Input file: "
     input_filename <- getLine
     file_data <- readFile input_filename
+    --intentionally not handled, an input file should never be assumed
 
     putStrLn "Ignore uppercase and lowercase (y/n): "
     filter_case_input <- getLine
-    let filter_case = filter_case_input == "y"
+    let filter_case = filter_case_input == fromMaybe "n" (readMaybe filter_case_input)
 
     putStrLn "Chunk size (Default: Entire List): "
     chunk_size_input <- getLine
-    let chunk_size = if chunk_size_input == "" then 1000000000000 else read chunk_size_input :: Int
+    let chunk_size = fromMaybe 1000000000000 (readMaybe chunk_size_input)
 
     putStrLn "Chunk multiplier (Default: Entire List): "
     chunk_multiplier_input <- getLine
-    let chunk_multiplier = if chunk_multiplier_input == "" then 1000000000000 else read chunk_multiplier_input :: Float
+    let chunk_multiplier = fromMaybe 1000000000000 (readMaybe chunk_multiplier_input)
 
     time_start <- getCurrentTime --benchmarking time
 
