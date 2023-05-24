@@ -3,7 +3,7 @@ import Data.List.Split (splitOn)
 import Debug.Trace (traceShow)
 import Data.Time (getCurrentTime, diffUTCTime)
 import Data.Text (Text, drop, take, length, pack, unpack, toLower)
-import Data.Sequence (Seq, fromList, deleteAt, (><))
+import Data.Sequence (Seq, fromList, deleteAt, (><), length, chunksOf, index)
 import Data.Foldable (toList)
 import Data.HashSet (fromList, size)
 
@@ -25,17 +25,37 @@ getTrigrams words_seq = middleWordTrigrams words_seq >< betweenWordTrigrams word
 uniqueTrigrams :: Seq [Text] -> Int
 uniqueTrigrams input_seq_list = size (Data.HashSet.fromList (concat input_seq_list))
 
-tryRemove :: Int -> Int -> Int -> Seq [Text] -> Seq Text -> Seq Text
-tryRemove word_index end_index trigrams_len trigrams_raw all_words = do
-    if word_index >= end_index then do
-        all_words
+tryRemove :: Int -> Int -> Seq Text -> Seq [Text] -> (Seq Text, Seq [Text])
+tryRemove word_index trigrams_len all_words trigrams_raw = do
+    let end_index = Data.Sequence.length all_words - 1
+    if word_index > end_index then do
+        (all_words, trigrams_raw)
     else do
-        let new_seq = deleteAt word_index all_words
+        let new_words = deleteAt word_index all_words
         let new_trigrams_raw = deleteAt word_index trigrams_raw
         if trigrams_len == uniqueTrigrams new_trigrams_raw then do
-            tryRemove word_index (end_index - 1) trigrams_len new_trigrams_raw new_seq
+            tryRemove word_index trigrams_len new_words new_trigrams_raw
         else do
-            tryRemove (word_index + 1) end_index trigrams_len trigrams_raw all_words
+            tryRemove (word_index + 1) trigrams_len all_words trigrams_raw
+
+tryRemoveProgressive :: Int -> Int -> Seq Text -> Seq [Text] -> Seq Text
+tryRemoveProgressive slice_size slice_multiplier all_words trigrams_raw = do
+    if slice_size > Data.Sequence.length all_words then do
+        let trigrams_len = uniqueTrigrams trigrams_raw
+        fst (tryRemove 0 trigrams_len all_words trigrams_raw)
+    else do
+        let chunked_words = chunksOf slice_size all_words
+        let chunked_trigrams = chunksOf slice_size trigrams_raw
+        let chunks_processed = [tryRemove 0 (uniqueTrigrams (index chunked_trigrams chunk_index)) (index chunked_words chunk_index) (index chunked_trigrams chunk_index) | chunk_index <- [0..(Data.Sequence.length chunked_words - 1)]]
+        let new_words = unChunkerFst chunks_processed
+        let new_trigrams_raw = unChunkerSnd chunks_processed
+        tryRemoveProgressive (slice_size * slice_multiplier) slice_multiplier new_words new_trigrams_raw
+
+unChunkerFst :: [(Seq Text, Seq [Text])] -> Seq Text
+unChunkerFst input_list = Data.Sequence.fromList (concat [toList (fst item) | item <- input_list])
+
+unChunkerSnd :: [(Seq Text, Seq [Text])] -> Seq [Text]
+unChunkerSnd input_list = Data.Sequence.fromList (concat [toList (snd item) | item <- input_list])
 
 findSplit :: String -> [String]
 findSplit input_string
@@ -63,16 +83,22 @@ main = do
     putStrLn "Treat capital and lowercase the same (y/n): "
     capital_lowercase_handling <- getLine
 
+    putStrLn "Chunk size: "
+    chunk_size_input <- getLine
+    let chunk_size = read chunk_size_input :: Int
+
+    putStrLn "Chunk multiplier: "
+    chunk_multiplier_input <- getLine
+    let chunk_multiplier = read chunk_multiplier_input :: Int
+
     time_start <- getCurrentTime --benchmarking time
 
     let words_list = findSplit (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
-    let words_seq_padded = Data.Sequence.fromList [(pack (" " ++ word ++ " ")) | word <- words_list]
+    let words_seq_padded = Data.Sequence.fromList [pack (" " ++ word ++ " ") | word <- words_list]
 
     let trigrams_raw = if capital_lowercase_handling == "y" then getTrigrams (fmap filterCapitals words_seq_padded) else getTrigrams words_seq_padded
 
-    let trigrams_len = uniqueTrigrams trigrams_raw
-
-    let condensed_list = toList (tryRemove 0 (Prelude.length words_list) trigrams_len trigrams_raw words_seq_padded)
+    let condensed_list = toList (tryRemoveProgressive chunk_size chunk_multiplier words_seq_padded trigrams_raw)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
