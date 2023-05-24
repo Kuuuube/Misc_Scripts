@@ -1,36 +1,76 @@
-import copy
+import sys
 import json
-import random
+import collections
 
-input_file = input("Input file path: ")
-list_size = int(input("List size to generate: "))
-fancy_formatting = input("Write list numbers (y/n): ")
-lower_words = input("Treat capital and lowercase the same (y/n): ")
+def get_words(file: str):
+    with open(file, 'r') as f:
+        json_file = json.load(f)
+        if 'texts' in json_file:
+            words = json_file['texts']
+        elif 'words' in json_file:
+            words = json_file['words']
+        else:
+            print("Invalid json")
 
-def get_trigrams(texts: list[str]):
-        
-    trigrams = {}
+    return words
+
+
+def compress(words: list[str], *, file: str):
+    stats = get_data(words)
+
+    save = []
+    while words:
+
+        word = words[0]
+        grams = get_trigrams(word)
+    
+        remaining = [stats['trigrams'][gram] - count for gram, count in grams.items()]
+
+        if (
+            stats['boundary']['end'][word[-1]] > 1 and
+            stats['boundary']['start'][word[0]] > 1 and
+            min(remaining) > 0
+        ):
+            words.remove(word)
+            for gram, count in grams.items():
+                stats['trigrams'][gram] -= count
+
+            stats['boundary']['end'][word[-1]] -= 1
+            stats['boundary']['start'][word[0]] -= 1
+            
+        else:
+            words.remove(word)
+            save.append(word)
+    return save
+
+
+def get_trigrams(word: str):
+    word = f' {word} '
+    grams = [''.join(x) for x in zip(word, word[1:], word[2:])]
+    return collections.Counter(grams)
+
+
+def get_data(words: list[str]):
+    
+    data = {
+        'trigrams': {},
+        'boundary': {},
+    }
 
     counts = {
         'start': {},
         'end': {},
     }
 
-    word_count = len(texts)
+    for word in words:
 
-    #help prevent excessive capital letters by not considering them as separate trigrams
-    if lower_words == "y":
-        texts = [x.lower() for x in texts]
-        
-    for word in texts:
-        
         padded_word = ' ' + word + ' '
         for i in range(len(padded_word) - 2):
             seq = padded_word[i:i+3]
-            if not seq in trigrams:
-                trigrams[seq] = word_count
+            if not seq in data['trigrams']:
+                data['trigrams'][seq] = 1
             else:
-                trigrams[seq] += word_count
+                data['trigrams'][seq] += 1
 
         if not word[0] in counts['start']:
             counts['start'][word[0]] = 1
@@ -42,73 +82,28 @@ def get_trigrams(texts: list[str]):
         else:
             counts['end'][word[-1]] += 1
 
-    for start in counts['start']:
-        for end in counts['end']:
-            trigrams[end + ' ' + start] = counts['start'][start] * counts['end'][end]
+    data['boundary'] = counts
 
-    # return dict(sorted(trigrams.items(), key=lambda x: x[1], reverse=True))
-    return trigrams
-    
-    
+    return data
+
+
 def main():
 
-    # initial info
-    file = input_file
-    with open(file, 'r') as f:
-        json_file = json.load(f)
-        if 'texts' in json_file:
-            words = json_file['texts']
-        elif 'words' in json_file:
-            words = json_file['words']
-    
-    init_grams = get_trigrams(words).keys()
+    file = input("Input file path: ")
 
+    words = get_words(f'{file}')
+    saved = compress(words, file=file)
 
-    # cut words
-    while True:
+    with open(f'output.txt', 'w') as txtfile:
+        text = ' '.join(saved)
+        txtfile.write(text)
 
-        random.shuffle(words)
-        for word in words:
-            new_words = words.copy()
-            new_words.remove(word)
-    
-            trigrams = get_trigrams(new_words).keys()
-            for gram in init_grams:
-                if not gram in trigrams:
-                    break
-            else:
-                words = new_words
-                print(f'{len(words)} words remaining. Removed {word} from list')
-                break
-        else:
-            print('done')
-            break
+    with open(f'output.json', 'w') as jsonfile:
+        jsonfile.write("{\n    \"total\": " + str(len(saved)) + ",\n    \"texts\": [\n")
+        for word in saved:
+            jsonfile.write("        \"" + word + "\",\n")
 
-    # output
-    res = {
-        'total': len(words),
-        'texts': words
-    }
-
-    with open('outfile.json', 'w') as jsonfile:
-        jsonfile.write(json.dumps(res, indent=4))
-
-    with open('outfile.txt', 'w') as plaintext:
-        counter = 1
-        list_number = 1
-        if fancy_formatting == "y":
-            plaintext.write("List " + str(list_number) + ":\n")
-        for item in words:
-            if counter > list_size:
-                list_number += 1
-                counter = 1
-                plaintext.write("\n")
-                if fancy_formatting == "y":
-                    plaintext.write("List " + str(list_number) + ":\n")
-            if counter <= list_size:
-                plaintext.write(item)
-                plaintext.write(" ")
-                counter += 1
+        jsonfile.write("    ]\n}")
 
 
 if __name__ == '__main__':

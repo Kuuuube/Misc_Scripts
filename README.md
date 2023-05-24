@@ -40,7 +40,7 @@ Encode and decode text typed on the wrong keyboard layout.
 
 ## [Word List Compressor](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/word_list_compressor)
 
-Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine))
+Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
 
 ## [osu! Collection Factory Tools](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/osu_collection_factory_tools)
 
