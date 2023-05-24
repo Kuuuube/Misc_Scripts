@@ -6,7 +6,7 @@ Scripts to compress a word list into the smallest amount of words by removing du
 
 ### Usage
 
-- Extract `word_list_compressor.7z` (7-zip Archive), run `word_list_compressor.exe`, and follow the prompts
+- Extract `word-compressor.7z` (7-zip Archive), run `word-compressor.exe`, and follow the prompts
 
     Json files with word lists under an array named `"words"` or `"texts"` are accepted. Monkeytype's `english_5k.json` has been included as an example.
 
