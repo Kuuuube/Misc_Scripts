@@ -8,6 +8,7 @@ import Data.Foldable (toList)
 import Data.HashMap.Lazy (HashMap, fromList, unionWith, insertWith, findWithDefault, fromListWith)
 import Text.Read (readMaybe)
 import Data.Maybe (fromMaybe)
+import System.Environment (getArgs)
 
 allWordTrigrams :: Text -> [Text]
 allWordTrigrams input_text = middleWordTrigramsMap input_text ++ betweenWordTrigramsMap input_text
@@ -65,31 +66,53 @@ partialUnion current_index end_index trigrams_list hashmap = do
             partialUnion (current_index + 1) end_index trigrams_list new_hashmap
 
 findSplit :: String -> [String]
-findSplit input_string
-    | Prelude.length (splitOn "words:[" input_string) > 1 = do
-        let split_key = splitOn "words:[" input_string !! 1
-        let split_end = splitOn "]" split_key !! 0
-        splitOn "," split_end
-    | Prelude.length (splitOn "texts:[" input_string) > 1 = do
-        let split_key = splitOn "texts:[" input_string !! 1
-        let split_end = splitOn "]" split_key !! 0
-        splitOn "," split_end
-    | otherwise = do
-        traceShow "Unsupported json key" (pure ())
-        []
+findSplit input_string = do
+    let split_words = splitOn "words:[" input_string
+    let split_texts = splitOn "texts:[" input_string
+    let string_list
+            | Prelude.length split_words > 1 = do
+                let split_key = split_words !! 1
+                let split_end = splitOn "]" split_key !! 0
+                splitOn "," split_end
+            | Prelude.length split_texts > 1 = do
+                let split_key = split_texts !! 1
+                let split_end = splitOn "]" split_key !! 0
+                splitOn "," split_end
+            | otherwise = do
+                traceShow "Unsupported json key" (pure ())
+                []
+
+    string_list
 
 filterCase :: Text -> Text
 filterCase input_text = toLower input_text
 
+removeFileExtension :: String -> String
+removeFileExtension input_string = do
+    let split_string = splitOn "." input_string
+    let split_len = Prelude.length split_string
+    let return_value | split_len <= 1 = split_string !! 0
+                     | otherwise = split_string !! (split_len - 2)
+    return_value
+
 main :: IO ()
 main = do
-    putStrLn "Input file: "
-    input_filename <- getLine
+    args <- getArgs
+
+    input_filename <- case args of
+        (str:_) -> pure str --match first arg
+        _ -> do
+            putStrLn "Input file: "
+            getLine
     file_data <- readFile input_filename
     --intentionally not handled, an input file should never be assumed
 
-    putStrLn "Ignore uppercase and lowercase (y/n): "
-    filter_case_input <- getLine
+    filter_case_input <- case args of
+        (_:str:_) -> pure str --match second arg
+        (_str:_) -> pure "n" --use default if only one arg is passed
+        _ -> do
+            putStrLn "Ignore uppercase and lowercase (y/n): "
+            getLine
     let filter_case = filter_case_input == fromMaybe "y" (readMaybe filter_case_input)
 
     time_start <- getCurrentTime --benchmarking time
@@ -103,9 +126,10 @@ main = do
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
-    writeFile "output.txt" (concat ([word ++ " " | word <- unpadded_list]))
+    let ignorecase_filename = if filter_case then "_ignorecase" else ""
+    writeFile (removeFileExtension input_filename ++ "_compressed" ++ ignorecase_filename ++ ".txt") (concat ([word ++ " " | word <- unpadded_list]))
     let json_words = concat (["        \"" ++ word ++ "\",\n" | word <- unpadded_list])
-    writeFile "output.json" ("{\n    \"total\": " ++ show (Prelude.length unpadded_list) ++ ",\n    \"texts\": [\n" ++ Prelude.take (Prelude.length json_words - 2) json_words ++ "\n    ]\n}")
+    writeFile (removeFileExtension input_filename ++ "_compressed" ++ ignorecase_filename ++ ".json") ("{\n    \"total\": " ++ show (Prelude.length unpadded_list) ++ ",\n    \"texts\": [\n" ++ Prelude.take (Prelude.length json_words - 2) json_words ++ "\n    ]\n}")
 
     time_end <- getCurrentTime --benchmarking time
     putStr "Generated in: "
