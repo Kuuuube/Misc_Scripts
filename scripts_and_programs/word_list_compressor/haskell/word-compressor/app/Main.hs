@@ -3,9 +3,9 @@ import Data.List.Split (splitOn)
 import Debug.Trace (traceShow)
 import Data.Time (getCurrentTime, diffUTCTime)
 import Data.Text (Text, drop, take, length, pack, unpack, toLower)
-import Data.Sequence (Seq, fromList, deleteAt, (><), length, chunksOf, index)
+import Data.Sequence (Seq, fromList, deleteAt, (><), length, index)
 import Data.Foldable (toList)
-import Data.HashSet (fromList, size)
+import Data.HashMap.Lazy (HashMap, fromList, unionWith, insertWith, findWithDefault)
 import Text.Read (readMaybe)
 import Data.Maybe (fromMaybe)
 
@@ -24,40 +24,51 @@ betweenWordTrigramsMap input_text = [Data.Text.take 1 (Data.Text.drop 1 input_te
 getTrigrams :: Seq Text -> Seq [Text]
 getTrigrams words_seq = middleWordTrigrams words_seq >< betweenWordTrigrams words_seq
 
-uniqueTrigrams :: Seq [Text] -> Int
-uniqueTrigrams input_seq_list = size (Data.HashSet.fromList (concat input_seq_list))
-
-tryRemove :: Int -> Int -> Seq Text -> Seq [Text] -> (Seq Text, Seq [Text])
-tryRemove word_index trigrams_len all_words trigrams_raw = do
-    let end_index = Data.Sequence.length all_words - 1
-    if word_index > end_index then do
-        (all_words, trigrams_raw)
+trigramsToHashMap :: Int -> Int -> Seq [Text] -> HashMap Text Int -> HashMap Text Int
+trigramsToHashMap trigrams_index end_index trigrams hashmap = do
+    if trigrams_index > end_index then
+        hashmap
     else do
-        let new_words = deleteAt word_index all_words
-        let new_trigrams_raw = deleteAt word_index trigrams_raw
-        if trigrams_len == uniqueTrigrams new_trigrams_raw then do
-            tryRemove word_index trigrams_len new_words new_trigrams_raw
+        let current_trigrams = index trigrams trigrams_index
+        let new_hashmap = Data.HashMap.Lazy.unionWith addNums (Data.HashMap.Lazy.fromList (map toTuple current_trigrams)) hashmap
+        trigramsToHashMap (trigrams_index + 1) end_index trigrams new_hashmap
+
+toTuple :: Text -> (Text, Int)
+toTuple input_text = (input_text, 1)
+
+addNums :: Num a => a -> a -> a
+addNums a b = a + b
+
+inverseSubNums :: Num a => a -> a -> a
+inverseSubNums a b = b - a
+
+tryRemoveHashMap :: Int -> Int -> Seq [Text] -> Seq Text -> HashMap Text Int -> Seq Text
+tryRemoveHashMap current_index end_index trigrams all_words trigram_hashmap = do
+    if current_index > end_index then
+        all_words
+    else do
+        let current_trigrams = index trigrams current_index
+        let trigram_check = partialUnion 0 (Prelude.length current_trigrams - 1) current_trigrams trigram_hashmap
+        if snd trigram_check then --True = zero has been found
+            tryRemoveHashMap (current_index + 1) end_index trigrams all_words trigram_hashmap
         else do
-            tryRemove (word_index + 1) trigrams_len all_words trigrams_raw
+            let new_words = deleteAt current_index all_words
+            let new_trigrams = deleteAt current_index trigrams
+            tryRemoveHashMap current_index (end_index - 1) new_trigrams new_words (fst trigram_check)
 
-tryRemoveProgressive :: Int -> Float -> Seq Text -> Seq [Text] -> Seq Text
-tryRemoveProgressive chunk_size chunk_multiplier all_words trigrams_raw = do
-    if chunk_size >= Data.Sequence.length all_words then do
-        let trigrams_len = uniqueTrigrams trigrams_raw
-        fst (tryRemove 0 trigrams_len all_words trigrams_raw)
+
+partialUnion :: Int -> Int -> [Text] -> HashMap Text Int -> (HashMap Text Int, Bool)
+partialUnion current_index end_index trigrams_list hashmap = do
+    if current_index > end_index then
+        (hashmap, False)
     else do
-        let chunked_words = chunksOf chunk_size all_words
-        let chunked_trigrams = chunksOf chunk_size trigrams_raw
-        let chunks_processed = [tryRemove 0 (uniqueTrigrams (index chunked_trigrams chunk_index)) (index chunked_words chunk_index) (index chunked_trigrams chunk_index) | chunk_index <- [0..(Data.Sequence.length chunked_words - 1)]]
-        let new_words = unChunkerFst chunks_processed
-        let new_trigrams_raw = unChunkerSnd chunks_processed
-        tryRemoveProgressive (round (fromIntegral chunk_size * chunk_multiplier)) chunk_multiplier new_words new_trigrams_raw
+        let new_hashmap = insertWith inverseSubNums (trigrams_list !! current_index) 1 hashmap
+        let find_zero = findWithDefault 1 (trigrams_list !! current_index) new_hashmap
 
-unChunkerFst :: [(Seq Text, Seq [Text])] -> Seq Text
-unChunkerFst input_list = Data.Sequence.fromList (concat [toList (fst item) | item <- input_list])
-
-unChunkerSnd :: [(Seq Text, Seq [Text])] -> Seq [Text]
-unChunkerSnd input_list = Data.Sequence.fromList (concat [toList (snd item) | item <- input_list])
+        if find_zero == 0 then do
+            (hashmap, True)
+        else
+            partialUnion (current_index + 1) end_index trigrams_list new_hashmap
 
 findSplit :: String -> [String]
 findSplit input_string
@@ -85,15 +96,7 @@ main = do
 
     putStrLn "Ignore uppercase and lowercase (y/n): "
     filter_case_input <- getLine
-    let filter_case = filter_case_input == fromMaybe "n" (readMaybe filter_case_input)
-
-    putStrLn "Chunk size (Default: Entire List): "
-    chunk_size_input <- getLine
-    let chunk_size = fromMaybe 1000000000000 (readMaybe chunk_size_input)
-
-    putStrLn "Chunk multiplier (Default: Entire List): "
-    chunk_multiplier_input <- getLine
-    let chunk_multiplier = fromMaybe 1000000000000 (readMaybe chunk_multiplier_input)
+    let filter_case = filter_case_input == fromMaybe "y" (readMaybe filter_case_input)
 
     time_start <- getCurrentTime --benchmarking time
 
@@ -101,8 +104,8 @@ main = do
     let words_seq_padded = Data.Sequence.fromList [pack (" " ++ word ++ " ") | word <- words_list]
 
     let trigrams_raw = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
-
-    let condensed_list = toList (tryRemoveProgressive chunk_size chunk_multiplier words_seq_padded trigrams_raw)
+    let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [(pack "", 1)])
+    let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length words_seq_padded - 1) trigrams_raw words_seq_padded trigrams_hashmap)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
