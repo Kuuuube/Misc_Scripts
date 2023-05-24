@@ -26,6 +26,21 @@ cabal build
 
 - The haskell version is *much* faster than the python version and I recommend using it. The python version only works decently on small lists.
 
+-   Chunking can cause huge performance benefits on large lists. Below is an approximate comparison of the time to calculate word lists with default settings and recommended chunking settings. The lists used were taken from monkeytype.
+
+    Lists with an extremely low amount of duplicate trigrams may see a loss in performance but generally it will help greatly.
+
+    | Wordcount | No chunking (Default)    | Chunking | Chunk size/Chunk multiplier |
+    |-----------|--------------------------|----------|-----------------------------|
+    | 200       | 0.03s                    | 0.03s    | 100/2                       |
+    | 1000      | 0.73s                    | 0.66s    | 500/2                       |
+    | 5000      | 19.99s                   | 7.46s    | 500/2.5                     |
+    | 10000     | 84.94s                   | 26.87s   | 1000/1.9                    |
+    | 25000     | 586.80s                  | 126.32s  | 2500/1.5                    |
+    | 450000    | 725760.00s*              | 2913.46s | 1000/5                      |
+
+    ###### *The 450000 calculation with no chunking is a theoretical estimate due to the unreasonable amount of time it would take to run.
+
 ## Python
 
 ### Usage
