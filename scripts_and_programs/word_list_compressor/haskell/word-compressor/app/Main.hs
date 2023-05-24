@@ -5,7 +5,7 @@ import Data.Time (getCurrentTime, diffUTCTime)
 import Data.Text (Text, drop, take, length, pack, unpack, toLower)
 import Data.Sequence (Seq, fromList, deleteAt, length, index)
 import Data.Foldable (toList)
-import Data.HashMap.Lazy (HashMap, fromList, unionWith, insertWith, findWithDefault)
+import Data.HashMap.Lazy (HashMap, fromList, unionWith, insertWith, findWithDefault, fromListWith)
 import Text.Read (readMaybe)
 import Data.Maybe (fromMaybe)
 
@@ -27,14 +27,11 @@ trigramsToHashMap trigrams_index end_index trigrams hashmap = do
         hashmap
     else do
         let current_trigrams = index trigrams trigrams_index
-        let new_hashmap = Data.HashMap.Lazy.unionWith addNums (Data.HashMap.Lazy.fromList (map toTuple current_trigrams)) hashmap
+        let new_hashmap = Data.HashMap.Lazy.unionWith (+) (Data.HashMap.Lazy.fromListWith (+) (map toTuple current_trigrams)) hashmap
         trigramsToHashMap (trigrams_index + 1) end_index trigrams new_hashmap
 
 toTuple :: Text -> (Text, Int)
 toTuple input_text = (input_text, 1)
-
-addNums :: Num a => a -> a -> a
-addNums a b = a + b
 
 inverseSubNums :: Num a => a -> a -> a
 inverseSubNums a b = b - a
@@ -60,9 +57,9 @@ partialUnion current_index end_index trigrams_list hashmap = do
         (hashmap, False)
     else do
         let new_hashmap = insertWith inverseSubNums (trigrams_list !! current_index) 1 hashmap
-        let find_zero = findWithDefault 1 (trigrams_list !! current_index) new_hashmap
+        let find_zero = findWithDefault 0 (trigrams_list !! current_index) new_hashmap
 
-        if find_zero == 0 then do
+        if find_zero <= 0 then do
             (hashmap, True)
         else
             partialUnion (current_index + 1) end_index trigrams_list new_hashmap
@@ -100,16 +97,9 @@ main = do
     let words_list = findSplit (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
     let words_seq_padded = Data.Sequence.fromList [pack (" " ++ word ++ " ") | word <- words_list]
 
-    --somewhere there is a bug that is mysteriously fixed by running this twice
-    --running it twice should not be required but on word lists >10k processing seems to randomly break on some words
-    --doing two passes causes at most less than a second extra compute time
-    let trigrams_raw_first_pass = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
-    let trigrams_hashmap_first_pass = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw_first_pass - 1) trigrams_raw_first_pass (Data.HashMap.Lazy.fromList [(pack "", 1)])
-    let condensed_list_first_pass = tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw_first_pass - 1) trigrams_raw_first_pass words_seq_padded trigrams_hashmap_first_pass
-
-    let trigrams_raw_second_pass = if filter_case then getTrigrams (fmap filterCase condensed_list_first_pass) else getTrigrams condensed_list_first_pass
-    let trigrams_hashmap_second_pass = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw_second_pass - 1) trigrams_raw_second_pass (Data.HashMap.Lazy.fromList [(pack "", 1)])
-    let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw_second_pass - 1) trigrams_raw_second_pass condensed_list_first_pass trigrams_hashmap_second_pass)
+    let trigrams_raw = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
+    let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [(pack "", 1)])
+    let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw words_seq_padded trigrams_hashmap)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
