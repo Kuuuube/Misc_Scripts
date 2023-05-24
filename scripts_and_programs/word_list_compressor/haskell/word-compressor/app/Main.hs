@@ -38,18 +38,18 @@ tryRemove word_index trigrams_len all_words trigrams_raw = do
         else do
             tryRemove (word_index + 1) trigrams_len all_words trigrams_raw
 
-tryRemoveProgressive :: Int -> Int -> Seq Text -> Seq [Text] -> Seq Text
-tryRemoveProgressive slice_size slice_multiplier all_words trigrams_raw = do
-    if slice_size > Data.Sequence.length all_words then do
+tryRemoveProgressive :: Int -> Float -> Seq Text -> Seq [Text] -> Seq Text
+tryRemoveProgressive chunk_size chunk_multiplier all_words trigrams_raw = do
+    if chunk_size >= Data.Sequence.length all_words then do
         let trigrams_len = uniqueTrigrams trigrams_raw
         fst (tryRemove 0 trigrams_len all_words trigrams_raw)
     else do
-        let chunked_words = chunksOf slice_size all_words
-        let chunked_trigrams = chunksOf slice_size trigrams_raw
+        let chunked_words = chunksOf chunk_size all_words
+        let chunked_trigrams = chunksOf chunk_size trigrams_raw
         let chunks_processed = [tryRemove 0 (uniqueTrigrams (index chunked_trigrams chunk_index)) (index chunked_words chunk_index) (index chunked_trigrams chunk_index) | chunk_index <- [0..(Data.Sequence.length chunked_words - 1)]]
         let new_words = unChunkerFst chunks_processed
         let new_trigrams_raw = unChunkerSnd chunks_processed
-        tryRemoveProgressive (slice_size * slice_multiplier) slice_multiplier new_words new_trigrams_raw
+        tryRemoveProgressive (round (fromIntegral chunk_size * chunk_multiplier)) chunk_multiplier new_words new_trigrams_raw
 
 unChunkerFst :: [(Seq Text, Seq [Text])] -> Seq Text
 unChunkerFst input_list = Data.Sequence.fromList (concat [toList (fst item) | item <- input_list])
@@ -71,8 +71,8 @@ findSplit input_string
         traceShow "Unsupported json key" (pure ())
         []
 
-filterCapitals :: Text -> Text
-filterCapitals input_text = toLower input_text
+filterCase :: Text -> Text
+filterCase input_text = toLower input_text
 
 main :: IO ()
 main = do
@@ -80,32 +80,31 @@ main = do
     input_filename <- getLine
     file_data <- readFile input_filename
 
-    putStrLn "Treat capital and lowercase the same (y/n): "
-    capital_lowercase_handling <- getLine
+    putStrLn "Ignore uppercase and lowercase (y/n): "
+    filter_case_input <- getLine
+    let filter_case = filter_case_input == "y"
 
-    putStrLn "Chunk size: "
+    putStrLn "Chunk size (Default: Entire List): "
     chunk_size_input <- getLine
-    let chunk_size = read chunk_size_input :: Int
+    let chunk_size = if chunk_size_input == "" then 1000000000000 else read chunk_size_input :: Int
 
-    putStrLn "Chunk multiplier: "
+    putStrLn "Chunk multiplier (Default: Entire List): "
     chunk_multiplier_input <- getLine
-    let chunk_multiplier = read chunk_multiplier_input :: Int
+    let chunk_multiplier = if chunk_multiplier_input == "" then 1000000000000 else read chunk_multiplier_input :: Float
 
     time_start <- getCurrentTime --benchmarking time
 
     let words_list = findSplit (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
     let words_seq_padded = Data.Sequence.fromList [pack (" " ++ word ++ " ") | word <- words_list]
 
-    let trigrams_raw = if capital_lowercase_handling == "y" then getTrigrams (fmap filterCapitals words_seq_padded) else getTrigrams words_seq_padded
+    let trigrams_raw = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
 
     let condensed_list = toList (tryRemoveProgressive chunk_size chunk_multiplier words_seq_padded trigrams_raw)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
 
     writeFile "output.txt" (concat ([word ++ " " | word <- unpadded_list]))
-
     let json_words = concat (["        \"" ++ word ++ "\",\n" | word <- unpadded_list])
-
     writeFile "output.json" ("{\n    \"total\": " ++ show (Prelude.length unpadded_list) ++ ",\n    \"texts\": [\n" ++ Prelude.take (Prelude.length json_words - 2) json_words ++ "\n    ]\n}")
 
     time_end <- getCurrentTime --benchmarking time
