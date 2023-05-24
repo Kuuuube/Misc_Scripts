@@ -10,7 +10,11 @@ Scripts to compress a word list into the smallest amount of words by removing du
 
     Json files with word lists under an array named `"words"` or `"texts"` are accepted. Monkeytype's `english_5k.json` has been included as an example.
 
-    `Treat capital and lowercase the same` allows for not treating trigrams with capital letters as different trigrams from those with lowercase letters.
+    `Ignore uppercase and lowercase` treats trigrams with uppercase and lowercase the same. This does not change the case of words in the output.
+
+    `Chunk size` defines the start size to chunk the list into.
+
+    `Chunk multiplier` defines the size to multiply the chunk size by every pass. When the chunk size exceeds the list size one final pass is done with the entire list.
 
 ### Building
 
