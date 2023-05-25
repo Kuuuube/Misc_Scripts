@@ -111,14 +111,14 @@ main = do
 
     time_start <- getCurrentTime --benchmarking time
 
-    let words_list | isJust (words file_data) = fromMaybe [pack ""] (words file_data)
-                   | isJust (texts file_data) = fromMaybe [pack ""] (texts file_data)
+    let words_list | isJust (words file_data) = fromMaybe [""] (words file_data)
+                   | isJust (texts file_data) = fromMaybe [""] (texts file_data)
                    | otherwise = error "Unsupported json key"
 
     let words_seq_padded = Data.Sequence.fromList [" " <> word <> " " | word <- words_list]
 
     let trigrams_raw = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
-    let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [(pack "", 1)])
+    let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [("", 1)])
     let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw words_seq_padded trigrams_hashmap)
 
     let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
