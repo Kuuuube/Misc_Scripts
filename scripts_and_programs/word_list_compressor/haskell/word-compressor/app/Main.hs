@@ -1,14 +1,26 @@
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Main where
+
+import Prelude hiding (words)
 import Data.List.Split (splitOn)
-import Debug.Trace (traceShow)
 import Data.Time (getCurrentTime, diffUTCTime)
 import Data.Text (Text, drop, take, length, pack, unpack, toLower)
 import Data.Sequence (Seq, fromList, deleteAt, length, index)
 import Data.Foldable (toList)
 import Data.HashMap.Lazy (HashMap, fromList, unionWith, insertWith, findWithDefault, fromListWith)
 import Text.Read (readMaybe)
-import Data.Maybe (fromMaybe)
+import Data.Maybe (fromMaybe, isJust)
 import System.Environment (getArgs)
+import Data.Aeson (eitherDecodeFileStrict, FromJSON)
+import GHC.Generics (Generic)
+
+data WordList = WordList {
+    words :: Maybe [Text],
+    texts :: Maybe [Text]
+    } deriving (Generic, FromJSON)
+
 
 allWordTrigrams :: Text -> [Text]
 allWordTrigrams input_text = middleWordTrigramsMap input_text ++ betweenWordTrigramsMap input_text
@@ -65,25 +77,6 @@ partialUnion current_index end_index trigrams_list hashmap = do
         else
             partialUnion (current_index + 1) end_index trigrams_list new_hashmap
 
-findSplit :: String -> [String]
-findSplit input_string = do
-    let split_words = splitOn "words:[" input_string
-    let split_texts = splitOn "texts:[" input_string
-    let string_list
-            | Prelude.length split_words > 1 = do
-                let split_key = split_words !! 1
-                let split_end = splitOn "]" split_key !! 0
-                splitOn "," split_end
-            | Prelude.length split_texts > 1 = do
-                let split_key = split_texts !! 1
-                let split_end = splitOn "]" split_key !! 0
-                splitOn "," split_end
-            | otherwise = do
-                traceShow "Unsupported json key" (pure ())
-                []
-
-    string_list
-
 filterCase :: Text -> Text
 filterCase input_text = toLower input_text
 
@@ -104,7 +97,8 @@ main = do
         _ -> do
             putStrLn "Input file: "
             getLine
-    file_data <- readFile input_filename
+    file_data <- either error pure =<< eitherDecodeFileStrict input_filename
+
     --intentionally not handled, an input file should never be assumed
 
     filter_case_input <- case args of
@@ -117,8 +111,11 @@ main = do
 
     time_start <- getCurrentTime --benchmarking time
 
-    let words_list = findSplit (concat (splitOn "\"" (concat (splitOn " " (concat (splitOn "\n" file_data))))))
-    let words_seq_padded = Data.Sequence.fromList [pack (" " ++ word ++ " ") | word <- words_list]
+    let words_list | isJust (words file_data) = fromMaybe [pack ""] (words file_data)
+                   | isJust (texts file_data) = fromMaybe [pack ""] (texts file_data)
+                   | otherwise = error "Unsupported json key"
+
+    let words_seq_padded = Data.Sequence.fromList [" " <> word <> " " | word <- words_list]
 
     let trigrams_raw = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
     let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [(pack "", 1)])
