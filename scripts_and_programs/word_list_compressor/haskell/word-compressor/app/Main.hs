@@ -11,17 +11,15 @@ import Data.Sequence (Seq, fromList, deleteAt, length, index)
 import Data.Foldable (toList)
 import Data.HashMap.Lazy (HashMap, fromList, unionWith, insertWith, findWithDefault, fromListWith)
 import Text.Read (readMaybe)
-import Data.Maybe (fromMaybe)
+import Data.Maybe (fromMaybe, isJust)
 import System.Environment (getArgs)
-import Data.Aeson
-import GHC.Generics
+import Data.Aeson (eitherDecodeFileStrict, FromJSON)
+import GHC.Generics (Generic)
 
-data WordList = WordList
-  { name :: Text
-  , noLazyMode :: Bool
-  , orderedByFrequency :: Bool
-  , words :: [Text]
-  } deriving (Generic, FromJSON)
+data WordList = WordList {
+    words :: Maybe [Text],
+    texts :: Maybe [Text]
+    } deriving (Generic, FromJSON)
 
 
 allWordTrigrams :: Text -> [Text]
@@ -113,8 +111,11 @@ main = do
 
     time_start <- getCurrentTime --benchmarking time
 
-    let words_list = words file_data
-    let words_seq_padded = Data.Sequence.fromList [(" " <> word <> " ") | word <- words_list]
+    let words_list | isJust (words file_data) = fromMaybe [pack ""] (words file_data)
+                   | isJust (texts file_data) = fromMaybe [pack ""] (texts file_data)
+                   | otherwise = error "Unsupported json key"
+
+    let words_seq_padded = Data.Sequence.fromList [" " <> word <> " " | word <- words_list]
 
     let trigrams_raw = if filter_case then getTrigrams (fmap filterCase words_seq_padded) else getTrigrams words_seq_padded
     let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [(pack "", 1)])
