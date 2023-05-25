@@ -30,12 +30,12 @@ cabal build
 
     | Wordlist        | Time    |
     |-----------------|---------|
-    | English 200     | 0.014s  |
-    | English 1,000   | 0.025s  |
-    | English 5,000   | 0.110s  |
-    | English 10,000  | 0.210s  |
-    | English 25,000  | 0.600s  |
-    | English 450,000 | 12.500s |
+    | English 200     | 0.009s  |
+    | English 1,000   | 0.017s  |
+    | English 5,000   | 0.083s  |
+    | English 10,000  | 0.190s  |
+    | English 25,000  | 0.525s  |
+    | English 450,000 | 10.750s |
 
 
 
