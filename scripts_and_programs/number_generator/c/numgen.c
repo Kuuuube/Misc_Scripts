@@ -94,9 +94,9 @@ int main()
 			memcpy(string_combined + number_prefix_len + end_number_len - 1, number_suffix, number_suffix_len);
 			fwrite(string_combined, memory_size, 1, output_file);
 		} else {
-			memcpy(string_combined + number_prefix_len - 1, current_number_char, current_number_char_len);
-			memcpy(string_combined + number_prefix_len + current_number_char_len - 1, number_suffix, number_suffix_len);
-			fwrite(string_combined, number_prefix_len + current_number_char_len + number_suffix_len - 1, 1, output_file);
+			memcpy(string_combined + number_prefix_len, current_number_char, current_number_char_len);
+			memcpy(string_combined + number_prefix_len + current_number_char_len, number_suffix, number_suffix_len);
+			fwrite(string_combined, number_prefix_len + current_number_char_len + number_suffix_len, 1, output_file);
 		}
 
 		fputc('\n', output_file);
