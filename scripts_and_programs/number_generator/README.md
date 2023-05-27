@@ -2,6 +2,20 @@
 
 Generates a newline separated list of numbers with customizeable start, end, prefix, and suffix.
 
+## Rust
+
+### Usage
+
+- Run `numgen.exe` and follow the prompts.
+
+### Building
+
+```
+cargo build --release
+```
+
+<br>
+
 ## C
 
 ### Usage
@@ -49,20 +63,6 @@ gcc numgen.c -O2 -o numgen.exe
 ```
 ghc numgen.hs -O2
 strip numgen.exe
-```
-
-<br>
-
-## Rust
-
-### Usage
-
-- Run `numgen.exe` and follow the prompts.
-
-### Building
-
-```
-cargo build --release
 ```
 
 <br>
@@ -131,11 +131,11 @@ bcompile numgen.b numgen
 
 These are not objective rankings for the speed of these languages, only how fast my code runs. My code is not perfectly optimized.
 
-1. C
+1. Rust
 
-2. Haskell
+2. C
 
-3. Rust
+3. Haskell
 
 4. Fortran
 
