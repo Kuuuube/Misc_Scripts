@@ -4,9 +4,11 @@
 module Main where
 
 import Prelude hiding (words)
+import Data.List (intercalate)
 import Data.List.Split (splitOn)
 import Data.Time (getCurrentTime, diffUTCTime)
-import Data.Text (Text, drop, take, length, pack, unpack, toLower)
+import Data.Text (Text, drop, take, length, pack, toLower, concat, append)
+import Data.Text.IO (writeFile)
 import Data.Sequence (Seq, fromList, deleteAt, length, index)
 import Data.Foldable (toList)
 import Data.HashMap.Lazy (HashMap, fromList, unionWith, insertWith, findWithDefault, fromListWith)
@@ -85,7 +87,7 @@ removeFileExtension input_string = do
     let split_string = splitOn "." input_string
     let split_len = Prelude.length split_string
     let return_value | split_len <= 1 = split_string !! 0
-                     | otherwise = split_string !! (split_len - 2)
+                     | otherwise = intercalate "." (init split_string)
     return_value
 
 main :: IO ()
@@ -121,12 +123,12 @@ main = do
     let trigrams_hashmap = trigramsToHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw (Data.HashMap.Lazy.fromList [("", 1)])
     let condensed_list = Data.Foldable.toList (tryRemoveHashMap 0 (Data.Sequence.length trigrams_raw - 1) trigrams_raw words_seq_padded trigrams_hashmap)
 
-    let unpadded_list = [Prelude.drop 1 (Prelude.take (Prelude.length (unpack word) - 1) (unpack word)) | word <- condensed_list]
+    let unpadded_list = [Data.Text.drop 1 (Data.Text.take (Data.Text.length word - 1) word) | word <- condensed_list]
 
     let ignorecase_filename = if filter_case then "_ignorecase" else ""
-    writeFile (removeFileExtension input_filename ++ "_compressed" ++ ignorecase_filename ++ ".txt") (concat ([word ++ " " | word <- unpadded_list]))
-    let json_words = concat (["        \"" ++ word ++ "\",\n" | word <- unpadded_list])
-    writeFile (removeFileExtension input_filename ++ "_compressed" ++ ignorecase_filename ++ ".json") ("{\n    \"total\": " ++ show (Prelude.length unpadded_list) ++ ",\n    \"texts\": [\n" ++ Prelude.take (Prelude.length json_words - 2) json_words ++ "\n    ]\n}")
+    Data.Text.IO.writeFile (removeFileExtension input_filename ++ "_compressed" ++ ignorecase_filename ++ ".txt") (Data.Text.concat ([word `append` " " | word <- unpadded_list]))
+    let json_words = Data.Text.concat (["        \"" `append` word `append` "\",\n" | word <- unpadded_list])
+    Data.Text.IO.writeFile (removeFileExtension input_filename ++ "_compressed" ++ ignorecase_filename ++ ".json") ("{\n    \"total\": " `append` pack (show (Prelude.length unpadded_list)) `append` ",\n    \"texts\": [\n" `append` Data.Text.take (Data.Text.length json_words - 2) json_words `append` "\n    ]\n}")
 
     time_end <- getCurrentTime --benchmarking time
     putStr "Generated in: "
