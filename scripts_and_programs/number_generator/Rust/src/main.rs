@@ -12,7 +12,7 @@ fn main() {
         Ok(_) => (),
         Err(_) => println!("Failed to read input.")
     };
-    let mut start_number: i128 = match start_number_str.trim().parse::<i128>() {
+    let start_number: i128 = match start_number_str.trim().parse::<i128>() {
         Ok(parsed) => parsed,
         Err(error) => parsing_error(error)
     };
@@ -52,14 +52,17 @@ fn main() {
         Err(_err) => panic!("Couldn't open file.")
     };
 
-    while start_number <= end_number {
-        match output_file.write(format!("{number_prefix}{start_number}{number_suffix}").as_bytes()) {
-            Ok(_) => (),
-            Err(_) => println!("Failed to write file.")
-        };
-
-        start_number += 1;
+    let mut numgen_string: String = Default::default();
+    for i in start_number..=end_number {
+        numgen_string += &number_prefix;
+        numgen_string += &format!("{i}");
+        numgen_string += &number_suffix;
     }
+
+    match output_file.write(numgen_string.as_bytes()) {
+        Ok(_) => (),
+        Err(_) => println!("Failed to write file.")
+    };
 
     //benchmarking code
     let time_elapsed = start_time.elapsed();
