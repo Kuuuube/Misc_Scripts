@@ -1,3 +1,5 @@
+import Data.Time (getCurrentTime, diffUTCTime)
+
 main :: IO()
 main = do
     let file = "output.txt"
@@ -16,5 +18,10 @@ main = do
     putStrLn "Number Suffix: "
     number_suffix <- getLine
 
-    writeFile file ("")
-    appendFile file (concat [number_prefix ++ show current_number ++ number_suffix ++ "\n" | current_number <- [start_number..end_number]])
+    time_start <- getCurrentTime --benchmarking time
+
+    writeFile file (concat [number_prefix ++ show current_number ++ number_suffix ++ "\n" | current_number <- [start_number..end_number]])
+
+    time_end <- getCurrentTime --benchmarking time
+    putStr "Generated in: "
+    print (diffUTCTime time_end time_start)
