@@ -11,7 +11,7 @@ fn main() {
     println!("Input file: ");
     match stdin().read_line(&mut input_filepath) {
         Ok(_) => (),
-        Err(_) => println!("Failed to read input.")
+        Err(_) => panic!("Failed to read input.")
     };
     input_filepath = input_filepath.trim().to_owned();
 
@@ -19,7 +19,7 @@ fn main() {
     println!("Ignore uppercase and lowercase (y/n): ");
     match stdin().read_line(&mut filter_case_input) {
         Ok(_) => (),
-        Err(_) => println!("Failed to read input.")
+        Err(_) => panic!("Failed to read input.")
     };
     let filter_case = filter_case_input.trim() == "y";
 
@@ -27,7 +27,7 @@ fn main() {
     println!("Size of ngram to calculate (Default: 3): ");
     match stdin().read_line(&mut ngram_size) {
         Ok(_) => (),
-        Err(_) => println!("Failed to read input.")
+        Err(_) => panic!("Failed to read input.")
     };
     ngram_size = ngram_size.trim().to_string(); 
     let ngram_size_int: usize = if ngram_size == "" {ngram_size = "3".to_string(); 3} else {ngram_size.parse().unwrap()};
@@ -52,6 +52,7 @@ fn main() {
         for ngram in word {
             if ngrams_hashmap.get_key_value(ngram).unwrap_or((&"".to_owned(), &1)) <= (&ngram, &1) {
                 found_zero = true;
+                break;
             }
         }
         if !found_zero {
