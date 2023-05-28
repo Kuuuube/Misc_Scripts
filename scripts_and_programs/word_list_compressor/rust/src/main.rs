@@ -1,8 +1,10 @@
 use std::fs;
 use std::collections::HashMap;
-use std::io::{stdin};
-use std::io::Write;
+use std::io::stdin;
 use std::time::Instant;
+
+mod greek_prefix;
+mod file_handler;
 
 fn main() {
     let mut input_filepath: String = Default::default();
@@ -21,15 +23,23 @@ fn main() {
     };
     let filter_case = filter_case_input.trim() == "y";
 
+    let mut ngram_size: String = Default::default();
+    println!("Size of ngram to calculate (Default: 3): ");
+    match stdin().read_line(&mut ngram_size) {
+        Ok(_) => (),
+        Err(_) => println!("Failed to read input.")
+    };
+    ngram_size = ngram_size.trim().to_string(); 
+    let ngram_size_int: usize = if ngram_size == "" {ngram_size = "3".to_string(); 3} else {ngram_size.parse().unwrap()};
+
     //benchmarking code
     let start_time = Instant::now();
 
     let raw_file_string = fs::read_to_string(&input_filepath).unwrap();
-    let mut raw_words: Vec<String> = dirty_parse_json(raw_file_string).unwrap();
+    let mut raw_words: Vec<String> = file_handler::parse_json(raw_file_string).unwrap();
     let padded_words = raw_words.iter().map(|x| format!(" {} ", x));
 
-    let ngram = 3;
-    let per_word_ngrams: Vec<Vec<String>> = padded_words.map(|x| get_trigrams(x, ngram, filter_case).unwrap_or_default()).collect();
+    let per_word_ngrams: Vec<Vec<String>> = padded_words.map(|x| get_trigrams(x, ngram_size_int, filter_case).unwrap_or_default()).collect();
 
     let flattened_ngrams = per_word_ngrams.clone().into_iter().flatten();
     let mut ngrams_hashmap: HashMap<String, i32> = flattened_ngrams.fold(HashMap::new(), |mut map, c| {*map.entry(c).or_insert(0) += 1; map});
@@ -57,31 +67,13 @@ fn main() {
         raw_words.remove(index);
     }
 
-    let output_filenames = get_output_filename(input_filepath, filter_case);
-    plaintext_write(&raw_words, output_filenames.0);
-    json_write(&raw_words, output_filenames.1);
+    let output_filenames = file_handler::get_output_filename(input_filepath, filter_case, greek_prefix::greek_prefix(ngram_size));
+    file_handler::plaintext_write(&raw_words, output_filenames.0);
+    file_handler::json_write(&raw_words, output_filenames.1);
 
     //benchmarking code
     let time_elapsed = start_time.elapsed();
     println!("Generated in: {time_elapsed:.6?}");
-}
-
-fn dirty_parse_json(json: String) -> Option<Vec<String>> {
-    let replaced_string: String = json.replace(&[' ', '\t', '\"', '\n', '\r'], "");
-    let filtered_string_words: Vec<&str> = replaced_string.split("words:[").collect();
-    let filtered_string_texts: Vec<&str> = replaced_string.split("texts:[").collect();
-    let word_list: Vec<&str> = if filtered_string_words.len() > 1 {
-        filtered_string_words
-    } else if filtered_string_texts.len() > 1 {
-        filtered_string_texts
-    } else {
-        println!("Unsupported json key");
-        return None;
-    };
-
-    let split_end: Vec<&str> = word_list.get(1).unwrap().split("]").collect();
-    let split_commas: Vec<String> = split_end.get(0).unwrap().split(",").map(str::to_string).collect();
-    return Some(split_commas);
 }
 
 fn get_trigrams(input_string: String, ngram: usize, filter_case: bool) -> Option<Vec<String>> {
@@ -102,52 +94,4 @@ fn get_trigrams(input_string: String, ngram: usize, filter_case: bool) -> Option
     slices.push(end_slice);
 
     return Some(slices);
-}
-
-fn plaintext_write(input_words: &Vec<String>, filepath: String) {
-    let mut plaintext_output_file = match fs::OpenOptions::new().create(true).write(true).truncate(true).open(filepath) {
-        Ok(file_ok) => file_ok,
-        Err(_err) => panic!("Couldn't open file.")
-    };
-
-    let mut plaintext_string: String = Default::default();
-    for i in 0..input_words.len() {
-        plaintext_string += input_words.get(i).unwrap_or(&"".to_owned());
-        plaintext_string += " ";
-    }
-
-    plaintext_output_file.write(plaintext_string.as_bytes()).unwrap_or_default();
-}
-
-fn json_write(input_words: &Vec<String>, filepath: String) {
-    let mut json_output_file = match fs::OpenOptions::new().create(true).write(true).truncate(true).open(filepath) {
-        Ok(file_ok) => file_ok,
-        Err(_err) => panic!("Couldn't open file.")
-    };
-
-    let mut json_string: String = format!("{}{}{}", "{\n    \"total\": ", input_words.len(), ",\n    \"texts\": [\n");
-    for i in 0..input_words.len() {
-        json_string += "        \"";
-        json_string += input_words.get(i).unwrap_or(&"".to_owned());
-        json_string += "\"";
-        if i < input_words.len() - 1 {
-            json_string += ",\n";
-        }
-    }
-    json_string += "\n    ]\n}";
-
-    json_output_file.write(json_string.as_bytes()).unwrap_or_default();
-}
-
-fn get_output_filename(input_filename: String, filter_case: bool) -> (String, String) {
-    let mut split_string: Vec<&str> = input_filename.split(".").collect();
-    let split_len = split_string.len();
-    if split_len > 1 {
-        split_string.remove(split_len - 1);
-    }
-    let base_filename = split_string.join(".");
-    let plaintext_filename = if filter_case {base_filename.to_owned() + "_compressed_ignorecase.txt"} else {base_filename.to_owned() + "_compressed.txt"};
-    let json_filename = if filter_case {base_filename.to_owned() + "_compressed_ignorecase.json"} else {base_filename.to_owned() + "_compressed.json"};
-    
-    return (plaintext_filename, json_filename);
 }
