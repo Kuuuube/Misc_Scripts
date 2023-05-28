@@ -2,6 +2,40 @@
 
 Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
 
+Which version should you use?
+
+- Rust: Runs fast, small executable
+
+- Haskell: Runs fast, haskell is cool
+
+- Python: You want to use the worst one
+
+## Rust
+
+### Usage
+
+- Run `word-compressor.exe` and follow the prompts
+
+    Json files with word lists under an array named `"words"` or `"texts"` are accepted. Monkeytype's `english_5k.json` has been included as an example.
+
+    `Ignore uppercase and lowercase` treats trigrams with uppercase and lowercase the same. This does not change the case of words in the output.
+
+    `Size of ngram to calculate` allows for changing the size of character slices taken from each word. The minimum ngram size is 1.
+
+### Notes
+
+- Estimated calculation times on english wordlists using ngram size 3:
+
+    | Wordlist          | Time   |
+    |-------------------|--------|
+    | English 200       | 0.004s |
+    | English 1,000     | 0.008s |
+    | English 5,000     | 0.026s |
+    | English 10,000    | 0.054s |
+    | English 25,000    | 0.135s |
+    | English 450,000   | 2.620s |
+    | English 1,000,000 | 5.765s |
+
 ## Haskell
 
 ### Usage
@@ -36,8 +70,6 @@ cabal build
     | English 10,000  | 0.190s  |
     | English 25,000  | 0.525s  |
     | English 450,000 | 10.750s |
-
-
 
 ## Python
 
