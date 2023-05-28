@@ -66,7 +66,7 @@ fn main() {
     removal_indexes.sort();
     removal_indexes.reverse();
     for index in removal_indexes {
-        raw_words.remove(index);
+        raw_words.swap_remove(index);
     }
 
     let output_filenames = file_handler::get_output_filename(input_filepath, filter_case, greek_prefix::greek_prefix(ngram_size));
