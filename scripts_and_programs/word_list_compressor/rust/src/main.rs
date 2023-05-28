@@ -34,6 +34,7 @@ fn main() {
 
     //benchmarking code
     let start_time = Instant::now();
+    //
 
     let raw_file_string = fs::read_to_string(&input_filepath).unwrap();
     let mut raw_words: Vec<String> = file_handler::parse_json(raw_file_string).unwrap();
@@ -74,6 +75,7 @@ fn main() {
     //benchmarking code
     let time_elapsed = start_time.elapsed();
     println!("Generated in: {time_elapsed:.6?}");
+    //
 }
 
 fn get_trigrams(input_string: String, ngram: usize, filter_case: bool) -> Option<Vec<String>> {
