@@ -58,6 +58,14 @@ Resizes all images in a folder to a specified size.
 
 Command line study tool. Supports flashcards and repetition practice.
 
+## [Terminal and Shell Config](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/terminal_and_shell_config/)
+
+My terminal emulator and shell config files.
+
+## [Youtube Shorts Desktop Redirect](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/youtube_shorts_desktop_redirect)
+
+Redirects youtube shorts to the desktop player.
+
 ## [Wikipedia Full Width Always](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/wikipedia_full_width_always)
 
 Automatically set wikipedia pages to full width.
@@ -65,10 +73,6 @@ Automatically set wikipedia pages to full width.
 ## [Word List Compressor](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/word_list_compressor)
 
 Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
-
-## [Youtube Shorts Desktop Redirect](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/youtube_shorts_desktop_redirect)
-
-Redirects youtube shorts to the desktop player.
 
 <br>
 
