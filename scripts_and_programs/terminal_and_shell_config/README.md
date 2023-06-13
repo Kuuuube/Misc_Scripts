@@ -12,7 +12,7 @@ My terminal emulator and shell config files.
 
 - Install alacritty [https://alacritty.org/](https://alacritty.org/)
 
-- Place `alacritty.yml` in one of the config location. 
+- Place `alacritty.yml` in one of the config locations. 
 
     Windows: `%appdata%\alacritty\alacritty.yml`
 
@@ -38,11 +38,11 @@ My terminal emulator and shell config files.
 
 - Download clink from here [https://github.com/chrisant996/clink](https://github.com/chrisant996/clink). You may find an older, incompatible version of clink if you search for it yourself.
 
-- Add the clink folder to PATH. By default the directory to add `C:\Program Files (x86)\clink`.
+- Add the clink folder to PATH. By default the directory to add is `C:\Program Files (x86)\clink`.
 
 - Add `oh-my-posh.lua` and `clink_settings` to `%localappdata%\clink`
 
-- Optionally, add `clinkcmd.bat` to `C:\Program Files (x86)\clink`. This allows starting up a clink injected cmd instance with the command `clinkcmd` while not conflicting with the existing `clink` command.
+- Optionally, add `clinkcmd.bat` to `C:\Program Files (x86)\clink`. This allows a clink injected cmd instance to start with the command `clinkcmd` while not conflicting with the existing `clink` command.
 
 ## Powershell (windows only)
 
