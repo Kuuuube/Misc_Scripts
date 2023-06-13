@@ -6,21 +6,17 @@ Miscellaneous scripts, small programs, and notes for other programs I've used. E
 
 Generates blank files from a newline separated list of filenames in `list.txt`. 
 
-## [Number Generator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/number_generator/)
-
-Generates a newline separated list of numbers with customizeable start, end, prefix, and suffix.
-
-## [Python Image Resizer](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/python_image_resizer/)
-
-Resizes all images in a folder to a specified size.
-
-## [MousePos](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/mousepos)
-
-Shows the position of the mouse cursor in pixels.
-
 ## [EVE Online Targetting Calculator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/eve_online_targetting_calculator)
 
 Calculates how long it takes to lock target on a ship in [EVE Online](https://www.eveonline.com/).
+
+## [Hex to Binary Text](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/hex_to_binary_text)
+
+Simple script to convert hex to binary text. This will not read or write a file's hex or binary data. It only reads and writes text.
+
+## [Keyboard Layout Translator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/keyboard_layout_translator)
+
+Encode and decode text typed on the wrong keyboard layout.
 
 ## [League of Legends AFK Match Accept](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/league_of_legends_afk_match_accept)
 
@@ -34,13 +30,13 @@ Occasionally I get a bug in League of Legends where none of my hotkeys work. Res
 
 Change mouse settings on windows without admin privileges and without control panel/settings access.
 
-## [Keyboard Layout Translator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/keyboard_layout_translator)
+## [MousePos](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/mousepos)
 
-Encode and decode text typed on the wrong keyboard layout.
+Shows the position of the mouse cursor in pixels.
 
-## [Word List Compressor](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/word_list_compressor)
+## [Number Generator](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/number_generator/)
 
-Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
+Generates a newline separated list of numbers with customizeable start, end, prefix, and suffix.
 
 ## [osu! Collection Factory Tools](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/osu_collection_factory_tools)
 
@@ -50,17 +46,21 @@ Tools for handling and generating large collections and large amounts of collect
 
 Tools for tracking osu! data from a list of users.
 
-## [Hex to Binary Text](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/hex_to_binary_text)
-
-Simple script to convert hex to binary text. This will not read or write a file's hex or binary data. It only reads and writes text.
-
 ## [Pcap to Hex](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/pcap_to_hex)
 
 Script to write a hex dump from pcap data for every packet using tshark.
 
+## [Python Image Resizer](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/python_image_resizer/)
+
+Resizes all images in a folder to a specified size.
+
 ## [Wikipedia Full Width Always](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/wikipedia_full_width_always)
 
 Automatically set wikipedia pages to full width.
+
+## [Word List Compressor](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/word_list_compressor)
+
+Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
 
 ## [Youtube Shorts Desktop Redirect](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/youtube_shorts_desktop_redirect)
 
