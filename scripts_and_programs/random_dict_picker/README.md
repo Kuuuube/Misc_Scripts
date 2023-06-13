@@ -67,3 +67,7 @@ Python 3: [Download link](https://www.python.org/downloads/)
 # Notes
 
 - In the json file, the key is first and the value is second. For example, `"key": "value",`.
+
+- If you are using a dict containing unicode and have trouble displaying some of the characters you may need a better terminal emulator. 
+
+    I recommend alacritty, you can find my terminal emulator and shell settings [here](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/terminal_and_shell_config/).
