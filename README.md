@@ -54,6 +54,10 @@ Script to write a hex dump from pcap data for every packet using tshark.
 
 Resizes all images in a folder to a specified size.
 
+## [Random Dict Picker](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/random_dict_picker/)
+
+Command line study tool. Supports flashcards and repetition practice.
+
 ## [Wikipedia Full Width Always](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/wikipedia_full_width_always)
 
 Automatically set wikipedia pages to full width.
