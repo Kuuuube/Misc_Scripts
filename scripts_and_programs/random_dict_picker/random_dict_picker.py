@@ -90,7 +90,7 @@ args_parser.add_argument("-v", metavar="STR", help="dict value padder")
 args = args_parser.parse_args()
 
 try:
-    json_dict = json.load(open(args.f, "r"))
+    json_dict = json.load(open(args.f, "r", encoding="utf-8"))
 except Exception as e:
     print(e)
     sys.exit(1)
