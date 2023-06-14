@@ -3,17 +3,13 @@ import random
 import sys
 import argparse
 import os
+import collections
 
-json_path = None
-json_dict = None
-key_delimiter = ""
-value_delimiter = ""
-items_count = 1
-mode = "flashcard"
+settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode")
 
-def parse_args(args_list, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode):
+def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard")):
     args_parser = argparse.ArgumentParser()
-    if json_path == None:
+    if not settings.init:
         args_parser.add_argument("-f", metavar="FILE", required=True, help="json dict filepath to read")
     else:
         args_parser.add_argument("-f", metavar="FILE", help="json dict filepath to read")
@@ -23,38 +19,55 @@ def parse_args(args_list, json_path, json_dict, key_delimiter, value_delimiter, 
     args_parser.add_argument("-k", metavar="STR", help="dict key padder")
     args_parser.add_argument("-v", metavar="STR", help="dict value padder")
     args_parser.add_argument("-r", action="store_true", help="reload the current json file")
-    if json_path == None:
-        args = args_parser.parse_args(args=args_list)
-    else:
-        args, _ = args_parser.parse_known_args(args=args_list)
 
-    if json_path == None:
+    try:
+        args = args_parser.parse_args(args=args_list)
+    except SystemExit:
+        if not settings.init:
+            sys.exit(0)
+        sys.stdout.write("\033[F\033[K\033\033[F\033[K")
+        input("Invalid argument, press enter to continue...")
+        sys.stdout.write("\033[F\033[K")
+        return settings
+
+    json_path = settings.json_path
+    json_dict = settings.json_dict
+
+    if args.f:
         try:
             json_path = args.f
             json_dict = json.load(open(json_path, "r", encoding="utf-8"))
         except Exception as e:
             print(e)
             sys.exit(1)
-    elif args.r:
+
+    if args.r:
         try:
             json_dict = json.load(open(json_path, "r", encoding="utf-8"))
         except Exception as e:
             print(e)
             sys.exit(1)
 
-    key_delimiter = maybe(args.k, key_delimiter)
+    key_delimiter = maybe(args.k, settings.key_delimiter)
 
-    value_delimiter = maybe(args.v, value_delimiter)
+    value_delimiter = maybe(args.v, settings.value_delimiter)
 
-    items_count = maybe(args.c, items_count)
+    items_count = maybe(args.c, settings.items_count)
 
-    mode = maybe_enum(args.m, ["flashcard", "repeat"], mode)
+    mode = maybe_enum(args.m, ["flashcard", "repeat"], settings.mode)
 
     if args.flip:
-        json_dict = {v: k for k, v in json_dict.items()}
-        key_delimiter, value_delimiter = value_delimiter, key_delimiter
+        json_dict = {v: k for k, v in settings.json_dict.items()}
+        key_delimiter, value_delimiter = settings.value_delimiter, settings.key_delimiter
 
-    return json_path, json_dict, key_delimiter, value_delimiter, items_count, mode
+    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode)
+
+def request_args(settings):
+    check_for_args = input(":")
+    sys.stdout.write("\033[F\033[K\n")
+    if check_for_args != "":
+        new_settings = parse_args(check_for_args.split(" "), settings)
+        return new_settings
 
 def get_items_dict(input_dict, count):
     random_items = []
@@ -64,7 +77,7 @@ def get_items_dict(input_dict, count):
 
 def get_items_list(input_list, count):
     random_items = []
-    for i in range(count):
+    for _ in range(count):
         random_items.append(random.choice(input_list))
     return random_items
 
@@ -125,22 +138,19 @@ def repeat_mode(json_dict, key_delimiter, items_count):
 
 
 
-json_path, json_dict, key_delimiter, value_delimiter, items_count, mode = parse_args(sys.argv[1:], json_path, json_dict, key_delimiter, value_delimiter, items_count, mode)
+settings = parse_args(sys.argv[1:])
 
 try:
     os.system("cls" if os.name == "nt" else "clear")
     while True:
-        if mode == "flashcard":
-            flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count)
-        elif mode == "repeat":
-            repeat_mode(json_dict, key_delimiter, items_count)
+        if settings.mode == "flashcard":
+            flashcard_mode(settings.json_dict, settings.key_delimiter, settings.value_delimiter, settings.items_count)
+        elif settings.mode == "repeat":
+            repeat_mode(settings.json_dict, settings.key_delimiter, settings.items_count)
         else:
             print("Invalid mode selected")
             sys.exit(1)
 
-        check_for_args = input()
-        sys.stdout.write("\033[F\033[K\n")
-        if check_for_args != "":
-            json_path, json_dict, key_delimiter, value_delimiter, items_count, mode = parse_args(check_for_args.split(" "), json_path, json_dict, key_delimiter, value_delimiter, items_count, mode)
+        settings = maybe(request_args(settings), settings)
 except KeyboardInterrupt:
     sys.exit(0)
