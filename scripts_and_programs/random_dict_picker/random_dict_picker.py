@@ -8,10 +8,12 @@ import collections
 settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode")
 
 def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard")):
-    args_parser = argparse.ArgumentParser()
+    args_parser = argparse.ArgumentParser(add_help=False)
     if not settings.init:
+        args_parser.add_argument("-h", "--help", action="help", help="show this help message and exit.")
         args_parser.add_argument("-f", metavar="FILE", required=True, help="json dict filepath to read")
     else:
+        args_parser.add_argument("-h", "--help", action="store_true", help="show this help message and exit.")
         args_parser.add_argument("-f", metavar="FILE", help="json dict filepath to read")
     args_parser.add_argument("-m", metavar="MODE", help="(flashcard|repeat)")
     args_parser.add_argument("-c", metavar="INT", type=int, help="item count to display")
@@ -29,6 +31,11 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
         input("Invalid argument, press enter to continue...")
         sys.stdout.write("\033[F\033[K")
         return settings
+
+    if settings.init and args.help:
+        args_parser.print_usage()
+        input("Press enter to continue...")
+        sys.stdout.write("\033[F\033[K\033[F\033[K")
 
     json_path = settings.json_path
     json_dict = settings.json_dict
