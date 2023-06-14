@@ -46,7 +46,7 @@ random_dict_picker.py -f example_dict.json -c 10 -m repeat -k " "
 
 - Pressing enter will reveal the value.
 
-- Optionally, you may input any args to update the program state.
+- Optionally, at the `:` you may input any args to update the program state.
 
 - Pressing enter again will show the next key.
 
@@ -58,7 +58,7 @@ random_dict_picker.py -f example_dict.json -c 10 -m repeat -k " "
 
 - Pressing enter will check they key against your input and display green or red for correct or incorrect.
 
-- Optionally, you may input any args to update the program state.
+- Optionally, at the `:` you may input any args to update the program state.
 
 - Pressing enter again will show the next key.
 
