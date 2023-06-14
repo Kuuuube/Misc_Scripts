@@ -110,7 +110,8 @@ key_bindings:
   - { key: Minus,    mods: Control,       action: DecreaseFontSize }
   - { key: Minus,    mods: Control,       action: DecreaseFontSize }
   - { key: F11,                           action: ToggleFullscreen }
-  - { key: Key9,     mods: Control|Shift, action: SpawnNewInstance }
+  - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
+  - { key: Back,     mods: Control,       chars: "\u0017"          }
 
 mouse_bindings:
   - { mouse: Right, action: PasteSelection }
