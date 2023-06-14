@@ -38,27 +38,33 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
             json_path = args.f
             json_dict = json.load(open(json_path, "r", encoding="utf-8"))
         except Exception as e:
-            print(e)
-            sys.exit(1)
+            if not settings.init:
+                print(e)
+                sys.exit(1)
+            input("Failed to load file, press enter to continue...")
+            sys.stdout.write("\033[F\033[K")
 
     if args.r:
         try:
             json_dict = json.load(open(json_path, "r", encoding="utf-8"))
         except Exception as e:
-            print(e)
-            sys.exit(1)
-
-    key_delimiter = maybe(args.k, settings.key_delimiter)
-
-    value_delimiter = maybe(args.v, settings.value_delimiter)
-
-    items_count = maybe(args.c, settings.items_count)
+            if not settings.init:
+                print(e)
+                sys.exit(1)
+            input("Failed to reload file, press enter to continue...")
+            sys.stdout.write("\033[F\033[K")
 
     mode = maybe_enum(args.m, ["flashcard", "repeat"], settings.mode)
+
+    items_count = maybe(args.c, settings.items_count)
 
     if args.flip:
         json_dict = {v: k for k, v in settings.json_dict.items()}
         key_delimiter, value_delimiter = settings.value_delimiter, settings.key_delimiter
+
+    key_delimiter = maybe(args.k, settings.key_delimiter)
+
+    value_delimiter = maybe(args.v, settings.value_delimiter)
 
     return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode)
 
