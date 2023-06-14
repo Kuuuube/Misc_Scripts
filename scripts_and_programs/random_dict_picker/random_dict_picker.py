@@ -4,6 +4,62 @@ import sys
 import argparse
 import os
 
+json_path = None
+json_dict = None
+key_delimiter = ""
+value_delimiter = ""
+items_count = 1
+mode = "flashcard"
+
+def parse_args(args_list):
+    global json_path, json_dict, key_delimiter, value_delimiter, items_count, mode
+
+    args_parser = argparse.ArgumentParser()
+    if json_path == None:
+        args_parser.add_argument("-f", metavar="FILE", required=True, help="json dict filepath to read")
+    else:
+        args_parser.add_argument("-f", metavar="FILE", help="json dict filepath to read")
+    args_parser.add_argument("-m", metavar="MODE", help="(flashcard|repeat)")
+    args_parser.add_argument("-c", metavar="INT", type=int, help="item count to display")
+    args_parser.add_argument("--flip", action="store_true", help="flip keys and values")
+    args_parser.add_argument("-k", metavar="STR", help="dict key padder")
+    args_parser.add_argument("-v", metavar="STR", help="dict value padder")
+    args_parser.add_argument("-r", action="store_true", help="reload the current json file")
+    if json_path == None:
+        args = args_parser.parse_args(args=args_list)
+    else:
+        args, _ = args_parser.parse_known_args(args=args_list)
+
+    if json_path == None:
+        try:
+            json_path = args.f
+            json_dict = json.load(open(json_path, "r", encoding="utf-8"))
+        except Exception as e:
+            print(e)
+            sys.exit(1)
+    elif args.r:
+        try:
+            json_dict = json.load(open(json_path, "r", encoding="utf-8"))
+        except Exception as e:
+            print(e)
+            sys.exit(1)
+
+    if key_delimiter == "":
+        key_delimiter = maybe(args.k, "")
+
+    if value_delimiter == "":
+        value_delimiter = maybe(args.v, "")
+
+    if items_count == 1:
+        items_count = maybe(args.c, 1)
+
+    if mode == "flashcard":
+        mode = maybe(args.m, "flashcard")
+
+    if args.flip:
+        json_dict = {v: k for k, v in json_dict.items()}
+        key_delimiter, value_delimiter = value_delimiter, key_delimiter
+
 def get_items_dict(input_dict, count):
     random_items = []
     for i in range(count):
@@ -34,7 +90,8 @@ def write_string_diff(base_string, repeat_string):
         sys.stdout.write("\033[39m\033[49m") #reset color
     sys.stdout.write("\n")
 
-def flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count):
+def flashcard_mode():
+    global json_dict, key_delimiter, value_delimiter, items_count
     while True:
         random_items = get_items_dict(json_dict, items_count)
 
@@ -52,16 +109,15 @@ def flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count):
         for random_item in random_items:
             print(random_item[1] + value_delimiter, end="")
 
-        check_count = input("\n")
+        check_for_args = input("\n")
         sys.stdout.write("\033[F\033[K\n")
-        if check_count.replace("-c ", "").isdigit():
-            items_count = int(check_count.replace("-c ", ""))
-        elif check_count.lower().strip() == "--flip":
-            json_dict = {v: k for k, v in json_dict.items()}
-            key_delimiter, value_delimiter = value_delimiter, key_delimiter
+        if check_for_args != "":
+            parse_args(check_for_args.split(" "))
 
-def repeat_mode(json_list, key_delimiter, items_count):
+def repeat_mode():
+    global json_dict, key_delimiter, items_count
     while True:
+        json_list = list(json_dict.keys())
         random_items = get_items_list(json_list, items_count)
 
         base_string = ""
@@ -73,42 +129,20 @@ def repeat_mode(json_list, key_delimiter, items_count):
 
         write_string_diff(base_string, repeat_string)
 
-        check_count = input()
+        check_for_args = input()
         sys.stdout.write("\033[F\033[K\n")
-        if check_count.replace("-c ", "").isdigit():
-            items_count = int(check_count.replace("-c ", ""))
+        if check_for_args != "":
+            parse_args(check_for_args.split(" "))
 
 
 
-args_parser = argparse.ArgumentParser()
-args_parser.add_argument("-f", metavar="FILE", required=True, help="json dict filepath to read")
-args_parser.add_argument("-m", metavar="MODE", help="(flashcard|repeat)")
-args_parser.add_argument("-c", metavar="INT", type=int, help="item count to display")
-args_parser.add_argument("--flip", action="store_true", help="flip keys and values")
-args_parser.add_argument("-k", metavar="STR", help="dict key padder")
-args_parser.add_argument("-v", metavar="STR", help="dict value padder")
-args = args_parser.parse_args()
-
-try:
-    json_dict = json.load(open(args.f, "r", encoding="utf-8"))
-except Exception as e:
-    print(e)
-    sys.exit(1)
-
-key_delimiter = maybe(args.k, "")
-value_delimiter = maybe(args.v, "")
-items_count = maybe(args.c, 1)
-mode = maybe(args.m, "flashcard")
-
-if args.flip:
-    json_dict = {v: k for k, v in json_dict.items()}
-    key_delimiter, value_delimiter = value_delimiter, key_delimiter
+parse_args(sys.argv[1:])
 
 try:
     os.system("cls" if os.name == "nt" else "clear")
     if mode == "flashcard":
-        flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count)
+        flashcard_mode()
     elif mode == "repeat":
-        repeat_mode(list(json_dict.keys()), key_delimiter, items_count)
+        repeat_mode()
 except KeyboardInterrupt:
     sys.exit(0)

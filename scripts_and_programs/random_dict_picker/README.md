@@ -28,6 +28,8 @@ random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [-v STR]
 
 - `-v`: Dict value padder. This string will be printed between each value.
 
+- `-r`: Reload the current json dict.
+
 Example args (uses `example_dict.json`, displays 10 dict items at once, uses repeat mode, and adds a space for padding between keys):
 
 ```
@@ -44,7 +46,7 @@ random_dict_picker.py -f example_dict.json -c 10 -m repeat -k " "
 
 - Pressing enter will reveal the value.
 
-- Optionally, you may input `--flip` to flip they keys and values or `-c` followed by a number to edit the item count.
+- Optionally, you may input any args to update the program state.
 
 - Pressing enter again will show the next key.
 
@@ -56,7 +58,7 @@ random_dict_picker.py -f example_dict.json -c 10 -m repeat -k " "
 
 - Pressing enter will check they key against your input and display green or red for correct or incorrect.
 
-- Optionally, you may input `-c` followed by a number to edit the item count.
+- Optionally, you may input any args to update the program state.
 
 - Pressing enter again will show the next key.
 
