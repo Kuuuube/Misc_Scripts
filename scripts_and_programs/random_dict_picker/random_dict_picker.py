@@ -34,8 +34,9 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
     if settings.init and args.help:
         args_parser.print_usage()
-        input("Press enter to continue...")
+        new_settings = request_args(settings) #causes recursion
         sys.stdout.write("\033[F\033[K\033[F\033[K")
+        return new_settings
 
     json_path = settings.json_path
     json_dict = settings.json_dict
