@@ -11,9 +11,7 @@ value_delimiter = ""
 items_count = 1
 mode = "flashcard"
 
-def parse_args(args_list):
-    global json_path, json_dict, key_delimiter, value_delimiter, items_count, mode
-
+def parse_args(args_list, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode):
     args_parser = argparse.ArgumentParser()
     if json_path == None:
         args_parser.add_argument("-f", metavar="FILE", required=True, help="json dict filepath to read")
@@ -44,25 +42,23 @@ def parse_args(args_list):
             print(e)
             sys.exit(1)
 
-    if key_delimiter == "":
-        key_delimiter = maybe(args.k, "")
+    key_delimiter = maybe(args.k, key_delimiter)
 
-    if value_delimiter == "":
-        value_delimiter = maybe(args.v, "")
+    value_delimiter = maybe(args.v, value_delimiter)
 
-    if items_count == 1:
-        items_count = maybe(args.c, 1)
+    items_count = maybe(args.c, items_count)
 
-    if mode == "flashcard":
-        mode = maybe(args.m, "flashcard")
+    mode = maybe_enum(args.m, ["flashcard", "repeat"], mode)
 
     if args.flip:
         json_dict = {v: k for k, v in json_dict.items()}
         key_delimiter, value_delimiter = value_delimiter, key_delimiter
 
+    return json_path, json_dict, key_delimiter, value_delimiter, items_count, mode
+
 def get_items_dict(input_dict, count):
     random_items = []
-    for i in range(count):
+    for _ in range(count):
         random_items.append(random.choice(list(input_dict.items())))
     return random_items
 
@@ -74,6 +70,12 @@ def get_items_list(input_list, count):
 
 def maybe(value, default):
     if value == None:
+        return default
+    else:
+        return value
+
+def maybe_enum(value, enum, default):
+    if value not in enum:
         return default
     else:
         return value
@@ -90,59 +92,55 @@ def write_string_diff(base_string, repeat_string):
         sys.stdout.write("\033[39m\033[49m") #reset color
     sys.stdout.write("\n")
 
-def flashcard_mode():
-    global json_dict, key_delimiter, value_delimiter, items_count
-    while True:
-        random_items = get_items_dict(json_dict, items_count)
+def flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count):
+    random_items = get_items_dict(json_dict, items_count)
 
-        base_string = ""
-        for random_item in random_items:
-            base_string += random_item[1] + value_delimiter
-            print(random_item[0] + key_delimiter, end="")
+    base_string = ""
+    for random_item in random_items:
+        base_string += random_item[1] + value_delimiter
+        print(random_item[0] + key_delimiter, end="")
 
-        repeat_string = input("\n")
-        if repeat_string == "":
-            sys.stdout.write("\033[F")
-        else:
-            write_string_diff(base_string, repeat_string)
-
-        for random_item in random_items:
-            print(random_item[1] + value_delimiter, end="")
-
-        check_for_args = input("\n")
-        sys.stdout.write("\033[F\033[K\n")
-        if check_for_args != "":
-            parse_args(check_for_args.split(" "))
-
-def repeat_mode():
-    global json_dict, key_delimiter, items_count
-    while True:
-        json_list = list(json_dict.keys())
-        random_items = get_items_list(json_list, items_count)
-
-        base_string = ""
-        for random_item in random_items:
-            base_string += random_item
-            print(random_item, end="")
-            print(key_delimiter, end="")
-        repeat_string = input("\n")
-
+    repeat_string = input("\n")
+    if repeat_string == "":
+        sys.stdout.write("\033[F")
+    else:
         write_string_diff(base_string, repeat_string)
+
+    for random_item in random_items:
+        print(random_item[1] + value_delimiter, end="")
+    sys.stdout.write("\n")
+
+def repeat_mode(json_dict, key_delimiter, items_count):
+    json_list = list(json_dict.keys())
+    random_items = get_items_list(json_list, items_count)
+
+    base_string = ""
+    for random_item in random_items:
+        base_string += random_item
+        print(random_item, end="")
+        print(key_delimiter, end="")
+    repeat_string = input("\n")
+
+    write_string_diff(base_string, repeat_string)
+
+
+
+json_path, json_dict, key_delimiter, value_delimiter, items_count, mode = parse_args(sys.argv[1:], json_path, json_dict, key_delimiter, value_delimiter, items_count, mode)
+
+try:
+    os.system("cls" if os.name == "nt" else "clear")
+    while True:
+        if mode == "flashcard":
+            flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count)
+        elif mode == "repeat":
+            repeat_mode(json_dict, key_delimiter, items_count)
+        else:
+            print("Invalid mode selected")
+            sys.exit(1)
 
         check_for_args = input()
         sys.stdout.write("\033[F\033[K\n")
         if check_for_args != "":
-            parse_args(check_for_args.split(" "))
-
-
-
-parse_args(sys.argv[1:])
-
-try:
-    os.system("cls" if os.name == "nt" else "clear")
-    if mode == "flashcard":
-        flashcard_mode()
-    elif mode == "repeat":
-        repeat_mode()
+            json_path, json_dict, key_delimiter, value_delimiter, items_count, mode = parse_args(check_for_args.split(" "), json_path, json_dict, key_delimiter, value_delimiter, items_count, mode)
 except KeyboardInterrupt:
     sys.exit(0)
