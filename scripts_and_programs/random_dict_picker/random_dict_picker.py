@@ -5,9 +5,9 @@ import argparse
 import os
 import collections
 
-settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode")
+settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode clear")
 
-def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard")):
+def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False)):
     args_parser = argparse.ArgumentParser(add_help=False)
     if not settings.init:
         args_parser.add_argument("-h", "--help", action="help", help="show this help message and exit.")
@@ -21,6 +21,7 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
     args_parser.add_argument("-k", metavar="STR", help="dict key padder")
     args_parser.add_argument("-v", metavar="STR", help="dict value padder")
     args_parser.add_argument("-r", action="store_true", help="reload the current json file")
+    args_parser.add_argument("--clear", action="store_true", help="toggle clearing after each prompt")
 
     try:
         args = args_parser.parse_args(args=args_list)
@@ -74,7 +75,9 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
     value_delimiter = maybe(args.v, settings.value_delimiter)
 
-    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode)
+    clear = maybe(args.clear != settings.clear, settings.clear)
+
+    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, clear)
 
 def request_args(settings):
     check_for_args = input(":")
@@ -166,5 +169,8 @@ try:
             sys.exit(1)
 
         settings = maybe(request_args(settings), settings)
+
+        if settings.clear:
+            os.system("cls" if os.name == "nt" else "clear")
 except KeyboardInterrupt:
     sys.exit(0)

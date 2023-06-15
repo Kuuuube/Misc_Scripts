@@ -30,6 +30,8 @@ random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [-v STR]
 
 - `-r`: Reload the current json dict.
 
+- `--clear`: Toggle clearing after each prompt.
+
 Example args (uses `example_dict.json`, displays 10 dict items at once, uses repeat mode, and adds a space for padding between keys):
 
 ```
