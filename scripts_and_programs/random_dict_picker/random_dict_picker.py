@@ -75,7 +75,7 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
     value_delimiter = maybe(args.v, settings.value_delimiter)
 
-    clear = maybe(args.clear != settings.clear, settings.clear)
+    clear = args.clear != settings.clear
 
     return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, clear)
 
