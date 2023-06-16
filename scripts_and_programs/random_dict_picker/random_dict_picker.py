@@ -5,9 +5,9 @@ import argparse
 import os
 import collections
 
-settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode clear")
+settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode clear rowpad")
 
-def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False)):
+def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False, 0)):
     args_parser = argparse.ArgumentParser(add_help=False)
     if not settings.init:
         args_parser.add_argument("-h", "--help", action="help", help="show this help message and exit.")
@@ -22,6 +22,7 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
     args_parser.add_argument("-v", metavar="STR", help="dict value padder")
     args_parser.add_argument("-r", action="store_true", help="reload the current json file")
     args_parser.add_argument("--clear", action="store_true", help="toggle clearing after each prompt")
+    args_parser.add_argument("--rowpad", metavar="INT", type=int, help="row padding in newlines before displaying each prompt")
 
     try:
         args = args_parser.parse_args(args=args_list)
@@ -77,7 +78,9 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
     clear = args.clear != settings.clear
 
-    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, clear)
+    rowpad = maybe(args.rowpad, settings.rowpad)
+
+    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, clear, rowpad)
 
 def request_args(settings):
     check_for_args = input(":")
@@ -109,6 +112,10 @@ def maybe_enum(value, enum, default):
         return default
     else:
         return value
+
+def add_padding(padding):
+    for _ in range(settings.rowpad):
+        sys.stdout.write("\n")
 
 def write_string_diff(base_string, repeat_string):
     sys.stdout.write("\033[F\033[K")
@@ -159,6 +166,7 @@ settings = parse_args(sys.argv[1:])
 
 try:
     os.system("cls" if os.name == "nt" else "clear")
+    add_padding(settings.rowpad)
     while True:
         if settings.mode == "flashcard":
             flashcard_mode(settings.json_dict, settings.key_delimiter, settings.value_delimiter, settings.items_count)
@@ -172,5 +180,7 @@ try:
 
         if settings.clear:
             os.system("cls" if os.name == "nt" else "clear")
+
+        add_padding(settings.rowpad)
 except KeyboardInterrupt:
     sys.exit(0)

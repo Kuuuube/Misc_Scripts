@@ -9,7 +9,7 @@ Command line study tool. Supports flashcards and repetition practice.
 ## Args
 
 ```
-usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [-v STR] [-r] [--clear]
+random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [-v STR] [-r] [--clear] [--rowpad INT]
 ```
 
 ### Mandatory:
@@ -31,6 +31,8 @@ usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [
 - `-r`: Reload the current json dict.
 
 - `--clear`: Toggle clearing after each prompt.
+
+- `--rowpad`: Row padding in newlines before displaying each prompt.
 
 Example args (uses `example_dict.json`, displays 10 dict items at once, uses repeat mode, and adds a space for padding between keys):
 
