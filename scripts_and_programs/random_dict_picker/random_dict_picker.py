@@ -7,9 +7,9 @@ import collections
 import unicodedata
 import contextlib
 
-settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode clear rowpad")
+settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode clear toprowpad botrowpad")
 
-def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False, 0)):
+def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False, 0, 0)):
     args_parser = argparse.ArgumentParser(add_help=False)
     if not settings.init:
         args_parser.add_argument("-h", "--help", action="help", help="show this help message and exit.")
@@ -24,7 +24,8 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
     args_parser.add_argument("-v", metavar="STR", help="dict value padder")
     args_parser.add_argument("-r", action="store_true", help="reload the current json file")
     args_parser.add_argument("--clear", action="store_true", help="toggle clearing after each prompt")
-    args_parser.add_argument("--rowpad", metavar="INT", type=int, help="row padding in newlines before displaying each prompt")
+    args_parser.add_argument("--toprowpad", metavar="INT", type=int, help="row padding in newlines above each prompt")
+    args_parser.add_argument("--botrowpad", metavar="INT", type=int, help="row padding in newlines below each prompt")
 
     try:
         with contextlib.redirect_stderr(open(os.devnull, 'w')): #stop argparse from overreaching and printing its own errors
@@ -82,14 +83,16 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
     clear = args.clear != settings.clear
 
-    rowpad = maybe(args.rowpad, settings.rowpad)
+    toprowpad = maybe(args.toprowpad, settings.toprowpad)
 
-    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, clear, rowpad)
+    botrowpad = maybe(args.botrowpad, settings.botrowpad)
+
+    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, clear, toprowpad, botrowpad)
 
 def request_args(settings):
     check_for_args = input(":")
     remove_wrapped_string(":" + check_for_args)
-    sys.stdout.write("\n")
+    sys.stdout.write("\n\n")
     if check_for_args != "":
         new_settings = parse_args(check_for_args.split(" "), settings)
         return new_settings
@@ -118,9 +121,16 @@ def maybe_enum(value, enum, default):
     else:
         return value
 
-def add_padding(padding):
+def add_top_padding(padding):
     for _ in range(padding):
         sys.stdout.write("\n")
+
+def add_bottom_padding(padding):
+    for _ in range(padding):
+        sys.stdout.write("\n")
+    for _ in range(padding):
+        sys.stdout.write("\033[A")
+    sys.stdout.write("\033[F")
 
 def remove_wrapped_string(string):
     columns, _ = os.get_terminal_size()
@@ -194,8 +204,10 @@ settings = parse_args(sys.argv[1:])
 
 try:
     os.system("cls" if os.name == "nt" else "clear")
-    add_padding(settings.rowpad)
+    add_top_padding(settings.toprowpad)
     while True:
+        add_bottom_padding(settings.botrowpad)
+
         if settings.mode == "flashcard":
             flashcard_mode(settings.json_dict, settings.key_delimiter, settings.value_delimiter, settings.items_count)
         elif settings.mode == "repeat":
@@ -209,6 +221,6 @@ try:
         if settings.clear:
             os.system("cls" if os.name == "nt" else "clear")
 
-        add_padding(settings.rowpad)
+        add_top_padding(settings.toprowpad)
 except KeyboardInterrupt:
     sys.exit(0)
