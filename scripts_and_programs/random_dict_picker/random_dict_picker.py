@@ -4,6 +4,8 @@ import sys
 import argparse
 import os
 import collections
+import unicodedata
+import contextlib
 
 settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode clear rowpad")
 
@@ -25,19 +27,21 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
     args_parser.add_argument("--rowpad", metavar="INT", type=int, help="row padding in newlines before displaying each prompt")
 
     try:
-        args = args_parser.parse_args(args=args_list)
+        with contextlib.redirect_stderr(open(os.devnull, 'w')): #stop argparse from overreaching and printing its own errors
+            args = args_parser.parse_args(args=args_list)
     except SystemExit:
         if not settings.init:
             sys.exit(0)
-        sys.stdout.write("\033[F\033[K\033\033[F\033[K")
+
         input("Invalid argument, press enter to continue...")
-        sys.stdout.write("\033[F\033[K")
+        remove_wrapped_string("Invalid argument, press enter to continue...")
         return settings
 
     if settings.init and args.help:
-        args_parser.print_usage()
+        usage = args_parser.format_usage()
+        sys.stdout.write(usage)
         new_settings = request_args(settings) #causes recursion
-        sys.stdout.write("\033[F\033[K\033[F\033[K")
+        remove_wrapped_string(usage)
         return new_settings
 
     json_path = settings.json_path
@@ -52,7 +56,7 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
                 print(e)
                 sys.exit(1)
             input("Failed to load file, press enter to continue...")
-            sys.stdout.write("\033[F\033[K")
+            remove_wrapped_string("Failed to load file, press enter to continue...")
 
     if args.r:
         try:
@@ -62,7 +66,7 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
                 print(e)
                 sys.exit(1)
             input("Failed to reload file, press enter to continue...")
-            sys.stdout.write("\033[F\033[K")
+            remove_wrapped_string("Failed to reload file, press enter to continue...")
 
     mode = maybe_enum(args.m, ["flashcard", "repeat"], settings.mode)
 
@@ -84,7 +88,8 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
 def request_args(settings):
     check_for_args = input(":")
-    sys.stdout.write("\033[F\033[K\n")
+    remove_wrapped_string(":" + check_for_args)
+    sys.stdout.write("\n")
     if check_for_args != "":
         new_settings = parse_args(check_for_args.split(" "), settings)
         return new_settings
@@ -114,11 +119,34 @@ def maybe_enum(value, enum, default):
         return value
 
 def add_padding(padding):
-    for _ in range(settings.rowpad):
+    for _ in range(padding):
         sys.stdout.write("\n")
 
+def remove_wrapped_string(string):
+    columns, _ = os.get_terminal_size()
+
+    string_width = 1
+    for char in string:
+        if char == "\n":
+            string_width += columns
+            continue
+
+        char_width = unicodedata.east_asian_width(char)
+        match char_width:
+            case "A": string_width += 1 #Ambiguous, the terminal should renders these as narrow/halfwidth in almost all cases
+            case "F": string_width += 2 #Fullwidth
+            case "H": string_width += 1 #Halfwidth
+            case "N": string_width += 1 #Neutral, the same as narrow for a terminal
+            case "Na": string_width += 1 #Narrow
+            case "W": string_width += 2 #Wide
+
+    if string_width < columns:
+        string_width = columns
+    for _ in range(-(-string_width // columns)):
+        sys.stdout.write("\033[F\033[K")
+
 def write_string_diff(base_string, repeat_string):
-    sys.stdout.write("\033[F\033[K")
+    remove_wrapped_string(repeat_string)
     for base, repeat in zip(base_string, repeat_string):
         #rgb terminal text \033[38;2;<r>;<g>;<b>m
         if repeat == base:
