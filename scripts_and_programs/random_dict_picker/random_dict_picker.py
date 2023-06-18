@@ -6,10 +6,11 @@ import os
 import collections
 import unicodedata
 import contextlib
+import timeit
 
-settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode clear toprowpad botrowpad")
+settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode time clear toprowpad botrowpad")
 
-def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False, 0, 0)):
+def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False, False, 0, 0)):
     args_parser = argparse.ArgumentParser(add_help=False)
     if not settings.init:
         args_parser.add_argument("-h", "--help", action="help", help="show this help message and exit.")
@@ -23,6 +24,7 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
     args_parser.add_argument("-k", metavar="STR", help="dict key padder")
     args_parser.add_argument("-v", metavar="STR", help="dict value padder")
     args_parser.add_argument("-r", action="store_true", help="reload the current json file")
+    args_parser.add_argument("--time", action="store_true", help="show time taken after each prompt")
     args_parser.add_argument("--clear", action="store_true", help="toggle clearing after each prompt")
     args_parser.add_argument("--toprowpad", metavar="INT", type=int, help="row padding in newlines above each prompt")
     args_parser.add_argument("--botrowpad", metavar="INT", type=int, help="row padding in newlines below each prompt")
@@ -81,13 +83,15 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
     value_delimiter = maybe(args.v, settings.value_delimiter)
 
+    time = args.time != settings.time
+
     clear = args.clear != settings.clear
 
     toprowpad = maybe(args.toprowpad, settings.toprowpad)
 
     botrowpad = maybe(args.botrowpad, settings.botrowpad)
 
-    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, clear, toprowpad, botrowpad)
+    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, time, clear, toprowpad, botrowpad)
 
 def request_args(settings):
     check_for_args = input(":")
@@ -173,7 +177,7 @@ def flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count):
     base_string = ""
     for random_item in random_items:
         base_string += random_item[1] + value_delimiter
-        print(random_item[0] + key_delimiter, end="")
+        sys.stdout.write(random_item[0] + key_delimiter)
 
     repeat_string = input("\n")
     if repeat_string == "":
@@ -192,8 +196,8 @@ def repeat_mode(json_dict, key_delimiter, items_count):
     base_string = ""
     for random_item in random_items:
         base_string += random_item
-        print(random_item, end="")
-        print(key_delimiter, end="")
+        sys.stdout.write(random_item)
+        sys.stdout.write(key_delimiter)
     repeat_string = input("\n")
 
     write_string_diff(base_string, repeat_string)
@@ -208,6 +212,7 @@ try:
     while True:
         add_bottom_padding(settings.botrowpad)
 
+        start_time = timeit.default_timer()
         if settings.mode == "flashcard":
             flashcard_mode(settings.json_dict, settings.key_delimiter, settings.value_delimiter, settings.items_count)
         elif settings.mode == "repeat":
@@ -215,6 +220,9 @@ try:
         else:
             print("Invalid mode selected")
             sys.exit(1)
+
+        if settings.time:
+            sys.stdout.write(str(round(timeit.default_timer() - start_time, 2)) + "s\n")
 
         settings = maybe(request_args(settings), settings)
 
