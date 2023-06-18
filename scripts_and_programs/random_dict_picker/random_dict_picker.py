@@ -138,12 +138,16 @@ def maybe_enum(value, enum, default):
 def add_top_padding(padding):
     if padding < 1:
         padding = int(os.get_terminal_size().lines * padding)
+    else:
+        padding = int(padding)
     for _ in range(padding):
         sys.stdout.write("\n")
 
 def add_bottom_padding(padding):
     if padding < 1:
         padding = int(os.get_terminal_size().lines * padding)
+    else:
+        padding = int(padding)
     for _ in range(padding):
         sys.stdout.write("\n")
     for _ in range(padding):
