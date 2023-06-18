@@ -20,7 +20,7 @@ usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [
 
 - `-m`: `flashcard` or `repeat`. Default: `flashcard`.
 
-- `-c`: Item count to display at once. Default: `1`.
+- `-c`: Item count to display at once. Default: `1`. Use `0` to attempt to fill one full line in the terminal.
 
 - `--flip`: Flip keys and values.
 

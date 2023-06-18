@@ -103,14 +103,24 @@ def request_args(settings):
 
 def get_items_dict(input_dict, count):
     random_items = []
-    for _ in range(count):
-        random_items.append(random.choice(list(input_dict.items())))
+    if count == 0:
+        while str_width("".join(k[0] for k in random_items)) <= os.get_terminal_size().columns:
+            random_items.append(random.choice(list(input_dict.items())))
+        random_items.pop() #list will always end up larger than terminal by one element
+    else:
+        for _ in range(count):
+            random_items.append(random.choice(list(input_dict.items())))
     return random_items
 
 def get_items_list(input_list, count):
     random_items = []
-    for _ in range(count):
-        random_items.append(random.choice(input_list))
+    if count == 0:
+        while str_width("".join(random_items)) <= os.get_terminal_size().columns:
+            random_items.append(random.choice(input_list))
+        random_items.pop() #list will always end up larger than terminal by one element
+    else:
+        for _ in range(count):
+            random_items.append(random.choice(input_list))
     return random_items
 
 def maybe(value, default):
@@ -136,9 +146,8 @@ def add_bottom_padding(padding):
         sys.stdout.write("\033[A")
     sys.stdout.write("\033[F")
 
-def remove_wrapped_string(string):
-    columns, _ = os.get_terminal_size()
-
+def str_width(string):
+    columns = os.get_terminal_size().columns
     string_width = 1
     for char in string:
         if char == "\n":
@@ -153,6 +162,12 @@ def remove_wrapped_string(string):
             case "N": string_width += 1 #Neutral, the same as narrow for a terminal
             case "Na": string_width += 1 #Narrow
             case "W": string_width += 2 #Wide
+    return string_width
+
+def remove_wrapped_string(string):
+    columns = os.get_terminal_size().columns
+
+    string_width = str_width(string)
 
     if string_width < columns:
         string_width = columns
@@ -174,20 +189,20 @@ def write_string_diff(base_string, repeat_string):
 def flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count):
     random_items = get_items_dict(json_dict, items_count)
 
-    base_string = ""
+    base_string_key = ""
+    base_string_val = ""
     for random_item in random_items:
-        base_string += random_item[1] + value_delimiter
-        sys.stdout.write(random_item[0] + key_delimiter)
+        base_string_key += random_item[0] + key_delimiter
+        base_string_val += random_item[1] + value_delimiter
+    sys.stdout.write(base_string_key)
 
     repeat_string = input("\n")
     if repeat_string == "":
         sys.stdout.write("\033[F")
     else:
-        write_string_diff(base_string, repeat_string)
+        write_string_diff(base_string_val, repeat_string)
 
-    for random_item in random_items:
-        print(random_item[1] + value_delimiter, end="")
-    sys.stdout.write("\n")
+    sys.stdout.write(base_string_val + "\n")
 
 def repeat_mode(json_dict, key_delimiter, items_count):
     json_list = list(json_dict.keys())
@@ -195,9 +210,9 @@ def repeat_mode(json_dict, key_delimiter, items_count):
 
     base_string = ""
     for random_item in random_items:
-        base_string += random_item
-        sys.stdout.write(random_item)
-        sys.stdout.write(key_delimiter)
+        base_string += random_item + key_delimiter
+
+    sys.stdout.write(base_string)
     repeat_string = input("\n")
 
     write_string_diff(base_string, repeat_string)
