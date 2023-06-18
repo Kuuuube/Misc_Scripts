@@ -26,8 +26,8 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
     args_parser.add_argument("-r", action="store_true", help="reload the current json file")
     args_parser.add_argument("--time", action="store_true", help="show time taken after each prompt")
     args_parser.add_argument("--clear", action="store_true", help="toggle clearing after each prompt")
-    args_parser.add_argument("--toprowpad", metavar="INT", type=int, help="row padding in newlines above each prompt")
-    args_parser.add_argument("--botrowpad", metavar="INT", type=int, help="row padding in newlines below each prompt")
+    args_parser.add_argument("--toprowpad", metavar="INT", type=float, help="row padding in newlines above each prompt")
+    args_parser.add_argument("--botrowpad", metavar="INT", type=float, help="row padding in newlines below each prompt")
 
     try:
         with contextlib.redirect_stderr(open(os.devnull, 'w')): #stop argparse from overreaching and printing its own errors
@@ -136,10 +136,14 @@ def maybe_enum(value, enum, default):
         return value
 
 def add_top_padding(padding):
+    if padding < 1:
+        padding = int(os.get_terminal_size().lines * padding)
     for _ in range(padding):
         sys.stdout.write("\n")
 
 def add_bottom_padding(padding):
+    if padding < 1:
+        padding = int(os.get_terminal_size().lines * padding)
     for _ in range(padding):
         sys.stdout.write("\n")
     for _ in range(padding):

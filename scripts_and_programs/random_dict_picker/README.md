@@ -34,9 +34,9 @@ usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [
 
 - `--clear`: Toggle clearing after each prompt.
 
-- `--toprowpad`: Row padding in newlines above each prompt.
+- `--toprowpad`: Row padding in newlines above each prompt. Values <1 use a percent of the terminal size.
 
-- `--botrowpad`: Row padding in newlines below each prompt.
+- `--botrowpad`: Row padding in newlines below each prompt. Values <1 use a percent of the terminal size.
 
 Example args (uses `example_dict.json`, displays 10 dict items at once, uses repeat mode, and adds a space for padding between keys):
 
