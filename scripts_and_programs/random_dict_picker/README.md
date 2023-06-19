@@ -9,7 +9,7 @@ Command line study tool. Supports flashcards and repetition practice.
 ## Args
 
 ```
-usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [-v STR] [-r] [--time] [--clear] [--toprowpad FLOAT] [--botrowpad FLOAT]
+usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c FLOAT] [--flip] [-k STR] [-v STR] [-r] [--time] [--clear] [--toprowpad INT] [--botrowpad INT]
 ```
 
 ### Mandatory:
@@ -20,9 +20,9 @@ usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [
 
 - `-m`: `flashcard` or `repeat`. Default: `flashcard`.
 
-- `-c`: Item count to display at once. Default: `1`. Use `0` to attempt to fill one full line in the terminal.
+- `-c`: Item count to display at once. Default: `1`. `0` will attempt to fill one full line in the terminal. Values <1 will attempt to fill a percent of the terminal size.
 
-- `--flip`: Flip keys and values.
+- `--flip`: Flip dict keys and values.
 
 - `-k`: Dict key padder. This string will be printed between each key.
 

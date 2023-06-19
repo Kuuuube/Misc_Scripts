@@ -13,21 +13,21 @@ settings_tuple = collections.namedtuple("settings", "init json_path json_dict ke
 def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False, False, 0, 0)):
     args_parser = argparse.ArgumentParser(add_help=False)
     if not settings.init:
-        args_parser.add_argument("-h", "--help", action="help", help="show this help message and exit.")
-        args_parser.add_argument("-f", metavar="FILE", required=True, help="json dict filepath to read")
+        args_parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
+        args_parser.add_argument("-f", metavar="FILE", required=True, help="Json dict filepath to read.")
     else:
-        args_parser.add_argument("-h", "--help", action="store_true", help="show this help message and exit.")
-        args_parser.add_argument("-f", metavar="FILE", help="json dict filepath to read")
+        args_parser.add_argument("-h", "--help", action="store_true", help="Show this help message and exit.")
+        args_parser.add_argument("-f", metavar="FILE", help="Json dict filepath to read.")
     args_parser.add_argument("-m", metavar="MODE", help="(flashcard|repeat)")
-    args_parser.add_argument("-c", metavar="INT", type=int, help="item count to display")
-    args_parser.add_argument("--flip", action="store_true", help="flip keys and values")
-    args_parser.add_argument("-k", metavar="STR", help="dict key padder")
-    args_parser.add_argument("-v", metavar="STR", help="dict value padder")
-    args_parser.add_argument("-r", action="store_true", help="reload the current json file")
-    args_parser.add_argument("--time", action="store_true", help="show time taken after each prompt")
-    args_parser.add_argument("--clear", action="store_true", help="toggle clearing after each prompt")
-    args_parser.add_argument("--toprowpad", metavar="INT", type=float, help="row padding in newlines above each prompt")
-    args_parser.add_argument("--botrowpad", metavar="INT", type=float, help="row padding in newlines below each prompt")
+    args_parser.add_argument("-c", metavar="FLOAT", type=float, help="Item count to display. 0 will attempt to fill one full line in the terminal. Values <1 will attempt to fill a percent of the terminal size.")
+    args_parser.add_argument("--flip", action="store_true", help="Flip dict keys and values.")
+    args_parser.add_argument("-k", metavar="STR", help="Dict key padder. This string will be printed between each key.")
+    args_parser.add_argument("-v", metavar="STR", help="Dict value padder. This string will be printed between each value.")
+    args_parser.add_argument("-r", action="store_true", help="Reload the current json file")
+    args_parser.add_argument("--time", action="store_true", help="Show time taken after each prompt")
+    args_parser.add_argument("--clear", action="store_true", help="Toggle clearing after each prompt")
+    args_parser.add_argument("--toprowpad", metavar="INT", type=float, help="Row padding in newlines above each prompt. Values <1 use a percent of the terminal size.")
+    args_parser.add_argument("--botrowpad", metavar="INT", type=float, help="Row padding in newlines below each prompt. Values <1 use a percent of the terminal size.")
 
     try:
         with contextlib.redirect_stderr(open(os.devnull, 'w')): #stop argparse from overreaching and printing its own errors
@@ -101,25 +101,33 @@ def request_args(settings):
         new_settings = parse_args(check_for_args.split(" "), settings)
         return new_settings
 
-def get_items_dict(input_dict, count):
+def get_items_dict(input_dict, items_count):
     random_items = []
-    if count == 0:
+    if items_count == 0:
         while str_width("".join(k[0] for k in random_items)) <= os.get_terminal_size().columns:
             random_items.append(random.choice(list(input_dict.items())))
         random_items.pop() #list will always end up larger than terminal by one element
+    elif items_count < 1:
+        while str_width("".join(k[0] for k in random_items)) <= os.get_terminal_size().columns * items_count:
+            random_items.append(random.choice(list(input_dict.items())))
+        random_items.pop() #list will always end up larger than terminal percent by one element
     else:
-        for _ in range(count):
+        for _ in range(int(items_count)):
             random_items.append(random.choice(list(input_dict.items())))
     return random_items
 
-def get_items_list(input_list, count):
+def get_items_list(input_list, items_count):
     random_items = []
-    if count == 0:
+    if items_count == 0:
         while str_width("".join(random_items)) <= os.get_terminal_size().columns:
             random_items.append(random.choice(input_list))
         random_items.pop() #list will always end up larger than terminal by one element
+    elif items_count < 1:
+        while str_width("".join(random_items)) <= os.get_terminal_size().columns * items_count:
+            random_items.append(random.choice(input_list))
+        random_items.pop() #list will always end up larger than terminal percent by one element
     else:
-        for _ in range(count):
+        for _ in range(int(items_count)):
             random_items.append(random.choice(input_list))
     return random_items
 
