@@ -156,7 +156,7 @@ def add_bottom_padding(padding):
 
 def str_width(string):
     columns = os.get_terminal_size().columns
-    string_width = 1
+    string_width = 0
     for char in string:
         if char == "\n":
             string_width += columns
@@ -175,7 +175,7 @@ def str_width(string):
 def remove_wrapped_string(string):
     columns = os.get_terminal_size().columns
 
-    string_width = str_width(string)
+    string_width = str_width(string) + 1
 
     if string_width < columns:
         string_width = columns
