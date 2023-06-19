@@ -9,7 +9,7 @@ Command line study tool. Supports flashcards and repetition practice.
 ## Args
 
 ```
-usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [-v STR] [-r] [--time] [--clear] [--toprowpad INT] [--botrowpad INT]
+usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c INT] [--flip] [-k STR] [-v STR] [-r] [--time] [--clear] [--toprowpad FLOAT] [--botrowpad FLOAT]
 ```
 
 ### Mandatory:
@@ -78,6 +78,6 @@ Python 3: [Download link](https://www.python.org/downloads/)
 
 - In the json file, the key is first and the value is second. For example, `"key": "value",`.
 
-- If you are using a dict containing unicode and have trouble displaying some of the characters you may need a better terminal emulator. 
+- If you have trouble displaying anything, you may need a better terminal emulator. 
 
     I recommend alacritty, you can find my terminal emulator and shell settings [here](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/terminal_and_shell_config/).
