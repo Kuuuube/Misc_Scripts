@@ -64,7 +64,7 @@ random_dict_picker.py -f example_dict.json -c 10 -m repeat -k " "
 
 - You should input the text that is displayed.
 
-- Pressing enter will check they key against your input and display green or red for correct or incorrect.
+- Pressing enter will check the key against your input and display green or red for correct or incorrect.
 
 - Optionally, at the `:` you may input any args to update the program state.
 
