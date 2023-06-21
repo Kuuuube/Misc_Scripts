@@ -16,6 +16,12 @@ usage: random_dict_picker.py [-h] -f FILE [-m MODE] [-c FLOAT] [--flip] [-k STR]
 
 - `-f`: Json dict filepath to read. An example file, `example_dict.json`, has been included.
 
+    This arg may be invoked multiple times to randomize the json dict selected for each prompt. For example, to randomize between the files `file1` and `file2`: 
+    
+    ```
+    random_dict_picker.py -f file1 -f file2
+    ```
+
 ### Optional:
 
 - `-m`: `flashcard` or `repeat`. Default: `flashcard`.

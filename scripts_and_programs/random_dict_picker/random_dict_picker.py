@@ -8,16 +8,16 @@ import unicodedata
 import contextlib
 import timeit
 
-settings_tuple = collections.namedtuple("settings", "init json_path json_dict key_delimiter value_delimiter items_count mode time clear toprowpad botrowpad")
+settings_tuple = collections.namedtuple("settings", "init json_paths json_dicts key_delimiter value_delimiter items_count mode time clear toprowpad botrowpad")
 
-def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1, "flashcard", False, False, 0, 0)):
+def parse_args(args_list, settings = settings_tuple(False, [], [], "", "", 1, "flashcard", False, False, 0, 0)):
     args_parser = argparse.ArgumentParser(add_help=False)
     if not settings.init:
         args_parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
-        args_parser.add_argument("-f", metavar="FILE", required=True, help="Json dict filepath to read.")
+        args_parser.add_argument("-f", metavar="FILE", required=True, action="append", help="Json dict filepath to read.")
     else:
         args_parser.add_argument("-h", "--help", action="store_true", help="Show this help message and exit.")
-        args_parser.add_argument("-f", metavar="FILE", help="Json dict filepath to read.")
+        args_parser.add_argument("-f", metavar="FILE", action="append", help="Json dict filepath to read.")
     args_parser.add_argument("-m", metavar="MODE", help="(flashcard|repeat)")
     args_parser.add_argument("-c", metavar="FLOAT", type=float, help="Item count to display. 0 will attempt to fill one full line in the terminal. Values <1 will attempt to fill a percent of the terminal size.")
     args_parser.add_argument("--flip", action="store_true", help="Flip dict keys and values.")
@@ -47,13 +47,15 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
         remove_wrapped_string(usage)
         return new_settings
 
-    json_path = settings.json_path
-    json_dict = settings.json_dict
+    json_paths = settings.json_paths
+    json_dicts = settings.json_dicts
 
     if args.f:
         try:
-            json_path = args.f
-            json_dict = json.load(open(json_path, "r", encoding="utf-8"))
+            json_paths = args.f
+            json_dicts = []
+            for json_path in json_paths:
+                json_dicts.append(json.load(open(json_path, "r", encoding="utf-8")))
         except Exception as e:
             if not settings.init:
                 print(e)
@@ -63,7 +65,9 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
     if args.r:
         try:
-            json_dict = json.load(open(json_path, "r", encoding="utf-8"))
+            json_dicts = []
+            for json_path in json_paths:
+                json_dicts.append(json.load(open(json_path, "r", encoding="utf-8")))
         except Exception as e:
             if not settings.init:
                 print(e)
@@ -91,7 +95,7 @@ def parse_args(args_list, settings = settings_tuple(False, None, None, "", "", 1
 
     botrowpad = maybe(args.botrowpad, settings.botrowpad)
 
-    return settings_tuple(True, json_path, json_dict, key_delimiter, value_delimiter, items_count, mode, time, clear, toprowpad, botrowpad)
+    return settings_tuple(True, json_paths, json_dicts, key_delimiter, value_delimiter, items_count, mode, time, clear, toprowpad, botrowpad)
 
 def request_args(settings):
     check_for_args = input(":")
@@ -245,9 +249,9 @@ try:
 
         start_time = timeit.default_timer()
         if settings.mode == "flashcard":
-            flashcard_mode(settings.json_dict, settings.key_delimiter, settings.value_delimiter, settings.items_count)
+            flashcard_mode(random.choice(settings.json_dicts), settings.key_delimiter, settings.value_delimiter, settings.items_count)
         elif settings.mode == "repeat":
-            repeat_mode(settings.json_dict, settings.key_delimiter, settings.items_count)
+            repeat_mode(random.choice(settings.json_dicts), settings.key_delimiter, settings.items_count)
         else:
             print("Invalid mode selected")
             sys.exit(1)
