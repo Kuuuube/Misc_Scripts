@@ -30,8 +30,11 @@ def parse_args(args_list, settings = settings_tuple(False, [], [], "", "", 1, "f
     args_parser.add_argument("--botrowpad", metavar="INT", type=float, help="Row padding in newlines below each prompt. Values <1 use a percent of the terminal size.")
 
     try:
-        with contextlib.redirect_stderr(open(os.devnull, 'w')): #stop argparse from overreaching and printing its own errors
+        if not settings.init:
             args = args_parser.parse_args(args=args_list)
+        else:
+            with contextlib.redirect_stderr(open(os.devnull, 'w')): #stop argparse from overreaching and printing its own errors
+                args = args_parser.parse_args(args=args_list)
     except SystemExit:
         if not settings.init:
             sys.exit(0)
