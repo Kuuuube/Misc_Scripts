@@ -11,7 +11,7 @@ import timeit
 settings_tuple = collections.namedtuple("settings", "init json_paths json_dicts key_delimiter value_delimiter items_count mode time clear toprowpad botrowpad")
 
 def parse_args(args_list, settings = settings_tuple(False, [], [], "", "", 1, "flashcard", False, False, 0, 0)):
-    args_parser = argparse.ArgumentParser(add_help=False)
+    args_parser = argparse.ArgumentParser(add_help=False, allow_abbrev=False)
     if not settings.init:
         args_parser.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
         args_parser.add_argument("-f", metavar="FILE", required=True, action="append", help="Json dict filepath to read.")
