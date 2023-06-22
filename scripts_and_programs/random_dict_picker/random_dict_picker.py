@@ -147,6 +147,12 @@ def maybe_enum(value, enum, default):
     else:
         return value
 
+def maybe_index(value, index, default):
+    if index >= 0 and index < len(value):
+        return value[index]
+    else:
+        return default
+
 def add_top_padding(padding):
     if padding < 1:
         padding = int(os.get_terminal_size().lines * padding)
@@ -196,7 +202,10 @@ def remove_wrapped_string(string):
 
 def write_string_diff(base_string, repeat_string):
     remove_wrapped_string(repeat_string)
-    for base, repeat in zip(base_string, repeat_string):
+    i = 0
+    while i < len(repeat_string):
+        base = maybe_index(base_string, i, "")
+        repeat = maybe_index(repeat_string, i, "")
         #rgb terminal text \033[38;2;<r>;<g>;<b>m
         if repeat == base:
             sys.stdout.write("\033[38;2;0;255;0m") #green
@@ -204,6 +213,8 @@ def write_string_diff(base_string, repeat_string):
             sys.stdout.write("\033[38;2;255;0;0m") #red
         sys.stdout.write(repeat)
         sys.stdout.write("\033[39m\033[49m") #reset color
+
+        i += 1
     sys.stdout.write("\n")
 
 def flashcard_mode(json_dict, key_delimiter, value_delimiter, items_count):
