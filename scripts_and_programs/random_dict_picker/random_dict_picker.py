@@ -55,10 +55,13 @@ def parse_args(args_list, settings = settings_tuple(False, [], [], "", "", 1, "f
 
     if args.f:
         try:
-            json_paths = args.f
-            json_dicts = []
-            for json_path in json_paths:
-                json_dicts.append(json.load(open(json_path, "r", encoding="utf-8")))
+            new_json_paths = args.f
+            new_json_dicts = []
+            for json_path in new_json_paths:
+                new_json_dicts.append(json.load(open(json_path, "r", encoding="utf-8")))
+
+            json_paths = new_json_paths
+            json_dicts = new_json_dicts
         except Exception as e:
             if not settings.init:
                 print(e)
@@ -68,9 +71,11 @@ def parse_args(args_list, settings = settings_tuple(False, [], [], "", "", 1, "f
 
     if args.r:
         try:
-            json_dicts = []
+            new_json_dicts = []
             for json_path in json_paths:
-                json_dicts.append(json.load(open(json_path, "r", encoding="utf-8")))
+                new_json_dicts.append(json.load(open(json_path, "r", encoding="utf-8")))
+
+            json_dicts = new_json_dicts
         except Exception as e:
             if not settings.init:
                 print(e)
@@ -83,7 +88,11 @@ def parse_args(args_list, settings = settings_tuple(False, [], [], "", "", 1, "f
     items_count = maybe(args.c, settings.items_count)
 
     if args.flip:
-        json_dict = {v: k for k, v in settings.json_dict.items()}
+        new_json_dicts = []
+        for json_dict in settings.json_dicts:
+            new_json_dicts.append({v: k for k, v in json_dict.items()})
+
+        json_dicts = new_json_dicts
         key_delimiter, value_delimiter = settings.value_delimiter, settings.key_delimiter
 
     key_delimiter = maybe(args.k, settings.key_delimiter)
