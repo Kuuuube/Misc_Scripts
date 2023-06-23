@@ -89,7 +89,7 @@ def parse_args(args_list, settings = settings_tuple(False, [], [], "", "", 1, "f
 
     if args.flip:
         new_json_dicts = []
-        for json_dict in settings.json_dicts:
+        for json_dict in json_dicts:
             new_json_dicts.append({v: k for k, v in json_dict.items()})
 
         json_dicts = new_json_dicts
