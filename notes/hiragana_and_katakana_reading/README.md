@@ -24,7 +24,7 @@ A method to learn to read Hiragana and Katakana incredibly fast through typing.
 
 - Skip down to [Random Dict Picker Usage](./README.md#random-dict-picker-usage). This is the basic details of how you should run Random Dict Picker for the purposes of this guide. The files to use are detailed in the next step.
 
-    Make sure to use the ways of typing that are closest to the pronunciation as opposed to the "optimal" way of typing the characters. For example, `つ` can be typed by inputting `tsu` or `tu`. You will want to input `tsu` as it is closest to should sound.
+    Make sure to use the ways of typing that are closest to the pronunciation as opposed to the "optimal" way of typing the characters. For example, `つ` can be typed by inputting `tsu` or `tu`. You will want to input `tsu` as it is closest to the sound.
 
     If you don't already know how to pronounce Japanese syllables I suggest watching this: [Learn Hiragana ひらがな](https://www.youtube.com/watch?v=Bsfi4XbPE8M) ([archive.org mirror](https://web.archive.org/web/0/https://www.youtube.com/watch?v=Bsfi4XbPE8M&gl=US&hl=en))
 
@@ -34,25 +34,25 @@ A method to learn to read Hiragana and Katakana incredibly fast through typing.
 
     I define the amount of comfort required to move on as being able to read any character in the level within 5-10 seconds. This may sound very slow but knowing every character is much more important than speed.
 
-- I have also included a hiragana (`hiragana_table_plaintext.txt`) and katakana chart (`katakana_table_plaintext.txt`). You can open these up in any text editor or viewer. If you would prefer, you can use your own hiragana and katakana chart. Make sure to zoom these in so you can properly read them, you don't want to be counting pixels and looking at jagged lines.
+- I have also included a hiragana (`hiragana_table_plaintext.txt`) and katakana chart (`katakana_table_plaintext.txt`). You can open these up in any text editor or viewer. If you would prefer, you can use your own hiragana and katakana chart. Make sure to zoom these in so you can properly read them, you want them to show somewhat thick, not thin 1px lines.
 
-    Every time you get stuck on a character don't start randomly pressing keys hoping to get it and don't skip the character either. Take a look at the chart and then type it correctly. 
+    Every time you get stuck on a character, don't start randomly pressing keys hoping to get it and don't skip the character either. Take a look at the chart and type it correctly. 
 
-    Excluding the start of each level where you don't know the new characters yet, you want to look at the chart as little as possible. Try to think about it for a few seconds before looking over.
+    Excluding the start of each level where you don't know the new characters yet, you want to look at the chart as little as possible. Try to think about the character you're stuck on for a few seconds before looking over.
 
 - After you feel comfortable with levels 1-15, you should try the `hiragana_sutegana.json` and `katakana_sutegana.json` files.
 
     Sutegana are small versions of hiragana and katakana that are attatched to the characters around them. For example, in `にゃ`, `ゃ` is a sutegana.
 
-    These are not hard once you know how to read the rest of hiragana or katakana.
+    These are not hard once you know how to read the rest of hiragana or katakana. `にゃ` is just `に` (`ni`) and `や` (`ya`) mashed together to create `にゃ` (`nya`). There are a few such as `じゃ` or `ちゃ` which are slightly different but they shouldn't be hard to figure out. (Don't forget about the pronunciation guide I linked above if you're unsure)
 
 - Things this guide lacks:
 
-    One important sutegana that not included in the files for this guide is `っ` or `ッ`. These are そくおん or sokuon and they usually act to extend the consonant sound that comes after it. For example, in `まって` or `matte` it becomes an extra "t" for the `て` or `te`. You can type a sokuon in a word by simply repeating the consonant before a character twice (typing `matte` will automatically result in `まって`) or you can specifically type it with `xtsu` or `ltsu`. (All small characters can be typed by appending `x` or `l` to the start of them. For example `xyu` or `lyu` results in `ゅ`)
+    An important sutegana that not included in the files for this guide is `っ` or `ッ`. These are そくおん or sokuon and they usually act to extend the consonant sound that comes after it. For example, in `まって` or `matte` the sokuon becomes an extra "t" for the `て` or `te`. You can type a sokuon in a word by simply repeating the consonant before a character twice (typing `matte` will automatically result in `まって`) or you can specifically type it with `xtsu` or `ltsu`. (All small characters can be typed by appending `x` or `l` to the start of them. For example `xyu` or `lyu` results in `ゅ`)
 
     You may also see sutegana looking like this `ぁぃぅぇぉ` that also aren't included in this guide's files. These are less used but you may see them occasionally. For example, `ふぁ` sounds like `fa` and can also be typed like that. Generally, the way these act should be obvious.
 
-    Another important character missing from this guide is the chōonpu. It looks like a long dash `ー` and can be typed by inputting a dash. It is mostly used in katakana and extends a vowel sound. (In hiragana, you will usually see an extra vowel character (あいうえお) instead of a chōonpu to extend the vowel sound)
+    Another important character missing from this guide is the chōonpu. It looks like a long dash `ー` and can be typed by inputting a dash. It is mostly used in katakana and extends a vowel sound. (In hiragana, you will usually see an extra vowel character (`あいうえお`) instead of a chōonpu to extend the vowel sound)
 
     The last things missing from this guide are `ゐゑぢづぢゃぢゅぢょ` (`ヰヱヂヅヂャヂュヂョ`). These are uncommon. `ゐ` and `ゑ` (`ヰ` and `ヱ`) are near obselete kana. It's good to be aware of their existence but they aren't very important. Feel free to learn them if you are interested. `ぢ` and `づ` (`ヂ` and `ヅ`) are not as uncommon but are typically superceded by `じ` and `ず` (`ジ` and `ズ`) which are pronounced the same. The versions with added sutegana are also pronounced the same. All of these are uncommon enough that your IME won't let you type them easily.
 
@@ -66,7 +66,7 @@ A method to learn to read Hiragana and Katakana incredibly fast through typing.
 
     Replace `input_file.json` with the file you want to use
 
-- You should see a prompt appear. You need to type the prompt exactly as it shows then press enter. You should backspace and correct any mistakes you notice as you are typing but don't bother proofreading everything you typed right before you press enter.
+- You should see a string of characters appear. You need to type the prompt exactly as it shows then press enter. You should backspace and correct any mistakes you notice as you are typing but don't bother proofreading everything you typed right before you press enter.
 
     Correct characters will be highlighted in green, mistakes will be highlighted in red.
 
@@ -74,7 +74,7 @@ A method to learn to read Hiragana and Katakana incredibly fast through typing.
 
 - After you have completed a prompt, you may then press enter again at the `:` to move on to the next prompt.
 
-- If you want to change which file you're currently using you dont need to restart Random Dict Picker. Instead, send the following arg at the `:` after a prompt.
+- If you want to change which file you're currently using, you dont need to restart Random Dict Picker. Instead, send the following arg at the `:` after a prompt.
 
     ```
     -f input_file.json
@@ -82,12 +82,14 @@ A method to learn to read Hiragana and Katakana incredibly fast through typing.
 
 ## Notes
 
-- I learned all the hiragana and katakana in this guide in just over a week spending around an hour a day on this. I think most people should be able learn it equally as fast or faster. You don't need to take an hour each day either, you can make great progress from just 10-30 mins a day.
+- I learned all the hiragana and katakana in this guide in just over a week spending less than an hour a day on this. I think most people should be able learn it equally as fast or faster. You don't need to study an hour each day either, you can make great progress from just 10-30 mins a day.
 
     Years before I actually learned hiragana and katakana using this method I had tried other things and given up after a few months of little to no progress. I randomly happened to get the idea for learning this through typing and had no trouble remembering the characters after some practice. I kept increasing the number of characters to remember and ended up learning all of it easily.
 
-- I am not an expert on Japanese teaching or anything remotely close to that. I've written this guide to share the method that worked best for me.
+- I am not an expert on Japanese teaching or anything remotely close to that. I've written this guide to share the method that worked well for me.
 
-- If you want to learn to read AND write hiragana and katakana, you do need to practice physical writing as well not just typing. However, it is certainly easier to learn to write hiragana and katakana when you already know how to read it and have a general idea of how the characters work.
+- If you want to learn to read AND write hiragana and katakana, you do need to practice physical writing as well, not just typing. However, it is certainly easier to learn to write hiragana and katakana when you already know how to read it and have a general idea of how the characters work.
 
 - If you do not know how to touch type and rely on "hunt and peck", the speed of your progress with this method may be hindered.
+
+- I found it helpful to say the characters as I typed them. Not loudly, just quietly, under my breath. (Not that there's anything wrong with saying them loudly if you wish)
