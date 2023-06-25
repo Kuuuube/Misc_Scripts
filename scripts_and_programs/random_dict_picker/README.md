@@ -86,4 +86,4 @@ Python 3: [Download link](https://www.python.org/downloads/)
 
 - If you have trouble displaying anything, you may need a better terminal emulator. 
 
-    I recommend alacritty, you can find my terminal emulator and shell settings [here](https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/terminal_and_shell_config/).
+    I recommend alacritty, you can find my terminal emulator and shell settings [here](../../scripts_and_programs/terminal_and_shell_config/).
