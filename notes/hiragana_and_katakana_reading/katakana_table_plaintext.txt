@@ -1,0 +1,83 @@
+ア	イ	ウ	エ	オ
+a	i	u	e	o
+				
+カ	キ	ク	ケ	コ
+ka	ki	ku	ke	ko
+				
+サ	シ	ス	セ	ソ
+sa	shi	su	se	so
+				
+タ	チ	ツ	テ	ト
+ta	chi	tsu	te	to
+				
+ナ	ニ	ヌ	ネ	ノ
+na	ni	nu	ne	no
+				
+ハ	ヒ	フ	ヘ	ホ
+ha	hi	fu	he	ho
+				
+マ	ミ	ム	メ	モ
+ma	mi	mu	me	mo
+				
+ヤ		ユ		ヨ
+ya		yu		yo
+				
+ラ	リ	ル	レ	ロ
+ra	ri	ru	re	ro
+				
+ワ	ヰ		ヱ	ヲ
+wa	i		e	wo
+				
+ン				
+n				
+				
+ガ	ギ	グ	ゲ	ゴ
+ga	gi	gu	ge	go
+				
+ザ	ジ	ズ	ゼ	ゾ
+za	ji	zu	ze	zo
+				
+ダ	ヂ	ヅ	デ	ド
+da	ji	zu	de	do
+				
+バ	ビ	ブ	ベ	ボ
+ba	bi	bu	be	bo
+				
+パ	ピ	プ	ペ	ポ
+pa	pi	pu	pe	po
+				
+キャ		キュ		キョ
+kya		kyu		kyo
+				
+シャ		シュ		ショ
+sha		shu		sho
+				
+チャ		チュ		チョ
+cha		chu		cho
+				
+ニャ		ニュ		ニョ
+nya		nyu		nyo
+				
+ヒャ		ヒュ		ヒョ
+hya		hyu		hyo
+				
+ミャ		ミュ		ミョ
+mya		myu		myo
+				
+リャ		リュ		リョ
+rya		ryu		ryo
+				
+ギャ		ギュ		ギョ
+gya		gyu		gyo
+				
+ジャ		ジュ		ジョ
+ja		ju		jo
+				
+ヂャ		ヂュ		ヂョ
+ja		ju		jo
+				
+ビャ		ビュ		ビョ
+bya		byu		byo
+				
+ピャ		ピュ		ピョ
+pya		pyu		pyo

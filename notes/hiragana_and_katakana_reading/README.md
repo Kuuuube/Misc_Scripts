@@ -1,0 +1,93 @@
+# Hiragana and Katakana Reading
+
+A method to learn to read Hiragana and Katakana incredibly fast through typing.
+
+## Guide
+
+- Install a Japanese IME.
+
+    Windows: Install [the Japanese Language and Microsoft IME](https://support.microsoft.com/en-us/windows/install-a-language-for-windows-ccd853d3-9ecd-7da7-9ef0-72b4a055410a), Install [Google IME](https://www.google.co.jp/ime/), or Install [Mozc](https://github.com/google/mozc) (Download from github actions)
+
+    Linux: Install [Mozc](https://github.com/google/mozc)
+
+- You should now be able to switch between typing with your standard keyboard settings and typing with Japanese IME input. You will want to use romanji conversion to kana and not direct kana input.
+
+    If you are using Microsoft IME style keybinds, you can press ``Alt + ` `` to switch from standard keyboard input to Japanese IME input. (`Alt + Caps` and `Ctrl + Caps` to switch between hiragana and katakana)
+
+    To test if it's working, try typing something. For example, `a` should turn into `あ`. (Depending on the IME you may need to enable and disable per application so check that it hasn't disabled itself if you have issues)
+
+- Download [Random Dict Picker](../../scripts_and_programs/random_dict_picker/) and install the dependencies it mentions. Don't worry about the program usage instructions.
+
+- Make sure you have a good terminal emulator. If you're on Windows, CMD or Powershell may not suffice. [Alacritty](https://alacritty.org/) is a nice simple terminal you can install.
+
+    Optionally, you can also copy my [Terminal and Shell Config](../../scripts_and_programs/terminal_and_shell_config/). However, the default settings of any good terminal will work for the purposes of this guide.
+
+- Skip down to [Random Dict Picker Usage](./README.md#random-dict-picker-usage). This is the basic details of how you should run Random Dict Picker for the purposes of this guide. The files to use are detailed in the next step.
+
+    Make sure to use the ways of typing that are closest to the pronunciation as opposed to the "optimal" way of typing the characters. For example, `つ` can be typed by inputting `tsu` or `tu`. You will want to input `tsu` as it is closest to should sound.
+
+    If you don't already know how to pronounce Japanese syllables I suggest watching this: [Learn Hiragana ひらがな](https://www.youtube.com/watch?v=Bsfi4XbPE8M) ([archive.org mirror](https://web.archive.org/web/0/https://www.youtube.com/watch?v=Bsfi4XbPE8M&gl=US&hl=en))
+
+- I have included json files for each step of learning in the `Levels` folder. These are the files you should input into Random Dict Picker.
+
+    You should start at `hiragana_level_01.json` and move up each time you feel somewhat comfortable with the current level. Only start on katakana after you have completed all hiragana levels.
+
+    I define the amount of comfort required to move on as being able to read any character in the level within 5-10 seconds. This may sound very slow but knowing every character is much more important than speed.
+
+- I have also included a hiragana (`hiragana_table_plaintext.txt`) and katakana chart (`katakana_table_plaintext.txt`). You can open these up in any text editor or viewer. If you would prefer, you can use your own hiragana and katakana chart. Make sure to zoom these in so you can properly read them, you don't want to be counting pixels and looking at jagged lines.
+
+    Every time you get stuck on a character don't start randomly pressing keys hoping to get it and don't skip the character either. Take a look at the chart and then type it correctly. 
+
+    Excluding the start of each level where you don't know the new characters yet, you want to look at the chart as little as possible. Try to think about it for a few seconds before looking over.
+
+- After you feel comfortable with levels 1-15, you should try the `hiragana_sutegana.json` and `katakana_sutegana.json` files.
+
+    Sutegana are small versions of hiragana and katakana that are attatched to the characters around them. For example, in `にゃ`, `ゃ` is a sutegana.
+
+    These are not hard once you know how to read the rest of hiragana or katakana.
+
+- Things this guide lacks:
+
+    One important sutegana that not included in the files for this guide is `っ` or `ッ`. These are そくおん or sokuon and they usually act to extend the consonant sound that comes after it. For example, in `まって` or `matte` it becomes an extra "t" for the `て` or `te`. You can type a sokuon in a word by simply repeating the consonant before a character twice (typing `matte` will automatically result in `まって`) or you can specifically type it with `xtsu` or `ltsu`. (All small characters can be typed by appending `x` or `l` to the start of them. For example `xyu` or `lyu` results in `ゅ`)
+
+    You may also see sutegana looking like this `ぁぃぅぇぉ` that also aren't included in this guide's files. These are less used but you may see them occasionally. For example, `ふぁ` sounds like `fa` and can also be typed like that. Generally, the way these act should be obvious.
+
+    Another important character missing from this guide is the chōonpu. It looks like a long dash `ー` and can be typed by inputting a dash. It is mostly used in katakana and extends a vowel sound. (In hiragana, you will usually see an extra vowel character (あいうえお) instead of a chōonpu to extend the vowel sound)
+
+    The last things missing from this guide are `ゐゑぢづぢゃぢゅぢょ` (`ヰヱヂヅヂャヂュヂョ`). These are uncommon. `ゐ` and `ゑ` (`ヰ` and `ヱ`) are near obselete kana. It's good to be aware of their existence but they aren't very important. Feel free to learn them if you are interested. `ぢ` and `づ` (`ヂ` and `ヅ`) are not as uncommon but are typically superceded by `じ` and `ず` (`ジ` and `ズ`) which are pronounced the same. The versions with added sutegana are also pronounced the same. All of these are uncommon enough that your IME won't let you type them easily.
+
+## Random Dict Picker Usage
+
+- I recommend using Random Dict Picker with the following args:
+
+    ```
+    random_dict_picker.py -f input_file.json -c 0.999 -m repeat
+    ```
+
+    Replace `input_file.json` with the file you want to use
+
+- You should see a prompt appear. You need to type the prompt exactly as it shows then press enter. You should backspace and correct any mistakes you notice as you are typing but don't bother proofreading everything you typed right before you press enter.
+
+    Correct characters will be highlighted in green, mistakes will be highlighted in red.
+
+    If the characters in the prompt are too small, zoom your terminal in as much as you need and hit enter to move on to the next prompt. The number of characters displayed will adjust for your terminal display size.
+
+- After you have completed a prompt, you may then press enter again at the `:` to move on to the next prompt.
+
+- If you want to change which file you're currently using you dont need to restart Random Dict Picker. Instead, send the following arg at the `:` after a prompt.
+
+    ```
+    -f input_file.json
+    ```
+
+## Notes
+
+- I learned all the hiragana and katakana in this guide in just over a week spending around an hour a day on this. I think most people should be able learn it equally as fast or faster. You don't need to take an hour each day either, you can make great progress from just 10-30 mins a day.
+
+    Years before I actually learned hiragana and katakana using this method I had tried other things and given up after a few months of little to no progress. I randomly happened to get the idea for learning this through typing and had no trouble remembering the characters after some practice. I kept increasing the number of characters to remember and ended up learning all of it easily.
+
+- I am not an expert on Japanese teaching or anything remotely close to that. I've written this guide to share the method that worked best for me.
+
+- If you want to learn to read AND write hiragana and katakana, you do need to practice physical writing as well not just typing. However, it is certainly easier to learn to write hiragana and katakana when you already know how to read it and have a general idea of how the characters work.
+
+- If you do not know how to touch type and rely on "hunt and peck", the speed of your progress with this method may be hindered.
