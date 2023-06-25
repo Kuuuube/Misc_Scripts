@@ -1,0 +1,7 @@
+This will not always find descriptors correctly but it works great for finding descriptors of virtual device drivers such as vmulti.
+
+1. Get the device driver files (on windows: `pnputil /export-driver oem.inf .` replacing `oem.inf` with the correct file)
+2. Find the driver file with `.sys` at the end
+3. Put the driver file in a hex editor and copy all of it
+4. Put the hex into the `USB Descriptor and Request Parser`
+5. Search the output for a block that has valid data (this regex may help: `0x.*?Usage.*?\r\n(\r|\n|(?!0x\w\w,\s+//\s+Unknown).)*0xC0,\s+//\s+End Collection`), valid data should start with a `Usage Page` and end with an `End Collection` (there will be random small pieces that show as something but ignore those)

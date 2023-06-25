@@ -1,0 +1,13 @@
+!!THIS IS A DANGEROUS OPERATION, CREATE A BACKUP OF THE REPO BEFORE DOING THIS!!
+
+git checkout {commit}
+*make the changes and append to the commit
+git checkout master
+git rebase -i --root
+*change the first commit to the hash of the appended commit
+
+Optionally, force garbage collection after:
+git gc --prune=now --aggressive
+
+Rewrite all commit times to match author times:
+git filter-branch --env-filter 'export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"'
