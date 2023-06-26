@@ -62,10 +62,6 @@ Command line study tool. Supports flashcards and repetition practice.
 
 My terminal emulator and shell config files.
 
-## [Youtube Shorts Desktop Redirect](./scripts_and_programs/youtube_shorts_desktop_redirect)
-
-Redirects youtube shorts to the desktop player.
-
 ## [Wikipedia Full Width Always](./scripts_and_programs/wikipedia_full_width_always)
 
 Automatically set wikipedia pages to full width.
@@ -73,6 +69,10 @@ Automatically set wikipedia pages to full width.
 ## [Word List Compressor](./scripts_and_programs/word_list_compressor)
 
 Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
+
+## [Youtube Shorts Desktop Redirect](./scripts_and_programs/youtube_shorts_desktop_redirect)
+
+Redirects youtube shorts to the desktop player.
 
 <br>
 
