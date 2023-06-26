@@ -34,6 +34,8 @@ A method to learn to read Hiragana and Katakana incredibly fast through typing.
 
     I define the amount of comfort required to move on as being able to read any character in the level within 5-10 seconds. This may sound very slow but knowing every character is much more important than speed.
 
+    It is very important that you try to read the sounds of the characters as you do this and not just memorize the hand positions to type them. The best way to do this is to read each character aloud. You don't need to read them loudly, just quietly under your breath is enough. This may hinder your speed but that's okay. The goal is not to type fast, it is to learn to read hiragana and katakana.
+
 - I have also included a hiragana (`hiragana_table_plaintext.txt`) and katakana chart (`katakana_table_plaintext.txt`). You can open these up in any text editor or viewer. If you would prefer, you can use your own hiragana and katakana chart. Make sure to zoom these in so you can properly read them, you want them to show somewhat thick, not thin 1px lines.
 
     Every time you get stuck on a character, don't start randomly pressing keys hoping to get it and don't skip the character either. Take a look at the chart and type it correctly. 
@@ -91,5 +93,3 @@ A method to learn to read Hiragana and Katakana incredibly fast through typing.
 - If you want to learn to read AND write hiragana and katakana, you do need to practice physical writing as well, not just typing. However, it is certainly easier to learn to write hiragana and katakana when you already know how to read it and have a general idea of how the characters work.
 
 - If you do not know how to touch type and rely on "hunt and peck", the speed of your progress with this method may be hindered.
-
-- I found it helpful to say the characters as I typed them. Not loudly, just quietly, under my breath. (Not that there's anything wrong with saying them loudly if you wish)
