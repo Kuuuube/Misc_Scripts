@@ -74,6 +74,11 @@ func greekPrefix(numberStr string) string {
 		1000000: "hecatomyria",
 	}
 
+	intnumberStr, _ := strconv.Atoi(numberStr)
+	if intnumberStr < 20 {
+		return prefixes[intnumberStr]
+	}
+
 	// Reverse the number string
 	reversedNumberStr := reverseString(numberStr)
 
