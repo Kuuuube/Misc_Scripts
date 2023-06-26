@@ -36,6 +36,18 @@ Which version should you use?
     | English 450,000   | 2.620s |
     | English 1,000,000 | 5.765s |
 
+## Go
+
+## Usage
+
+- Install Go
+
+- Run `go run .` and follow the prompts
+
+## Notes
+
+- Currently Go binaries have not been added. They may be added in the future. If you cannot compile/run it yourself I suggest using the Rust or Haskell versions instead.
+
 ## Haskell
 
 ### Usage
