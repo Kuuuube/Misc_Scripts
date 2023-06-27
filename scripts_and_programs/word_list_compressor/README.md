@@ -48,6 +48,14 @@ Which version should you use?
 
 - Currently Go binaries have not been added. They may be added in the future. If you cannot compile/run it yourself I suggest using the Rust or Haskell versions instead.
 
+## Dart
+
+## Usage
+
+- Install Dart
+
+- Run `dart run` and follow the prompts
+
 ## Haskell
 
 ### Usage
