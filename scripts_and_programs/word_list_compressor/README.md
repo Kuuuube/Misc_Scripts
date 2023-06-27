@@ -38,19 +38,19 @@ Which version should you use?
 
 ## Go
 
-## Usage
+### Usage
 
 - Install Go
 
 - Run `go run .` and follow the prompts
 
-## Notes
+### Notes
 
 - Currently Go binaries have not been added. They may be added in the future. If you cannot compile/run it yourself I suggest using the Rust or Haskell versions instead.
 
 ## Dart
 
-## Usage
+### Usage
 
 - Install Dart
 
