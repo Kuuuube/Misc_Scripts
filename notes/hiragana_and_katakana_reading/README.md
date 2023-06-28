@@ -50,7 +50,7 @@ A method to learn to read Hiragana and Katakana incredibly fast through typing.
 
 - Things this guide lacks:
 
-    An important sutegana that not included in the files for this guide is `っ` or `ッ`. These are そくおん or sokuon and they usually act to extend the consonant sound that comes after it. For example, in `まって` or `matte` the sokuon becomes an extra "t" for the `て` or `te`. You can type a sokuon in a word by simply repeating the consonant before a character twice (typing `matte` will automatically result in `まって`) or you can specifically type it with `xtsu` or `ltsu`. (All small characters can be typed by appending `x` or `l` to the start of them. For example `xyu` or `lyu` results in `ゅ`)
+    An important sutegana that not included in the files for this guide is `っ` or `ッ`. These are そくおん or sokuon and they usually act to duplicate the consonant that comes after it (watch [this](https://www.youtube.com/watch?v=EnGHbpZEoeQ) for pronunciation). For example, in `まって` or `matte` the sokuon becomes an extra "t" for the `て` or `te`. You can type a sokuon in a word by simply repeating the consonant before a character twice (typing `matte` will automatically result in `まって`) or you can specifically type it with `xtsu` or `ltsu`. (All small characters can be typed by appending `x` or `l` to the start of them. For example `xyu` or `lyu` results in `ゅ`)
 
     You may also see sutegana looking like this `ぁぃぅぇぉ` that also aren't included in this guide's files. These are less used but you may see them occasionally. For example, `ふぁ` sounds like `fa` and can also be typed like that. Generally, the way these act should be obvious.
 
