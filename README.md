@@ -14,6 +14,10 @@ Calculates how long it takes to lock target on a ship in [EVE Online](https://ww
 
 Simple script to convert hex to binary text. This will not read or write a file's hex or binary data. It only reads and writes text.
 
+## [Jisho Default Scroll Fix](./scripts_and_programs/jisho_default_scroll_fix)
+
+Fixes Jisho occasionally loading pages scrolled to the bottom.
+
 ## [Keyboard Layout Translator](./scripts_and_programs/keyboard_layout_translator)
 
 Encode and decode text typed on the wrong keyboard layout.
