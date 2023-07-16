@@ -2,7 +2,7 @@
 
 Miscellaneous scripts, small programs, and notes. Everything uploaded here will have full documentation (unlike most repos of this kind).
 
-## [Blank File Generator](./scripts_and_programs/blank_file_generator/)
+## [Blank File Generator](./scripts_and_programs/blank_file_generator)
 
 Generates blank files from a newline separated list of filenames in `list.txt`. 
 
@@ -38,7 +38,7 @@ Change mouse settings on windows without admin privileges and without control pa
 
 Shows the position of the mouse cursor in pixels.
 
-## [Number Generator](./scripts_and_programs/number_generator/)
+## [Number Generator](./scripts_and_programs/number_generator)
 
 Generates a newline separated list of numbers with customizeable start, end, prefix, and suffix.
 
@@ -54,15 +54,15 @@ Tools for tracking osu! data from a list of users.
 
 Script to write a hex dump from pcap data for every packet using tshark.
 
-## [Python Image Resizer](./scripts_and_programs/python_image_resizer/)
+## [Python Image Resizer](./scripts_and_programs/python_image_resizer)
 
 Resizes all images in a folder to a specified size.
 
-## [Random Dict Picker](./scripts_and_programs/random_dict_picker/)
+## [Random Dict Picker](./scripts_and_programs/random_dict_picker)
 
 Command line study tool. Supports flashcards and repetition practice.
 
-## [Terminal and Shell Config](./scripts_and_programs/terminal_and_shell_config/)
+## [Terminal and Shell Config](./scripts_and_programs/terminal_and_shell_config)
 
 My terminal emulator and shell config files.
 
