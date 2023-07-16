@@ -70,6 +70,10 @@ My terminal emulator and shell config files.
 
 Automatically set wikipedia pages to full width.
 
+## [Window Aspect Ratio Lock](./scripts_and_programs/window_aspect_ratio_lock)
+
+Script to lock the aspect ratio of a window when resizing.
+
 ## [Word List Compressor](./scripts_and_programs/word_list_compressor)
 
 Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
