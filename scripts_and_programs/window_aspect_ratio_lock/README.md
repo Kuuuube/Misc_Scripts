@@ -24,6 +24,8 @@ Script to lock the aspect ratio of a window when resizing.
 
     By default, if the window has received no further resizing within 250ms, the aspect ratio will be applied.
 
+- Run the script using AutoHotkey
+
 ## Dependencies
 
 AutoHotkey: [Download link](https://www.autohotkey.com/)
