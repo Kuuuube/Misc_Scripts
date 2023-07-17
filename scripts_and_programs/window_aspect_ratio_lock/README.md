@@ -29,7 +29,3 @@ Script to lock the aspect ratio of a window when resizing.
 ## Dependencies
 
 AutoHotkey: [Download link](https://www.autohotkey.com/)
-
-## Notes
-
-- This script is not single instance. If you are messing around with the settings and closing and opening it multiple times, make sure to close it each time. The script will usually be found in the system tray.
