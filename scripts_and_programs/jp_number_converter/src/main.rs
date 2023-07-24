@@ -1,28 +1,34 @@
+mod hiragana_tests;
+
 use std::collections::HashMap;
 
 fn main() {
     loop {
         println!("Input: ");
         let input_string = read_line().trim().to_string();
-        match input_string.len() {
-            1 => println!("{}", digits_1(&input_string, true)),
-            2 => println!("{}", digits_2(&input_string)),
-            3 => println!("{}", digits_3(&input_string)),
-            4 => println!("{}", digits_4(&input_string, false)),
-            5 => println!("{}", digits_5(&input_string)),
-            6 => println!("{}", digits_6(&input_string)),
-            7 => println!("{}", digits_7(&input_string)),
-            8 => println!("{}", digits_8(&input_string)),
-            9 => println!("{}", digits_9(&input_string)),
-            10 => println!("{}", digits_10(&input_string)),
-            11 => println!("{}", digits_11(&input_string)),
-            12 => println!("{}", digits_12(&input_string)),
-            13 => println!("{}", digits_13(&input_string)),
-            14 => println!("{}", digits_14(&input_string)),
-            15 => println!("{}", digits_15(&input_string)),
-            16 => println!("{}", digits_16(&input_string)),
-            _ => ()
-        }
+        println!("{}", convert_number(&input_string));
+    }
+}
+
+pub fn convert_number(input_string: &str) -> String {
+    match input_string.len() {
+        1 => return digits_1(input_string, true),
+        2 => return digits_2(input_string),
+        3 => return digits_3(input_string),
+        4 => return digits_4(input_string, false),
+        5 => return digits_5(input_string),
+        6 => return digits_6(input_string),
+        7 => return digits_7(input_string),
+        8 => return digits_8(input_string),
+        9 => return digits_9(input_string),
+        10 => return digits_10(input_string),
+        11 => return digits_11(input_string),
+        12 => return digits_12(input_string),
+        13 => return digits_13(input_string),
+        14 => return digits_14(input_string),
+        15 => return digits_15(input_string),
+        16 => return digits_16(input_string),
+        _ => return "".to_string()
     }
 }
 
@@ -80,9 +86,9 @@ fn digits_3(input_string: &str) -> String {
         ("3", "さん"),
         ("4", "よん"),
         ("5", "ご"),
-        ("6", "ろく"),
+        ("6", "ろっ"),
         ("7", "なな"),
-        ("8", "はち"),
+        ("8", "はっ"),
         ("9", "きゅう")
     ]);
     let first_char = &input_string[0..1];
@@ -112,8 +118,12 @@ fn digits_4(input_string: &str, prefix: bool) -> String {
     let first_char = &input_string[0..1];
     let remaining_chars = &input_string[1..];
     if prefix && first_char == "1" {
-        return format!("{}{}", "いっせん", digits_3(remaining_chars))
+        return format!("{}{}", "いっせん", digits_3(remaining_chars));
     }
+    if !prefix && first_char == "8" {
+        return format!("{}{}", "はっせん", digits_3(remaining_chars));
+    }
+
     match first_char {
         "0" => return format!("{}{}", dict.get(first_char).unwrap().to_string(), digits_3(remaining_chars)),
         "3" => return format!("{}{}{}", dict.get(first_char).unwrap().to_string(), "ぜん", digits_3(remaining_chars)),
@@ -132,7 +142,7 @@ fn digits_5(input_string: &str) -> String {
         ("5", "ご"),
         ("6", "ろく"),
         ("7", "なな"),
-        ("8", "は"),
+        ("8", "はち"),
         ("9", "きゅう")
     ]);
     let first_char = &input_string[0..1];
@@ -168,7 +178,7 @@ fn digits_9(input_string: &str) -> String {
         ("5", "ご"),
         ("6", "ろく"),
         ("7", "なな"),
-        ("8", "は"),
+        ("8", "はち"),
         ("9", "きゅう")
     ]);
     let first_char = &input_string[0..1];
