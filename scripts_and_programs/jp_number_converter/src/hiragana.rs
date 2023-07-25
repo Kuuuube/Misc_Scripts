@@ -38,6 +38,10 @@ fn whole_number(input_string: &str) -> String {
         26 => return digits_25_28(input_string),
         27 => return digits_25_28(input_string),
         28 => return digits_25_28(input_string),
+        29 => return digits_29_32(input_string),
+        30 => return digits_29_32(input_string),
+        31 => return digits_29_32(input_string),
+        32 => return digits_29_32(input_string),
         _ => return "".to_string()
     };
 }
@@ -194,9 +198,11 @@ fn digits_21_24(input_string: &str) -> String {
     if remaining_chars_2 != "0000" {
         return format!("{}{}{}{}{}", handle_first_chars(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_9_12(&format!("{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4)));
     }
+    if remaining_chars_3 != "0000" {
+        return format!("{}{}{}{}{}{}", handle_first_chars(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_5_8(&format!("{}{}", remaining_chars_3, remaining_chars_4)));
+    }
     return format!("{}{}{}{}{}{}{}", handle_first_chars(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true));
 }
-
 
 fn digits_25_28(input_string: &str) -> String {
     let digits = input_string.len();
@@ -217,5 +223,43 @@ fn digits_25_28(input_string: &str) -> String {
     if remaining_chars_2 != "0000" {
         return format!("{}{}{}{}{}", handle_first_chars(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_13_16(&format!("{}{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
     }
+    if remaining_chars_3 != "0000" {
+        return format!("{}{}{}{}{}{}", handle_first_chars(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_9_12(&format!("{}{}{}", remaining_chars_3, remaining_chars_4, remaining_chars_5)));
+    }
+    if remaining_chars_4 != "0000" {
+        return format!("{}{}{}{}{}{}{}", handle_first_chars(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_5_8(&format!("{}{}", remaining_chars_4, remaining_chars_5)));
+    }
     return format!("{}{}{}{}{}{}{}{}", handle_first_chars(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true), digits_4(remaining_chars_5, true));
+}
+
+fn digits_29_32(input_string: &str) -> String {
+    let digits = input_string.len();
+    let first_chars = &input_string[0..digits - 28];
+    let remaining_chars_0 = &input_string[digits - 28..digits - 24];
+    let remaining_chars_1 = &input_string[digits - 24..digits - 20];
+    let remaining_chars_2 = &input_string[digits - 20..digits - 16];
+    let remaining_chars_3 = &input_string[digits - 16..digits - 12];
+    let remaining_chars_4 = &input_string[digits - 12..digits - 8];
+    let remaining_chars_5 = &input_string[digits - 8..digits - 4];
+    let remaining_chars_6 = &input_string[digits - 4..];
+
+    if remaining_chars_0 != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), "じょう", digits_4(remaining_chars_0, true), digits_25_28(&format!("{}{}{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5, remaining_chars_6)));
+    }
+    if remaining_chars_1 != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), "じょう", digits_4(remaining_chars_0, true), digits_21_24(&format!("{}{}{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5, remaining_chars_6)));
+    }
+    if remaining_chars_2 != "0000" {
+        return format!("{}{}{}{}{}", handle_first_chars(first_chars), "じょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_17_20(&format!("{}{}{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5, remaining_chars_6)));
+    }
+    if remaining_chars_3 != "0000" {
+        return format!("{}{}{}{}{}{}", handle_first_chars(first_chars), "じょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_13_16(&format!("{}{}{}{}", remaining_chars_3, remaining_chars_4, remaining_chars_5, remaining_chars_6)));
+    }
+    if remaining_chars_4 != "0000" {
+        return format!("{}{}{}{}{}{}{}", handle_first_chars(first_chars), "じょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_9_12(&format!("{}{}{}", remaining_chars_4, remaining_chars_5, remaining_chars_6)));
+    }
+    if remaining_chars_5 != "0000" {
+        return format!("{}{}{}{}{}{}{}{}", handle_first_chars(first_chars), "じょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true), digits_5_8(&format!("{}{}", remaining_chars_5, remaining_chars_6)));
+    }
+    return format!("{}{}{}{}{}{}{}{}{}", handle_first_chars(first_chars), "じょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true), digits_4(remaining_chars_5, true), digits_4(remaining_chars_6, true));
 }
