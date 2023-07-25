@@ -1,5 +1,5 @@
 #[cfg(test)]
-use crate::convert_number;
+use crate::hiragana::convert_number;
 
 #[test]
 pub fn hiragana_tests() {
