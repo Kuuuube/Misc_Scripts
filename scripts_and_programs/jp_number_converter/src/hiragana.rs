@@ -9,81 +9,29 @@ pub fn convert_number(input_string: &str) -> String {
 }
 
 fn whole_number(input_string: &str) -> String {
-    match input_string.len() {
-        1 => return digits_1(input_string, true),
-        2 => return digits_2(input_string),
-        3 => return digits_3(input_string),
-        4 => return digits_4(input_string, false),
-        5 => return digits_5_8(input_string),
-        6 => return digits_5_8(input_string),
-        7 => return digits_5_8(input_string),
-        8 => return digits_5_8(input_string),
-        9 => return digits_9_12(input_string),
-        10 => return digits_9_12(input_string),
-        11 => return digits_9_12(input_string),
-        12 => return digits_9_12(input_string),
-        13 => return digits_13_16(input_string),
-        14 => return digits_13_16(input_string),
-        15 => return digits_13_16(input_string),
-        16 => return digits_13_16(input_string),
-        17 => return digits_17_20(input_string),
-        18 => return digits_17_20(input_string),
-        19 => return digits_17_20(input_string),
-        20 => return digits_17_20(input_string),
-        21 => return digits_21_24(input_string),
-        22 => return digits_21_24(input_string),
-        23 => return digits_21_24(input_string),
-        24 => return digits_21_24(input_string),
-        25 => return digits_25_28(input_string),
-        26 => return digits_25_28(input_string),
-        27 => return digits_25_28(input_string),
-        28 => return digits_25_28(input_string),
-        29 => return digits_29_32(input_string),
-        30 => return digits_29_32(input_string),
-        31 => return digits_29_32(input_string),
-        32 => return digits_29_32(input_string),
-        33 => return digits_33_36(input_string),
-        34 => return digits_33_36(input_string),
-        35 => return digits_33_36(input_string),
-        36 => return digits_33_36(input_string),
-        37 => return digits_37_40(input_string),
-        38 => return digits_37_40(input_string),
-        39 => return digits_37_40(input_string),
-        40 => return digits_37_40(input_string),
-        41 => return digits_41_44(input_string),
-        42 => return digits_41_44(input_string),
-        43 => return digits_41_44(input_string),
-        44 => return digits_41_44(input_string),
-        45 => return digits_45_48(input_string),
-        46 => return digits_45_48(input_string),
-        47 => return digits_45_48(input_string),
-        48 => return digits_45_48(input_string),
-        49 => return digits_49_52(input_string),
-        50 => return digits_49_52(input_string),
-        51 => return digits_49_52(input_string),
-        52 => return digits_49_52(input_string),
-        53 => return digits_53_56(input_string),
-        54 => return digits_53_56(input_string),
-        55 => return digits_53_56(input_string),
-        56 => return digits_53_56(input_string),
-        57 => return digits_57_60(input_string),
-        58 => return digits_57_60(input_string),
-        59 => return digits_57_60(input_string),
-        60 => return digits_57_60(input_string),
-        61 => return digits_61_64(input_string),
-        62 => return digits_61_64(input_string),
-        63 => return digits_61_64(input_string),
-        64 => return digits_61_64(input_string),
-        65 => return digits_65_68(input_string),
-        66 => return digits_65_68(input_string),
-        67 => return digits_65_68(input_string),
-        68 => return digits_65_68(input_string),
-        69 => return digits_69_72(input_string),
-        70 => return digits_69_72(input_string),
-        71 => return digits_69_72(input_string),
-        72 => return digits_69_72(input_string),
-        _ => return "".to_string()
-    };
+    let input_len = input_string.len();
+    if input_len == 1 {return digits_1(input_string, true)}
+    else if input_len == 2 {return digits_2(input_string)}
+    else if input_len == 3 {return digits_3(input_string)}
+    else if input_len == 4 {return digits_4(input_string, false)}
+    else if input_len >= 5 && input_len <= 8 {return digits_5_8(input_string)}
+    else if input_len >= 9 && input_len <= 12 {return digits_9_12(input_string)}
+    else if input_len >= 13 && input_len <= 16 {return digits_13_16(input_string)}
+    else if input_len >= 17 && input_len <= 20 {return digits_17_20(input_string)}
+    else if input_len >= 21 && input_len <= 24 {return digits_21_24(input_string)}
+    else if input_len >= 25 && input_len <= 28 {return digits_25_28(input_string)}
+    else if input_len >= 29 && input_len <= 32 {return digits_29_32(input_string)}
+    else if input_len >= 33 && input_len <= 36 {return digits_33_36(input_string)}
+    else if input_len >= 37 && input_len <= 40 {return digits_37_40(input_string)}
+    else if input_len >= 41 && input_len <= 44 {return digits_41_44(input_string)}
+    else if input_len >= 45 && input_len <= 48 {return digits_45_48(input_string)}
+    else if input_len >= 49 && input_len <= 52 {return digits_49_52(input_string)}
+    else if input_len >= 53 && input_len <= 56 {return digits_53_56(input_string)}
+    else if input_len >= 57 && input_len <= 60 {return digits_57_60(input_string)}
+    else if input_len >= 61 && input_len <= 64 {return digits_61_64(input_string)}
+    else if input_len >= 65 && input_len <= 68 {return digits_65_68(input_string)}
+    else if input_len >= 69 && input_len <= 72 {return digits_69_72(input_string)}
+    else {return "".to_string()}
 }
 
 fn fraction(input_string: &str) -> String {
