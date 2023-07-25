@@ -14,7 +14,7 @@ cargo build --release
 
 ## Notes
 
-- Currently conversion to hiragana and kanji are supported.
+- Currently conversion to hiragana, kanji, banknote-style daiji, and daiji are supported.
 
 - Decimals and fractions are not supported.
 
