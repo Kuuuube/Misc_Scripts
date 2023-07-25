@@ -14,30 +14,30 @@ fn whole_number(input_string: &str) -> String {
         2 => return digits_2(input_string),
         3 => return digits_3(input_string),
         4 => return digits_4(input_string, false),
-        5 => return digits_5(input_string),
-        6 => return digits_6(input_string),
-        7 => return digits_7(input_string),
-        8 => return digits_8(input_string),
-        9 => return digits_9(input_string),
-        10 => return digits_10(input_string),
-        11 => return digits_11(input_string),
-        12 => return digits_12(input_string),
-        13 => return digits_13(input_string),
-        14 => return digits_14(input_string),
-        15 => return digits_15(input_string),
-        16 => return digits_16(input_string),
-        17 => return digits_17(input_string),
-        18 => return digits_18(input_string),
-        19 => return digits_19(input_string),
-        20 => return digits_20(input_string),
-        21 => return digits_21(input_string),
-        22 => return digits_22(input_string),
-        23 => return digits_23(input_string),
-        24 => return digits_24(input_string),
-        25 => return digits_25(input_string),
-        26 => return digits_26(input_string),
-        27 => return digits_27(input_string),
-        28 => return digits_28(input_string),
+        5 => return digits_5_8(input_string),
+        6 => return digits_5_8(input_string),
+        7 => return digits_5_8(input_string),
+        8 => return digits_5_8(input_string),
+        9 => return digits_9_12(input_string),
+        10 => return digits_9_12(input_string),
+        11 => return digits_9_12(input_string),
+        12 => return digits_9_12(input_string),
+        13 => return digits_13_16(input_string),
+        14 => return digits_13_16(input_string),
+        15 => return digits_13_16(input_string),
+        16 => return digits_13_16(input_string),
+        17 => return digits_17_20(input_string),
+        18 => return digits_17_20(input_string),
+        19 => return digits_17_20(input_string),
+        20 => return digits_17_20(input_string),
+        21 => return digits_21_24(input_string),
+        22 => return digits_21_24(input_string),
+        23 => return digits_21_24(input_string),
+        24 => return digits_21_24(input_string),
+        25 => return digits_25_28(input_string),
+        26 => return digits_25_28(input_string),
+        27 => return digits_25_28(input_string),
+        28 => return digits_25_28(input_string),
         _ => return "".to_string()
     };
 }
@@ -62,6 +62,16 @@ fn dict_get(input_string: &str, use_one: bool) -> String {
         return "".to_string();
     }
     return dict.get(input_string).unwrap_or(&"").to_string();
+}
+
+fn handle_first_chars(first_chars: &str) -> String {
+    match first_chars.len() {
+        1 => return dict_get(first_chars, true),
+        2 => return digits_2(first_chars),
+        3 => return digits_3(first_chars),
+        4 => return digits_4(first_chars, true),
+        _ => return "".to_string()
+    }
 }
 
 fn digits_1(input_string: &str, use_zero: bool) -> String {
@@ -110,336 +120,102 @@ fn digits_4(input_string: &str, prefix: bool) -> String {
     }
 }
 
-fn digits_5(input_string: &str) -> String {
-    let first_char = &input_string[0..1];
-    let remaining_chars = &input_string[1..];
-    return format!("{}{}{}", dict_get(first_char, true), "まん", digits_4(remaining_chars, true));
+fn digits_5_8(input_string: &str) -> String {
+    let digits = input_string.len();
+    let first_chars = &input_string[0..digits - 4];
+    let remaining_chars_0 = &input_string[digits - 4..];
+
+    return format!("{}{}{}", handle_first_chars(first_chars), "まん", digits_4(remaining_chars_0, true));
 }
 
-fn digits_6(input_string: &str) -> String {
-    let first_chars = &input_string[0..2];
-    let remaining_chars = &input_string[2..];
-    return format!("{}{}{}", digits_2(first_chars), "まん", digits_4(remaining_chars, true));
-}
+fn digits_9_12(input_string: &str) -> String {
+    let digits = input_string.len();
+    let first_chars = &input_string[0..digits - 8];
+    let remaining_chars_0 = &input_string[digits - 8..digits - 4];
+    let remaining_chars_1 = &input_string[digits - 4..];
 
-fn digits_7(input_string: &str) -> String {
-    let first_chars = &input_string[0..3];
-    let remaining_chars = &input_string[3..];
-    return format!("{}{}{}", digits_3(first_chars), "まん", digits_4(remaining_chars, true));
-}
-
-fn digits_8(input_string: &str) -> String {
-    let first_chars = &input_string[0..4];
-    let remaining_chars = &input_string[4..];
-    return format!("{}{}{}", digits_4(first_chars, true), "まん", digits_4(remaining_chars, true));
-}
-
-fn digits_9(input_string: &str) -> String {
-    let first_char = &input_string[0..1];
-    let remaining_chars_0 = &input_string[1..5];
-    let remaining_chars_1 = &input_string[5..];
     if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}{}", dict_get(first_char, true), "おく", digits_4(remaining_chars_0, true), "まん", digits_4(remaining_chars_1, true));
+        return format!("{}{}{}{}{}", handle_first_chars(first_chars), "おく", digits_4(remaining_chars_0, true), "まん", digits_4(remaining_chars_1, true));
     }
-    return format!("{}{}{}{}", dict_get(first_char, true), "おく", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true));
+    return format!("{}{}{}{}", handle_first_chars(first_chars), "おく", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true));
 }
 
-fn digits_10(input_string: &str) -> String {
-    let first_chars = &input_string[0..2];
-    let remaining_chars_0 = &input_string[2..6];
-    let remaining_chars_1 = &input_string[6..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}{}", digits_2(first_chars), "おく", digits_4(remaining_chars_0, true), "まん", digits_4(remaining_chars_1, true));
-    }
-    return format!("{}{}{}{}", digits_2(first_chars), "おく", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true));
-}
+fn digits_13_16(input_string: &str) -> String {
+    let digits = input_string.len();
+    let first_chars = &input_string[0..digits - 12];
+    let remaining_chars_0 = &input_string[digits - 12..digits - 8];
+    let remaining_chars_1 = &input_string[digits - 8..digits - 4];
+    let remaining_chars_2 = &input_string[digits - 4..digits];
 
-fn digits_11(input_string: &str) -> String {
-    let first_chars = &input_string[0..3];
-    let remaining_chars_0 = &input_string[3..7];
-    let remaining_chars_1 = &input_string[7..];
     if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}{}", digits_3(first_chars), "おく", digits_4(remaining_chars_0, true), "まん", digits_4(remaining_chars_1, true));
-    }
-    return format!("{}{}{}{}", digits_3(first_chars), "おく", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true));
-}
-
-fn digits_12(input_string: &str) -> String {
-    let first_chars = &input_string[0..4];
-    let remaining_chars_0 = &input_string[4..8];
-    let remaining_chars_1 = &input_string[8..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}{}", digits_4(first_chars, true), "おく", digits_4(remaining_chars_0, true), "まん", digits_4(remaining_chars_1, true));
-    }
-    return format!("{}{}{}{}", digits_4(first_chars, true), "おく", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true));
-}
-
-fn digits_13(input_string: &str) -> String {
-    let first_char = &input_string[0..1];
-    let remaining_chars_0 = &input_string[1..5];
-    let remaining_chars_1 = &input_string[5..9];
-    let remaining_chars_2 = &input_string[9..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", dict_get(first_char, true).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_9(&format!("{}{}{}", "0", remaining_chars_1, remaining_chars_2)));
+        return format!("{}{}{}{}", handle_first_chars(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_9_12(&format!("{}{}{}", "0", remaining_chars_1, remaining_chars_2)));
     }
     if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", dict_get(first_char, true).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_8(&format!("{}{}", remaining_chars_1, remaining_chars_2)));
+        return format!("{}{}{}{}", handle_first_chars(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_5_8(&format!("{}{}", remaining_chars_1, remaining_chars_2)));
     }
-    return format!("{}{}{}{}{}", dict_get(first_char, true).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true));
+    return format!("{}{}{}{}{}", handle_first_chars(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true));
 }
 
-fn digits_14(input_string: &str) -> String {
-    let first_chars = &input_string[0..2];
-    let remaining_chars_0 = &input_string[2..6];
-    let remaining_chars_1 = &input_string[6..10];
-    let remaining_chars_2 = &input_string[10..];
+fn digits_17_20(input_string: &str) -> String {
+    let digits = input_string.len();
+    let first_chars = &input_string[0..digits - 16];
+    let remaining_chars_0 = &input_string[digits - 16..digits - 12];
+    let remaining_chars_1 = &input_string[digits - 12..digits - 8];
+    let remaining_chars_2 = &input_string[digits - 8..digits - 4];
+    let remaining_chars_3 = &input_string[digits - 4..];
 
     if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_2(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_9(&format!("{}{}{}", "0", remaining_chars_1, remaining_chars_2)));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_13_16(&format!("{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
     }
     if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_2(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_8(&format!("{}{}", remaining_chars_1, remaining_chars_2)));
-    }
-    return format!("{}{}{}{}{}", digits_2(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true));
-}
-
-fn digits_15(input_string: &str) -> String {
-    let first_chars = &input_string[0..3];
-    let remaining_chars_0 = &input_string[3..7];
-    let remaining_chars_1 = &input_string[7..11];
-    let remaining_chars_2 = &input_string[11..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_9(&format!("{}{}{}", "0", remaining_chars_1, remaining_chars_2)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_8(&format!("{}{}", remaining_chars_1, remaining_chars_2)));
-    }
-    return format!("{}{}{}{}{}", digits_3(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true));
-}
-
-fn digits_16(input_string: &str) -> String {
-    let first_chars = &input_string[0..4];
-    let remaining_chars_0 = &input_string[4..8];
-    let remaining_chars_1 = &input_string[8..12];
-    let remaining_chars_2 = &input_string[12..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_4(first_chars, true).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_9(&format!("{}{}{}", "0", remaining_chars_1, remaining_chars_2)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_8(&format!("{}{}", remaining_chars_1, remaining_chars_2)));
-    }
-    return format!("{}{}{}{}{}", digits_4(first_chars, true).replace("いち", "いっ"), "ちょう", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true));
-}
-
-fn digits_17(input_string: &str) -> String {
-    let first_char = &input_string[0..1];
-    let remaining_chars_0 = &input_string[1..5];
-    let remaining_chars_1 = &input_string[5..9];
-    let remaining_chars_2 = &input_string[9..13];
-    let remaining_chars_3 = &input_string[13..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", dict_get(first_char, true), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_13(&format!("{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", dict_get(first_char, true), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_12(&format!("{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
-    }
-    return format!("{}{}{}{}{}{}", dict_get(first_char, true), "けい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true));
-}
-
-fn digits_18(input_string: &str) -> String {
-    let first_chars = &input_string[0..2];
-    let remaining_chars_0 = &input_string[2..6];
-    let remaining_chars_1 = &input_string[6..10];
-    let remaining_chars_2 = &input_string[10..14];
-    let remaining_chars_3 = &input_string[14..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_2(first_chars), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_13(&format!("{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_2(first_chars), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_12(&format!("{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
-    }
-    return format!("{}{}{}{}{}{}", digits_2(first_chars), "けい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true));
-}
-
-fn digits_19(input_string: &str) -> String {
-    let first_chars = &input_string[0..3];
-    let remaining_chars_0 = &input_string[3..7];
-    let remaining_chars_1 = &input_string[7..11];
-    let remaining_chars_2 = &input_string[11..15];
-    let remaining_chars_3 = &input_string[15..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_13(&format!("{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_12(&format!("{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
-    }
-    return format!("{}{}{}{}{}{}", digits_3(first_chars), "けい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true));
-}
-
-fn digits_20(input_string: &str) -> String {
-    let first_chars = &input_string[0..4];
-    let remaining_chars_0 = &input_string[4..8];
-    let remaining_chars_1 = &input_string[8..12];
-    let remaining_chars_2 = &input_string[12..16];
-    let remaining_chars_3 = &input_string[16..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_4(first_chars, true), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_13(&format!("{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_4(first_chars, true), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_12(&format!("{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
-    }
-    return format!("{}{}{}{}{}{}", digits_4(first_chars, true), "けい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true));
-}
-
-fn digits_21(input_string: &str) -> String {
-    let first_char = &input_string[0..1];
-    let remaining_chars_0 = &input_string[1..5];
-    let remaining_chars_1 = &input_string[5..9];
-    let remaining_chars_2 = &input_string[9..13];
-    let remaining_chars_3 = &input_string[13..17];
-    let remaining_chars_4 = &input_string[17..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", dict_get(first_char, true), "がい", digits_4(remaining_chars_0, true), digits_17(&format!("{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", dict_get(first_char, true), "がい", digits_4(remaining_chars_0, true), digits_16(&format!("{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_9_12(&format!("{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3)));
     }
     if remaining_chars_2 != "0000" {
-        return format!("{}{}{}{}{}", dict_get(first_char, true), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_0, true), digits_12(&format!("{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4)));
+        return format!("{}{}{}{}{}", handle_first_chars(first_chars), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_4(remaining_chars_1, true), digits_5_8(&format!("{}{}", remaining_chars_2, remaining_chars_3)));
     }
-    return format!("{}{}{}{}{}{}{}", dict_get(first_char, true), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true));
+    return format!("{}{}{}{}{}{}", handle_first_chars(first_chars), "けい", digits_4(remaining_chars_0, true).replace("いち", "いっ"), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true));
 }
 
-fn digits_22(input_string: &str) -> String {
-    let first_chars = &input_string[0..2];
-    let remaining_chars_0 = &input_string[2..6];
-    let remaining_chars_1 = &input_string[6..10];
-    let remaining_chars_2 = &input_string[10..14];
-    let remaining_chars_3 = &input_string[14..18];
-    let remaining_chars_4 = &input_string[18..];
+fn digits_21_24(input_string: &str) -> String {
+    let digits = input_string.len();
+    let first_chars = &input_string[0..digits - 20];
+    let remaining_chars_0 = &input_string[digits - 20..digits - 16];
+    let remaining_chars_1 = &input_string[digits - 16..digits - 12];
+    let remaining_chars_2 = &input_string[digits - 12..digits - 8];
+    let remaining_chars_3 = &input_string[digits - 8..digits - 4];
+    let remaining_chars_4 = &input_string[digits - 4..];
+
     if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_2(first_chars), "がい", digits_4(remaining_chars_0, true), digits_17(&format!("{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), "がい", digits_4(remaining_chars_0, true), digits_17_20(&format!("{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
     }
     if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_2(first_chars), "がい", digits_4(remaining_chars_0, true), digits_16(&format!("{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), "がい", digits_4(remaining_chars_0, true), digits_13_16(&format!("{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
     }
     if remaining_chars_2 != "0000" {
-        return format!("{}{}{}{}{}", digits_2(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_0, true), digits_12(&format!("{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4)));
+        return format!("{}{}{}{}{}", handle_first_chars(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_9_12(&format!("{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4)));
     }
-    return format!("{}{}{}{}{}{}{}", digits_2(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true));
+    return format!("{}{}{}{}{}{}{}", handle_first_chars(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true));
 }
 
-fn digits_23(input_string: &str) -> String {
-    let first_chars = &input_string[0..3];
-    let remaining_chars_0 = &input_string[3..7];
-    let remaining_chars_1 = &input_string[7..11];
-    let remaining_chars_2 = &input_string[11..15];
-    let remaining_chars_3 = &input_string[15..19];
-    let remaining_chars_4 = &input_string[19..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars), "がい", digits_4(remaining_chars_0, true), digits_17(&format!("{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars), "がい", digits_4(remaining_chars_0, true), digits_16(&format!("{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
-    }
-    if remaining_chars_2 != "0000" {
-        return format!("{}{}{}{}{}", digits_3(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_0, true), digits_12(&format!("{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4)));
-    }
-    return format!("{}{}{}{}{}{}{}", digits_3(first_chars), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true));
-}
 
-fn digits_24(input_string: &str) -> String {
-    let first_chars = &input_string[0..4];
-    let remaining_chars_0 = &input_string[4..8];
-    let remaining_chars_1 = &input_string[8..12];
-    let remaining_chars_2 = &input_string[12..16];
-    let remaining_chars_3 = &input_string[16..20];
-    let remaining_chars_4 = &input_string[20..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_4(first_chars, true), "がい", digits_4(remaining_chars_0, true), digits_17(&format!("{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_4(first_chars, true), "がい", digits_4(remaining_chars_0, true), digits_16(&format!("{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4)));
-    }
-    if remaining_chars_2 != "0000" {
-        return format!("{}{}{}{}{}", digits_4(first_chars, true), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_0, true), digits_12(&format!("{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4)));
-    }
-    return format!("{}{}{}{}{}{}{}", digits_4(first_chars, true), "がい", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true));
-}
+fn digits_25_28(input_string: &str) -> String {
+    let digits = input_string.len();
+    let first_chars = &input_string[0..digits - 24];
+    let remaining_chars_0 = &input_string[digits - 24..digits - 20];
+    let remaining_chars_1 = &input_string[digits - 20..digits - 16];
+    let remaining_chars_2 = &input_string[digits - 16..digits - 12];
+    let remaining_chars_3 = &input_string[digits - 12..digits - 8];
+    let remaining_chars_4 = &input_string[digits - 8..digits - 4];
+    let remaining_chars_5 = &input_string[digits - 4..];
 
-fn digits_25(input_string: &str) -> String {
-    let first_char = &input_string[0..1];
-    let remaining_chars_0 = &input_string[1..5];
-    let remaining_chars_1 = &input_string[5..9];
-    let remaining_chars_2 = &input_string[9..13];
-    let remaining_chars_3 = &input_string[13..17];
-    let remaining_chars_4 = &input_string[17..21];
-    let remaining_chars_5 = &input_string[21..];
     if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", dict_get(first_char, true), "じょ", digits_4(remaining_chars_0, true), digits_21(&format!("{}{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_21_24(&format!("{}{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
     }
     if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", dict_get(first_char, true), "じょ", digits_4(remaining_chars_0, true), digits_20(&format!("{}{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_17_20(&format!("{}{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
     }
     if remaining_chars_2 != "0000" {
-        return format!("{}{}{}{}{}", dict_get(first_char, true), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_16(&format!("{}{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
+        return format!("{}{}{}{}{}", handle_first_chars(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_13_16(&format!("{}{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
     }
-    return format!("{}{}{}{}{}{}{}{}", dict_get(first_char, true), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true), digits_4(remaining_chars_5, true));}
-
-fn digits_26(input_string: &str) -> String {
-    let first_chars = &input_string[0..2];
-    let remaining_chars_0 = &input_string[2..6];
-    let remaining_chars_1 = &input_string[6..10];
-    let remaining_chars_2 = &input_string[10..14];
-    let remaining_chars_3 = &input_string[14..18];
-    let remaining_chars_4 = &input_string[18..22];
-    let remaining_chars_5 = &input_string[22..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_2(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_21(&format!("{}{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_2(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_20(&format!("{}{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    if remaining_chars_2 != "0000" {
-        return format!("{}{}{}{}{}", digits_2(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_16(&format!("{}{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    return format!("{}{}{}{}{}{}{}{}", digits_2(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true), digits_4(remaining_chars_5, true));}
-
-fn digits_27(input_string: &str) -> String {
-    let first_chars = &input_string[0..3];
-    let remaining_chars_0 = &input_string[3..7];
-    let remaining_chars_1 = &input_string[7..11];
-    let remaining_chars_2 = &input_string[11..15];
-    let remaining_chars_3 = &input_string[15..19];
-    let remaining_chars_4 = &input_string[19..23];
-    let remaining_chars_5 = &input_string[23..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_21(&format!("{}{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_3(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_20(&format!("{}{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    if remaining_chars_2 != "0000" {
-        return format!("{}{}{}{}{}", digits_3(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_16(&format!("{}{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    return format!("{}{}{}{}{}{}{}{}", digits_3(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true), digits_4(remaining_chars_5, true));}
-
-fn digits_28(input_string: &str) -> String {
-    let first_chars = &input_string[0..4];
-    let remaining_chars_0 = &input_string[4..8];
-    let remaining_chars_1 = &input_string[8..12];
-    let remaining_chars_2 = &input_string[12..16];
-    let remaining_chars_3 = &input_string[16..20];
-    let remaining_chars_4 = &input_string[20..24];
-    let remaining_chars_5 = &input_string[24..];
-    if remaining_chars_0 != "0000" {
-        return format!("{}{}{}{}", digits_4(first_chars, true), "じょ", digits_4(remaining_chars_0, true), digits_21(&format!("{}{}{}{}{}{}", "0", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    if remaining_chars_1 != "0000" {
-        return format!("{}{}{}{}", digits_4(first_chars, true), "じょ", digits_4(remaining_chars_0, true), digits_20(&format!("{}{}{}{}{}", remaining_chars_1, remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    if remaining_chars_2 != "0000" {
-        return format!("{}{}{}{}{}", digits_4(first_chars, true), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_16(&format!("{}{}{}{}", remaining_chars_2, remaining_chars_3, remaining_chars_4, remaining_chars_5)));
-    }
-    return format!("{}{}{}{}{}{}{}{}", digits_4(first_chars, true), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true), digits_4(remaining_chars_5, true));
+    return format!("{}{}{}{}{}{}{}{}", handle_first_chars(first_chars), "じょ", digits_4(remaining_chars_0, true), digits_4(remaining_chars_1, true), digits_4(remaining_chars_2, true), digits_4(remaining_chars_3, true), digits_4(remaining_chars_4, true), digits_4(remaining_chars_5, true));
 }
