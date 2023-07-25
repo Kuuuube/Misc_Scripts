@@ -62,6 +62,26 @@ fn whole_number(input_string: &str) -> String {
         50 => return digits_49_52(input_string),
         51 => return digits_49_52(input_string),
         52 => return digits_49_52(input_string),
+        53 => return digits_53_56(input_string),
+        54 => return digits_53_56(input_string),
+        55 => return digits_53_56(input_string),
+        56 => return digits_53_56(input_string),
+        57 => return digits_57_60(input_string),
+        58 => return digits_57_60(input_string),
+        59 => return digits_57_60(input_string),
+        60 => return digits_57_60(input_string),
+        61 => return digits_61_64(input_string),
+        62 => return digits_61_64(input_string),
+        63 => return digits_61_64(input_string),
+        64 => return digits_61_64(input_string),
+        65 => return digits_65_68(input_string),
+        66 => return digits_65_68(input_string),
+        67 => return digits_65_68(input_string),
+        68 => return digits_65_68(input_string),
+        69 => return digits_69_72(input_string),
+        70 => return digits_69_72(input_string),
+        71 => return digits_69_72(input_string),
+        72 => return digits_69_72(input_string),
         _ => return "".to_string()
     };
 }
@@ -377,7 +397,7 @@ fn digits_41_44(input_string: &str) -> String {
         return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 32)]), digits_9_12(&input_string[digits - (max_len - 32)..]));
     }
     if &input_string[digits - (max_len - 36)..digits - (max_len - 40)] != "0000" {
-        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_5_8(&input_string[digits - (max_len - 32)..]));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_5_8(&input_string[digits - (max_len - 36)..]));
     }
     return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 44)]));
 }
@@ -413,10 +433,10 @@ fn digits_45_48(input_string: &str) -> String {
         return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 32)]), digits_13_16(&input_string[digits - (max_len - 32)..]));
     }
     if &input_string[digits - (max_len - 36)..digits - (max_len - 40)] != "0000" {
-        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_9_12(&input_string[digits - (max_len - 32)..]));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_9_12(&input_string[digits - (max_len - 36)..]));
     }
     if &input_string[digits - (max_len - 40)..digits - (max_len - 44)] != "0000" {
-        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_5_8(&input_string[digits - (max_len - 32)..]));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_5_8(&input_string[digits - (max_len - 40)..]));
     }
     return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 48)]));
 }
@@ -452,13 +472,268 @@ fn digits_49_52(input_string: &str) -> String {
         return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 32)]), digits_17_20(&input_string[digits - (max_len - 32)..]));
     }
     if &input_string[digits - (max_len - 36)..digits - (max_len - 40)] != "0000" {
-        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_13_16(&input_string[digits - (max_len - 32)..]));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_13_16(&input_string[digits - (max_len - 36)..]));
     }
     if &input_string[digits - (max_len - 40)..digits - (max_len - 44)] != "0000" {
-        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_9_12(&input_string[digits - (max_len - 32)..]));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_9_12(&input_string[digits - (max_len - 40)..]));
     }
     if &input_string[digits - (max_len - 44)..digits - (max_len - 48)] != "0000" {
-        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 44)]), digits_5_8(&input_string[digits - (max_len - 32)..]));
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 44)]), digits_5_8(&input_string[digits - (max_len - 44)..]));
     }
-    return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 12)]));
+    return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 52)]));
+}
+
+fn digits_53_56(input_string: &str) -> String {
+    let digits = input_string.len();
+    let max_len = 56;
+    let first_chars = &input_string[0..digits - (max_len - 4)];
+    let digit_range_characters = "こうがしゃ";
+
+    if &input_string[digits - (max_len - 4)..digits - (max_len - 8)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_49_52(&format!("{}{}", "0", &input_string[digits - (max_len - 8)..])));
+    }
+    if &input_string[digits - (max_len - 8)..digits - (max_len - 12)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_45_48(&input_string[digits - (max_len - 8)..]));
+    }
+    if &input_string[digits - (max_len - 12)..digits - (max_len - 16)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 12)]), digits_41_44(&input_string[digits - (max_len - 12)..]));
+    }
+    if &input_string[digits - (max_len - 16)..digits - (max_len - 20)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 16)]), digits_37_40(&input_string[digits - (max_len - 16)..]));
+    }
+    if &input_string[digits - (max_len - 20)..digits - (max_len - 24)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 20)]), digits_33_36(&input_string[digits - (max_len - 20)..]));
+    }
+    if &input_string[digits - (max_len - 24)..digits - (max_len - 28)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 24)]), digits_29_32(&input_string[digits - (max_len - 24)..]));
+    }
+    if &input_string[digits - (max_len - 28)..digits - (max_len - 32)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 28)]), digits_25_28(&input_string[digits - (max_len - 28)..]));
+    }
+    if &input_string[digits - (max_len - 32)..digits - (max_len - 36)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 32)]), digits_21_24(&input_string[digits - (max_len - 32)..]));
+    }
+    if &input_string[digits - (max_len - 36)..digits - (max_len - 40)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_17_20(&input_string[digits - (max_len - 36)..]));
+    }
+    if &input_string[digits - (max_len - 40)..digits - (max_len - 44)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_13_16(&input_string[digits - (max_len - 40)..]));
+    }
+    if &input_string[digits - (max_len - 44)..digits - (max_len - 48)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 44)]), digits_9_12(&input_string[digits - (max_len - 44)..]));
+    }
+    if &input_string[digits - (max_len - 48)..digits - (max_len - 52)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 48)]), digits_5_8(&input_string[digits - (max_len - 48)..]));
+    }
+    return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 56)]));
+}
+
+fn digits_57_60(input_string: &str) -> String {
+    let digits = input_string.len();
+    let max_len = 60;
+    let first_chars = &input_string[0..digits - (max_len - 4)];
+    let digit_range_characters = "あそうぎ";
+
+    if &input_string[digits - (max_len - 4)..digits - (max_len - 8)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_53_56(&format!("{}{}", "0", &input_string[digits - (max_len - 8)..])));
+    }
+    if &input_string[digits - (max_len - 8)..digits - (max_len - 12)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_49_52(&input_string[digits - (max_len - 8)..]));
+    }
+    if &input_string[digits - (max_len - 12)..digits - (max_len - 16)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 12)]), digits_45_48(&input_string[digits - (max_len - 12)..]));
+    }
+    if &input_string[digits - (max_len - 16)..digits - (max_len - 20)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 16)]), digits_41_44(&input_string[digits - (max_len - 16)..]));
+    }
+    if &input_string[digits - (max_len - 20)..digits - (max_len - 24)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 20)]), digits_37_40(&input_string[digits - (max_len - 20)..]));
+    }
+    if &input_string[digits - (max_len - 24)..digits - (max_len - 28)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 24)]), digits_33_36(&input_string[digits - (max_len - 24)..]));
+    }
+    if &input_string[digits - (max_len - 28)..digits - (max_len - 32)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 28)]), digits_29_32(&input_string[digits - (max_len - 28)..]));
+    }
+    if &input_string[digits - (max_len - 32)..digits - (max_len - 36)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 32)]), digits_25_28(&input_string[digits - (max_len - 32)..]));
+    }
+    if &input_string[digits - (max_len - 36)..digits - (max_len - 40)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_21_24(&input_string[digits - (max_len - 36)..]));
+    }
+    if &input_string[digits - (max_len - 40)..digits - (max_len - 44)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_17_20(&input_string[digits - (max_len - 40)..]));
+    }
+    if &input_string[digits - (max_len - 44)..digits - (max_len - 48)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 44)]), digits_13_16(&input_string[digits - (max_len - 44)..]));
+    }
+    if &input_string[digits - (max_len - 48)..digits - (max_len - 52)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 48)]), digits_9_12(&input_string[digits - (max_len - 48)..]));
+    }
+    if &input_string[digits - (max_len - 52)..digits - (max_len - 56)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 52)]), digits_5_8(&input_string[digits - (max_len - 52)..]));
+    }
+    return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 60)]));
+}
+
+fn digits_61_64(input_string: &str) -> String {
+    let digits = input_string.len();
+    let max_len = 64;
+    let first_chars = &input_string[0..digits - (max_len - 4)];
+    let digit_range_characters = "なゆた";
+
+    if &input_string[digits - (max_len - 4)..digits - (max_len - 8)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_57_60(&format!("{}{}", "0", &input_string[digits - (max_len - 8)..])));
+    }
+    if &input_string[digits - (max_len - 8)..digits - (max_len - 12)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_53_56(&input_string[digits - (max_len - 8)..]));
+    }
+    if &input_string[digits - (max_len - 12)..digits - (max_len - 16)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 12)]), digits_49_52(&input_string[digits - (max_len - 12)..]));
+    }
+    if &input_string[digits - (max_len - 16)..digits - (max_len - 20)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 16)]), digits_45_48(&input_string[digits - (max_len - 16)..]));
+    }
+    if &input_string[digits - (max_len - 20)..digits - (max_len - 24)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 20)]), digits_41_44(&input_string[digits - (max_len - 20)..]));
+    }
+    if &input_string[digits - (max_len - 24)..digits - (max_len - 28)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 24)]), digits_37_40(&input_string[digits - (max_len - 24)..]));
+    }
+    if &input_string[digits - (max_len - 28)..digits - (max_len - 32)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 28)]), digits_33_36(&input_string[digits - (max_len - 28)..]));
+    }
+    if &input_string[digits - (max_len - 32)..digits - (max_len - 36)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 32)]), digits_29_32(&input_string[digits - (max_len - 32)..]));
+    }
+    if &input_string[digits - (max_len - 36)..digits - (max_len - 40)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_25_28(&input_string[digits - (max_len - 36)..]));
+    }
+    if &input_string[digits - (max_len - 40)..digits - (max_len - 44)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_21_24(&input_string[digits - (max_len - 40)..]));
+    }
+    if &input_string[digits - (max_len - 44)..digits - (max_len - 48)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 44)]), digits_17_20(&input_string[digits - (max_len - 44)..]));
+    }
+    if &input_string[digits - (max_len - 48)..digits - (max_len - 52)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 48)]), digits_13_16(&input_string[digits - (max_len - 48)..]));
+    }
+    if &input_string[digits - (max_len - 52)..digits - (max_len - 56)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 52)]), digits_9_12(&input_string[digits - (max_len - 52)..]));
+    }
+    if &input_string[digits - (max_len - 56)..digits - (max_len - 60)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 56)]), digits_5_8(&input_string[digits - (max_len - 56)..]));
+    }
+    return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 64)]));
+}
+
+fn digits_65_68(input_string: &str) -> String {
+    let digits = input_string.len();
+    let max_len = 68;
+    let first_chars = &input_string[0..digits - (max_len - 4)];
+    let digit_range_characters = "ふかしぎ";
+
+    if &input_string[digits - (max_len - 4)..digits - (max_len - 8)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_61_64(&format!("{}{}", "0", &input_string[digits - (max_len - 8)..])));
+    }
+    if &input_string[digits - (max_len - 8)..digits - (max_len - 12)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_57_60(&input_string[digits - (max_len - 8)..]));
+    }
+    if &input_string[digits - (max_len - 12)..digits - (max_len - 16)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 12)]), digits_53_56(&input_string[digits - (max_len - 12)..]));
+    }
+    if &input_string[digits - (max_len - 16)..digits - (max_len - 20)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 16)]), digits_49_52(&input_string[digits - (max_len - 16)..]));
+    }
+    if &input_string[digits - (max_len - 20)..digits - (max_len - 24)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 20)]), digits_45_48(&input_string[digits - (max_len - 20)..]));
+    }
+    if &input_string[digits - (max_len - 24)..digits - (max_len - 28)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 24)]), digits_41_44(&input_string[digits - (max_len - 24)..]));
+    }
+    if &input_string[digits - (max_len - 28)..digits - (max_len - 32)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 28)]), digits_37_40(&input_string[digits - (max_len - 28)..]));
+    }
+    if &input_string[digits - (max_len - 32)..digits - (max_len - 36)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 32)]), digits_33_36(&input_string[digits - (max_len - 32)..]));
+    }
+    if &input_string[digits - (max_len - 36)..digits - (max_len - 40)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_29_32(&input_string[digits - (max_len - 36)..]));
+    }
+    if &input_string[digits - (max_len - 40)..digits - (max_len - 44)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_25_28(&input_string[digits - (max_len - 40)..]));
+    }
+    if &input_string[digits - (max_len - 44)..digits - (max_len - 48)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 44)]), digits_21_24(&input_string[digits - (max_len - 44)..]));
+    }
+    if &input_string[digits - (max_len - 48)..digits - (max_len - 52)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 48)]), digits_17_20(&input_string[digits - (max_len - 48)..]));
+    }
+    if &input_string[digits - (max_len - 52)..digits - (max_len - 56)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 52)]), digits_13_16(&input_string[digits - (max_len - 52)..]));
+    }
+    if &input_string[digits - (max_len - 56)..digits - (max_len - 60)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 56)]), digits_9_12(&input_string[digits - (max_len - 56)..]));
+    }
+    if &input_string[digits - (max_len - 60)..digits - (max_len - 64)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 60)]), digits_5_8(&input_string[digits - (max_len - 60)..]));
+    }
+    return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 68)]));
+}
+
+fn digits_69_72(input_string: &str) -> String {
+    let digits = input_string.len();
+    let max_len = 72;
+    let first_chars = &input_string[0..digits - (max_len - 4)];
+    let digit_range_characters = "むりょうたいすう";
+
+    if &input_string[digits - (max_len - 4)..digits - (max_len - 8)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_65_68(&format!("{}{}", "0", &input_string[digits - (max_len - 8)..])));
+    }
+    if &input_string[digits - (max_len - 8)..digits - (max_len - 12)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4(&input_string[digits - (max_len - 4)..digits - (max_len - 8)], true), digits_61_64(&input_string[digits - (max_len - 8)..]));
+    }
+    if &input_string[digits - (max_len - 12)..digits - (max_len - 16)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 12)]), digits_57_60(&input_string[digits - (max_len - 12)..]));
+    }
+    if &input_string[digits - (max_len - 16)..digits - (max_len - 20)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 16)]), digits_53_56(&input_string[digits - (max_len - 16)..]));
+    }
+    if &input_string[digits - (max_len - 20)..digits - (max_len - 24)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 20)]), digits_49_52(&input_string[digits - (max_len - 20)..]));
+    }
+    if &input_string[digits - (max_len - 24)..digits - (max_len - 28)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 24)]), digits_45_48(&input_string[digits - (max_len - 24)..]));
+    }
+    if &input_string[digits - (max_len - 28)..digits - (max_len - 32)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 28)]), digits_41_44(&input_string[digits - (max_len - 28)..]));
+    }
+    if &input_string[digits - (max_len - 32)..digits - (max_len - 36)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 32)]), digits_37_40(&input_string[digits - (max_len - 32)..]));
+    }
+    if &input_string[digits - (max_len - 36)..digits - (max_len - 40)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 36)]), digits_33_36(&input_string[digits - (max_len - 36)..]));
+    }
+    if &input_string[digits - (max_len - 40)..digits - (max_len - 44)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 40)]), digits_29_32(&input_string[digits - (max_len - 40)..]));
+    }
+    if &input_string[digits - (max_len - 44)..digits - (max_len - 48)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 44)]), digits_25_28(&input_string[digits - (max_len - 44)..]));
+    }
+    if &input_string[digits - (max_len - 48)..digits - (max_len - 52)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 48)]), digits_21_24(&input_string[digits - (max_len - 48)..]));
+    }
+    if &input_string[digits - (max_len - 52)..digits - (max_len - 56)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 52)]), digits_17_20(&input_string[digits - (max_len - 52)..]));
+    }
+    if &input_string[digits - (max_len - 56)..digits - (max_len - 60)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 56)]), digits_13_16(&input_string[digits - (max_len - 56)..]));
+    }
+    if &input_string[digits - (max_len - 60)..digits - (max_len - 64)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 60)]), digits_9_12(&input_string[digits - (max_len - 60)..]));
+    }
+    if &input_string[digits - (max_len - 64)..digits - (max_len - 68)] != "0000" {
+        return format!("{}{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 64)]), digits_5_8(&input_string[digits - (max_len - 64)..]));
+    }
+    return format!("{}{}{}", handle_first_chars(first_chars), digit_range_characters, digits_4_for_slice(&input_string[digits - (max_len - 4)..digits - (max_len - 72)]));
 }
