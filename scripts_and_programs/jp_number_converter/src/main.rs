@@ -1,10 +1,12 @@
 mod hiragana_tests;
 mod kanji_tests;
 mod banknote_daiji_tests;
+mod daiji_tests;
 
 mod hiragana;
 mod kanji;
 mod banknote_daiji;
+mod daiji;
 
 fn main() {
     loop {
@@ -13,6 +15,7 @@ fn main() {
         println!("{}", hiragana::convert_number(&input_string));
         println!("{}", kanji::convert_number(&input_string));
         println!("{}", banknote_daiji::convert_number(&input_string));
+        println!("{}", daiji::convert_number(&input_string));
     }
 }
 
