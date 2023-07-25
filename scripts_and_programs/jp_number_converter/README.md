@@ -16,7 +16,7 @@ cargo build --release
 
 - Currently conversion to hiragana, kanji, banknote-style daiji, and daiji are supported.
 
-- Decimals and fractions are not supported.
+- Decimals and fractions are supported in the following format: `123.456`.
 
 - Only numbers from 0-9999999999999999 are supported.
 

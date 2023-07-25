@@ -4,6 +4,7 @@ use crate::hiragana::convert_number;
 #[test]
 pub fn hiragana_tests() {
     assert_eq!(convert_number("0"), "ゼロ");
+    assert_eq!(convert_number("0.0123456789"), "ゼロてんゼロいちにさんよんごろくななはちきゅう");
     assert_eq!(convert_number("1"), "いち");
     assert_eq!(convert_number("2"), "に");
     assert_eq!(convert_number("3"), "さん");

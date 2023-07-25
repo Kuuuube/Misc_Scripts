@@ -19,8 +19,6 @@ fn main() {
     }
 }
 
-
-
 fn read_line() -> String {
     let mut buffer = String::default();
     std::io::stdin().read_line(&mut buffer).unwrap_or_default();

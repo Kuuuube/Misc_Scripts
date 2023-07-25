@@ -1,6 +1,14 @@
 use std::collections::HashMap;
 
 pub fn convert_number(input_string: &str) -> String {
+    let split_string: Vec<&str> = input_string.split(".").collect();
+    if split_string.len() > 1 {
+        return format!("{}点{}", whole_number(split_string.get(0).unwrap()), fraction(split_string.get(1).unwrap()));
+    }
+    return whole_number(input_string);
+}
+
+fn whole_number(input_string: &str) -> String {
     match input_string.len() {
         1 => return digits_1(input_string, true),
         2 => return digits_2(input_string),
@@ -19,7 +27,11 @@ pub fn convert_number(input_string: &str) -> String {
         15 => return digits_15(input_string),
         16 => return digits_16(input_string),
         _ => return "".to_string()
-    }
+    };
+}
+
+fn fraction(input_string: &str) -> String {
+    return input_string.replace("0", "零").replace("1", "一").replace("2", "二").replace("3", "三").replace("4", "四").replace("5", "五").replace("6", "六").replace("7", "七").replace("8", "八").replace("9", "九").to_string();
 }
 
 fn digits_1(input_string: &str, use_zero: bool) -> String {

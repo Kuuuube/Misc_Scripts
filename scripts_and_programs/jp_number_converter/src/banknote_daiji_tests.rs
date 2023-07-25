@@ -4,6 +4,7 @@ use crate::banknote_daiji::convert_number;
 #[test]
 pub fn banknote_daiji_tests() {
     assert_eq!(convert_number("0"), "零");
+    assert_eq!(convert_number("0.0123456789"), "零点零壱弐参四伍六七八九");
     assert_eq!(convert_number("1"), "壱");
     assert_eq!(convert_number("2"), "弐");
     assert_eq!(convert_number("3"), "参");

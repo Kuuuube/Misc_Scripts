@@ -4,6 +4,7 @@ use crate::kanji::convert_number;
 #[test]
 pub fn kanji_tests() {
     assert_eq!(convert_number("0"), "零");
+    assert_eq!(convert_number("0.0123456789"), "零点零一二三四五六七八九");
     assert_eq!(convert_number("1"), "一");
     assert_eq!(convert_number("2"), "二");
     assert_eq!(convert_number("3"), "三");

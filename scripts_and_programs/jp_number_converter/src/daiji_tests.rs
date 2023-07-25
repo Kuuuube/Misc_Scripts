@@ -4,6 +4,7 @@ use crate::daiji::convert_number;
 #[test]
 pub fn daiji_tests() {
     assert_eq!(convert_number("0"), "零");
+    assert_eq!(convert_number("0.0123456789"), "零点零壱弐参肆伍陸漆捌玖");
     assert_eq!(convert_number("1"), "壱");
     assert_eq!(convert_number("2"), "弐");
     assert_eq!(convert_number("3"), "参");
