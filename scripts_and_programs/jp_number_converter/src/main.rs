@@ -1,7 +1,4 @@
-mod hiragana_tests;
-mod kanji_tests;
-mod banknote_daiji_tests;
-mod daiji_tests;
+mod tests;
 
 mod hiragana;
 mod kanji;
