@@ -36,4 +36,6 @@ cargo build --release
 
     玖阡玖佰玖拾玖無量大数玖阡玖佰玖拾玖不可思議玖阡玖佰玖拾玖那由他玖阡玖佰玖拾玖阿僧祇玖阡玖佰玖拾玖恒河沙玖阡玖佰玖拾玖極玖阡玖佰玖拾玖載玖阡玖佰玖拾玖正玖阡玖佰玖拾玖澗玖阡玖佰玖拾玖溝玖阡玖佰玖拾玖穣玖阡玖佰玖拾玖𥝱玖阡玖佰玖拾玖垓玖阡玖佰玖拾玖京玖阡玖佰玖拾玖兆玖阡玖佰玖拾玖億玖阡玖佰玖拾玖萬玖阡玖佰玖拾玖
 
+- I cannot guarantee all kanji and daiji outputted are the most common/accepted for all uses. I tried to get this as correct as possible but there is some conflicting information and some numbers can be represented by multiple kanji or daiji.
+
 - Inspired by [https://www.sljfaq.org/cgi/numbers.cgi](https://www.sljfaq.org/cgi/numbers.cgi). If my number converter was something of interest to you, you my find many other interesting things on this site.
