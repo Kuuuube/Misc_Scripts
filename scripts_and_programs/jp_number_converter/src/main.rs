@@ -1,22 +1,39 @@
+use args_parser::{Settings, Mode};
+
 mod tests;
 
 mod hiragana;
 mod kanji;
 mod banknote_daiji;
 mod daiji;
+mod args_parser;
 
 fn main() {
-    println!("Format String (optional): ");
-    let read_format_string = read_line().trim().to_string();
-    let format_string = if read_format_string.len() == 0 {
-        "Hiragana: {hiragana}\nKanji: {kanji}\nBanknote-style Daiji: {banknote_daiji}\nDaiji: {daiji}".to_string()
-    } else {
-        read_format_string
+    let settings = match args_parser::parse_args() {
+        Some(some) => some,
+        None => return
     };
-    let hiragana_convert = format_string.contains("{hiragana}");
-    let kanji_convert = format_string.contains("{kanji}");
-    let banknote_daiji_convert = format_string.contains("{banknote_daiji}");
-    let daiji_convert = format_string.contains("{daiji}");
+
+    match settings.mode {
+        Mode::Interactive => interactive_mode(settings),
+        Mode::Generation => (),
+        Mode::Guessing => ()
+    }
+}
+
+fn read_line() -> String {
+    let mut buffer = String::default();
+    std::io::stdin().read_line(&mut buffer).unwrap_or_default();
+    return buffer;
+}
+
+fn interactive_mode(settings: Settings) {
+    let hiragana_convert = settings.format_string.contains("{hiragana}");
+    let kanji_convert = settings.format_string.contains("{kanji}");
+    let banknote_daiji_convert = settings.format_string.contains("{banknote_daiji}");
+    let daiji_convert = settings.format_string.contains("{daiji}");
+
+    println!("Interactive Mode");
 
     loop {
         println!("Input: ");
@@ -41,12 +58,6 @@ fn main() {
         } else {
             "".to_string()
         };
-        println!("{}", format_string.replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output));
+        println!("{}", settings.format_string.replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
     }
-}
-
-fn read_line() -> String {
-    let mut buffer = String::default();
-    std::io::stdin().read_line(&mut buffer).unwrap_or_default();
-    return buffer;
 }
