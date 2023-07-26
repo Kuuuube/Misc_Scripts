@@ -7,25 +7,30 @@ pub fn parse_args() -> Option<Settings> {
         return Some(settings);
     }
 
-    for arg in args {
+    let mut i: usize = 1;
+    while i < args.len() {
+        let arg = args.get(i).unwrap_or(&"".to_string()).to_string();
         let split: Vec<&str> = arg.split("=").collect();
         match split[0].to_lowercase().as_str() {
-            "--help" => {help_message(); return None}
+            "--help" => {help_message(); return None},
+            "-h" => {help_message(); return None},
             "--mode" => {settings.mode = match safe_get_string(split, 1).as_str() {"generation" => Mode::Generation, "guessing" => Mode::Guessing, _ => Mode::Interactive}},
             "--format" => {settings.format_string = safe_get_string(split, 1)},
             "--range" => {settings.range = parse_range(safe_get_string(split, 1))},
             "--step" => {settings.step = safe_parse_f64(safe_get_string(split, 1))},
             "--step-type" => {settings.step_type = match safe_get_string(split, 1).as_str() {"multiply" => StepType::Multiply, "exponent" => StepType::Exponent, _ => StepType::Add}},
             "--output" => {settings.output = safe_get_string(split, 1)},
-            "--weight" => {settings.weight = true}
+            "--weight" => {settings.weight = true},
             _ => {unknown_command_message(split[0]); return None}
         }
+
+        i += 1;
     }
     return Some(settings);
 }
 
 fn help_message() {
-    println!("jp_number_converter\nUsage: jp_number_converter [OPTION]...\n\nMandatory:\n  --mode=MODE                    (interactive|generation|guessing)\n\nAll Modes:\n  --format=STR                   format string to override default in the following format:\n                                 `Hiragana: {{hiragana}}\nKanji: {{kanji}}\nBanknote-style Daiji: {{banknote_daiji}}\nDaiji: {{daiji}}`\n\nInteractive Mode:\n\n\nGeneration Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --step=FLOAT                   number to increment the output by\n  --step-type                    (add|multiply|exponent)\n  --output=FILE                  set output FILE\n\nGuessing Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --weight                       makes all digits within the range equally likely");
+    println!("jp_number_converter\nUsage: jp_number_converter [OPTION]...\n\nMandatory:\n  --mode=MODE                    (interactive|generation|guessing)\n\nAll Modes:\n  --format=STR                   format string to override default in the following format:\n                                 `Hiragana: {{hiragana}}, Kanji: {{kanji}}, Banknote-style Daiji: {{banknote_daiji}}, Daiji: {{daiji}}\\n`\n\nInteractive Mode:\n\n\nGeneration Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --step=FLOAT                   number to increment the output by\n  --step-type                    (add|multiply|exponent)\n  --output=FILE                  set output FILE\n\nGuessing Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --weight                       makes all digits within the range equally likely");
 }
 
 fn unknown_command_message(command: &str) {
@@ -59,7 +64,7 @@ impl Default for Settings {
     fn default() -> Self {
         Settings {
             mode: Mode::Interactive,
-            format_string: "Hiragana: {hiragana}\nKanji: {kanji}\nBanknote-style Daiji: {banknote_daiji}\nDaiji: {daiji}".to_string(),
+            format_string: "Hiragana: {hiragana}, Kanji: {kanji}, Banknote-style Daiji: {banknote_daiji}, Daiji: {daiji}\n".to_string(),
             range: ("0".to_string(), "1".to_string()),
             step: 1.0,
             step_type: StepType::Add,
