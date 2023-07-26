@@ -106,7 +106,7 @@ pub fn precise_generation_mode(settings: Settings) {
     let mut i = start_number;
 
     while i < end_number.clone() + bigdecimal_step.clone() {
-        let input_string = format!("{}", i);
+        let input_string = clean_decimal_string(format!("{}", i));
         let hiragana_output = if hiragana_convert {
             hiragana::convert_number(&input_string)
         } else {
@@ -144,4 +144,11 @@ pub fn precise_generation_mode(settings: Settings) {
     //benchmarking code
     let time_elapsed = start_time.elapsed();
     println!("Generated in: {time_elapsed:.6?}");
+}
+
+fn clean_decimal_string(input_string: String) -> String {
+    if input_string.contains(".") {
+        return input_string.trim_end_matches("0").trim_end_matches(".").to_string();
+    }
+    return input_string;
 }
