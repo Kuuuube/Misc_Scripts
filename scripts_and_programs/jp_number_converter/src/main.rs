@@ -60,7 +60,7 @@ fn interactive_mode(settings: Settings) {
         } else {
             "".to_string()
         };
-        println!("{}", settings.format_string.replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
+        println!("{}", settings.format_string.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
     }
 }
 
@@ -85,8 +85,8 @@ fn generation_mode(settings: Settings) {
     let end_number = settings.range.1.parse::<f64>().unwrap_or_default();
     let mut i = start_number;
 
-    while i < end_number {
-        let input_string = i.to_string();
+    while i < end_number + settings.step {
+        let input_string = format!("{:.rounding$}", i, rounding = settings.step_decimal_len + 1).trim_end_matches("0").trim_end_matches(".").to_string();
         let hiragana_output = if hiragana_convert {
             hiragana::convert_number(&input_string)
         } else {
@@ -107,7 +107,7 @@ fn generation_mode(settings: Settings) {
         } else {
             "".to_string()
         };
-        generated_string += &format!("{}", settings.format_string.replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
+        generated_string += &format!("{}", settings.format_string.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
 
         match settings.step_type {
             StepType::Add => i += settings.step,
