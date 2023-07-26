@@ -155,13 +155,24 @@ fn guessing_mode(settings: Settings) {
             let digit_start = range.0.len();
             let digits_end = range.1.len();
 
+            let start_float = safe_parse_f64(range.0);
+            let end_float = safe_parse_f64(range.1);
+
             let digit = rand::thread_rng().gen_range(digit_start..=digits_end);
 
             let mut minimum_number = 1.0;
             let mut maximum_number = 9.0;
-            for _ in 2..digit {
+            for _ in 1..digit {
                 minimum_number = minimum_number * 10.0;
                 maximum_number = maximum_number * 10.0 + 9.0;
+            }
+
+            if minimum_number < start_float {
+                minimum_number = start_float;
+            }
+
+            if maximum_number > end_float {
+                maximum_number = end_float;
             }
 
             let number = rand::thread_rng().gen_range(minimum_number..=maximum_number);
