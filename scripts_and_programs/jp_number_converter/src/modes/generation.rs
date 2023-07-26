@@ -2,6 +2,7 @@ use std::str::FromStr;
 use std::time::Instant;
 use bigdecimal::BigDecimal;
 
+use crate::utils::{clean_decimal_string, clean_f64_to_string, bigdecimal_powf};
 use crate::{Settings, StepType};
 use crate::{banknote_daiji, daiji, hiragana, kanji};
 
@@ -75,14 +76,6 @@ fn float_generation_mode(settings: Settings) {
     println!("Generated in: {time_elapsed:.6?}");
 }
 
-fn clean_f64_to_string(float: f64, rounding: usize) -> String {
-    let rounded = format!("{:.rounding$}", float);
-    if rounded.contains(".") {
-        return rounded.trim_end_matches("0").trim_end_matches(".").to_string();
-    }
-    return rounded;
-}
-
 pub fn precise_generation_mode(settings: Settings) {
     let hiragana_convert = settings.format_string.contains("{hiragana}");
     let kanji_convert = settings.format_string.contains("{kanji}");
@@ -132,7 +125,7 @@ pub fn precise_generation_mode(settings: Settings) {
         match settings.step_type {
             StepType::Add => i += bigdecimal_step.clone(),
             StepType::Multiply => i *= bigdecimal_step.clone(),
-            StepType::Exponent => i += bigdecimal_step.clone() //exponent is not supported for bigdecimal
+            StepType::Exponent => i = bigdecimal_powf(i, bigdecimal_step.clone())
         }
     }
 
@@ -144,11 +137,4 @@ pub fn precise_generation_mode(settings: Settings) {
     //benchmarking code
     let time_elapsed = start_time.elapsed();
     println!("Generated in: {time_elapsed:.6?}");
-}
-
-fn clean_decimal_string(input_string: String) -> String {
-    if input_string.contains(".") {
-        return input_string.trim_end_matches("0").trim_end_matches(".").to_string();
-    }
-    return input_string;
 }

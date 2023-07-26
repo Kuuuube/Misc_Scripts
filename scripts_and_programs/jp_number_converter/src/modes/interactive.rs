@@ -1,3 +1,4 @@
+use crate::utils::read_line;
 use crate::Settings;
 use crate::{banknote_daiji, daiji, hiragana, kanji};
 
@@ -34,11 +35,4 @@ pub fn interactive_mode(settings: Settings) {
         };
         print!("{}", settings.format_string.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
     }
-}
-
-fn read_line() -> String {
-    std::io::Write::flush(&mut std::io::stdout()).unwrap();
-    let mut buffer = String::default();
-    std::io::stdin().read_line(&mut buffer).unwrap_or_default();
-    return buffer;
 }

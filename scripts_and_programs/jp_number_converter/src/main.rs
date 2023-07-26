@@ -2,6 +2,7 @@ mod tests;
 mod conversions;
 mod args_parser;
 mod modes;
+mod utils;
 
 use modes::{interactive, generation, guessing};
 use conversions::{banknote_daiji, daiji, hiragana, kanji};

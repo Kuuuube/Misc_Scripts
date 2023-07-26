@@ -1,5 +1,6 @@
 use rand::Rng;
 
+use crate::utils::{clean_f64_to_string, safe_parse_f64, read_line};
 use crate::Settings;
 use crate::{banknote_daiji, daiji, hiragana, kanji};
 
@@ -57,23 +58,4 @@ pub fn guessing_mode(settings: Settings) {
             print!("{}", settings.incorrect.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
         }
     }
-}
-
-fn clean_f64_to_string(float: f64, rounding: usize) -> String {
-    let rounded = format!("{:.rounding$}", float);
-    if rounded.contains(".") {
-        return rounded.trim_end_matches("0").trim_end_matches(".").to_string();
-    }
-    return rounded;
-}
-
-fn safe_parse_f64(input: String) -> f64 {
-    return input.parse::<f64>().unwrap_or_default();
-}
-
-fn read_line() -> String {
-    std::io::Write::flush(&mut std::io::stdout()).unwrap();
-    let mut buffer = String::default();
-    std::io::stdin().read_line(&mut buffer).unwrap_or_default();
-    return buffer;
 }

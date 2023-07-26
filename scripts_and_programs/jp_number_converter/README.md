@@ -46,7 +46,7 @@ Allows converting single arabic numerals to japanese numerals, generating lists 
 
 - `--step-type`: The operation to apply the step as: `add`, `multiply`, or `exponent`. Do not use a range starting at `0` (the default) with `multiply` and `exponent`. Default: `add`.
 
-- `--precise`: Enable arbitrary precision mode to remove float error. `--step-type=exponent` is not supported in this mode. Default: `false`.
+- `--precise`: Enable arbitrary precision mode to remove float error (extremely slow on fractional exponent steps). Default: `false`.
 
 - `--output=FILE`: Output filepath.
 
