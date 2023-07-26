@@ -72,6 +72,7 @@ fn safe_parse_f64(input: String) -> f64 {
 }
 
 fn read_line() -> String {
+    std::io::Write::flush(&mut std::io::stdout()).unwrap();
     let mut buffer = String::default();
     std::io::stdin().read_line(&mut buffer).unwrap_or_default();
     return buffer;
