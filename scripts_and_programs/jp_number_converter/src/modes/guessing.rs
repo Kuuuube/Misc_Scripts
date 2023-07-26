@@ -31,7 +31,7 @@ pub fn guessing_mode(settings: Settings) {
                 maximum_number = maximum_number * 10.0 + 9.0;
             }
 
-            if minimum_number < start_float {
+            if minimum_number < start_float || (start_float == 0.0 && digit == 1) {
                 minimum_number = start_float;
             }
 
