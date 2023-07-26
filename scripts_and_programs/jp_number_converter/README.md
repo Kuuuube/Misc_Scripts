@@ -1,6 +1,6 @@
 # JP Number Converter
 
-Outputs the japanese numeral equivalent for given arabic numerals.
+Allows converting single arabic numerals to japanese numerals, generating lists of japanese numerals from a range, and generating random japanese numerals to guess.
 
 ## Usage
 

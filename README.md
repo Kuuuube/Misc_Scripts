@@ -20,7 +20,7 @@ Fixes Jisho occasionally loading pages scrolled to the bottom.
 
 ## [JP Number Converter](./scripts_and_programs/jp_number_converter)
 
-Outputs the japanese numeral equivalent for given arabic numerals.
+Allows converting single arabic numerals to japanese numerals, generating lists of japanese numerals from a range, and generating random japanese numerals to guess.
 
 ## [Keyboard Layout Translator](./scripts_and_programs/keyboard_layout_translator)
 
