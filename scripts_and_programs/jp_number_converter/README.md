@@ -12,6 +12,12 @@ Outputs the japanese numeral equivalent for given arabic numerals.
 
 - `--mode=MODE`: `interactive`, `generation`, or `guessing`. Default: `interactive`.
 
+    `interactive`: Takes terminal input and prints the number format.
+
+    `generation`: Outputs the number format to a file over the specified range.
+
+    `guessing`: Prints the number format and checks input against possible numbers.
+
 #### All Modes
 
 - `--format=STR`: Format string to override default in the following format:
