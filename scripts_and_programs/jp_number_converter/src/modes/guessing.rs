@@ -4,11 +4,6 @@ use crate::Settings;
 use crate::{banknote_daiji, daiji, hiragana, kanji};
 
 pub fn guessing_mode(settings: Settings) {
-    let hiragana_convert = settings.format_string.contains("{hiragana}");
-    let kanji_convert = settings.format_string.contains("{kanji}");
-    let banknote_daiji_convert = settings.format_string.contains("{banknote_daiji}");
-    let daiji_convert = settings.format_string.contains("{daiji}");
-
     println!("Guessing Mode");
 
     loop {
@@ -47,31 +42,16 @@ pub fn guessing_mode(settings: Settings) {
             input_string = clean_f64_to_string(number, settings.max_decimal)
         }
 
-        let hiragana_output = if hiragana_convert {
-            hiragana::convert_number(&input_string)
-        } else {
-            "".to_string()
-        };
-        let kanji_output = if kanji_convert {
-            kanji::convert_number(&input_string)
-        } else {
-            "".to_string()
-        };
-        let banknote_daiji_output = if banknote_daiji_convert {
-            banknote_daiji::convert_number(&input_string)
-        } else {
-            "".to_string()
-        };
-        let daiji_output = if daiji_convert {
-            daiji::convert_number(&input_string)
-        } else {
-            "".to_string()
-        };
+        let hiragana_output = hiragana::convert_number(&input_string);
+        let kanji_output = kanji::convert_number(&input_string);
+        let banknote_daiji_output = banknote_daiji::convert_number(&input_string);
+        let daiji_output = daiji::convert_number(&input_string);
+
         print!("{}", settings.format_string.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
 
         println!("Input: ");
         let user_input = read_line().trim().to_string();
-        if vec![input_string.as_str(), hiragana_output.as_str(), kanji_output.as_str(), banknote_daiji_output.as_str(), daiji_output.as_str()].contains(&user_input.as_str()) && &user_input != "" {
+        if [input_string.as_str(), hiragana_output.as_str(), kanji_output.as_str(), banknote_daiji_output.as_str(), daiji_output.as_str()].contains(&user_input.as_str()) && &user_input != "" {
             println!("Correct!")
         } else {
             println!("Incorrect. Arabic Numeral: {}", &input_string);
