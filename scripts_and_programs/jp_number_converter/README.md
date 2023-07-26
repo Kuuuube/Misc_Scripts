@@ -34,6 +34,10 @@ Allows converting single arabic numerals to japanese numerals, generating lists 
 
     `\n` Inserts a newline.
 
+#### Interactive Mode:
+
+- `--prompt=STR`: String to override default prompt message. Only supports `\n` variable.
+
 #### Generation Mode:
 
 - `--range=ARGS`: Range of numbers in the following format: `1-1000`. Default: `0-1000`.
@@ -49,6 +53,8 @@ Allows converting single arabic numerals to japanese numerals, generating lists 
 #### Guessing Mode:
 
 - `--range=ARGS`: Range of numbers in the following format: `1-1000`. Default: `0-1000`.
+
+- `--prompt=STR`: String to override default prompt message. Only supports `\n` variable.
 
 -  `--correct=STR`: Format string to override default correct message in the same format as `--format`.
 

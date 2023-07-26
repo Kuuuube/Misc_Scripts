@@ -10,7 +10,7 @@ pub fn interactive_mode(settings: Settings) {
     println!("Interactive Mode");
 
     loop {
-        println!("Input: ");
+        print!("{}", settings.prompt.replace("\\n", "\n"));
         let input_string = read_line().trim().to_string();
         let hiragana_output = if hiragana_convert {
             hiragana::convert_number(&input_string)

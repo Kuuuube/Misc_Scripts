@@ -16,6 +16,7 @@ pub fn parse_args() -> Option<Settings> {
             "-h" => {help_message(); return None},
             "--mode" => {settings.mode = match safe_get_string(split, 1).as_str() {"generation" => Mode::Generation, "guessing" => Mode::Guessing, _ => Mode::Interactive}},
             "--format" => {settings.format_string = safe_get_string(split, 1)},
+            "--prompt" => {settings.prompt = safe_get_string(split, 1)},
             "--range" => {settings.range = parse_range(safe_get_string(split, 1))},
             "--step" => {settings.raw_step = safe_get_string(split.clone(), 1); settings.step = safe_parse_f64(safe_get_string(split.clone(), 1)); if safe_get_string(split.clone(), 1).split(".").collect::<Vec<&str>>().len() == 2 {settings.step_decimal_len = safe_get_string(split, 1).len()}},
             "--step-type" => {settings.step_type = match safe_get_string(split, 1).as_str() {"multiply" => StepType::Multiply, "exponent" => StepType::Exponent, _ => StepType::Add}},
@@ -34,7 +35,7 @@ pub fn parse_args() -> Option<Settings> {
 }
 
 fn help_message() {
-    println!("jp_number_converter\nUsage: jp_number_converter [OPTION]...\n\nModes:\n  --mode=MODE                    (interactive|generation|guessing)\n\nAll Modes:\n  --format=STR                   format string to override default in the following format:\n                                 `Arabic: {{arabic}}, Hiragana: {{hiragana}}, Kanji: {{kanji}}, Banknote-style Daiji: {{banknote_daiji}}, Daiji: {{daiji}}\\n`\n\nInteractive Mode:\n\n\nGeneration Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --step=FLOAT                   number to increment the output by\n  --step-type                    (add|multiply|exponent)\n  --precise                      enables arbitrary precision mode\n  --output=FILE                  set output FILE\n\nGuessing Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --correct=STR                  format string to override default correct message in the same format as --format\n  --incorrect=STR                format string to override default incorrect message in the same format as --format\n  --weight                       makes all digits within the range equally likely\n  --max-decimal                  the maximum decimal places in generated numbers");
+    println!("jp_number_converter\nUsage: jp_number_converter [OPTION]...\n\nModes:\n  --mode=MODE                    (interactive|generation|guessing)\n\nAll Modes:\n  --format=STR                   format string to override default in the following format:\n                                 `Arabic: {{arabic}}, Hiragana: {{hiragana}}, Kanji: {{kanji}}, Banknote-style Daiji: {{banknote_daiji}}, Daiji: {{daiji}}\\n`\n\nInteractive Mode:\n  --prompt=STR                   string to override default prompt message, only supports \\n variable\n\nGeneration Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --step=FLOAT                   number to increment the output by\n  --step-type                    (add|multiply|exponent)\n  --precise                      enables arbitrary precision mode\n  --output=FILE                  set output FILE\n\nGuessing Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --prompt=STR                   string to override default prompt message, only supports \\n variable\n  --correct=STR                  format string to override default correct message in the same format as --format\n  --incorrect=STR                format string to override default incorrect message in the same format as --format\n  --weight                       makes all digits within the range equally likely\n  --max-decimal                  the maximum decimal places in generated numbers");
 }
 
 fn unknown_command_message(command: &str) {
@@ -61,6 +62,7 @@ fn safe_parse_usize(input: String) -> usize {
 pub struct Settings {
     pub mode: Mode,
     pub format_string: String,
+    pub prompt: String,
     pub range: (String, String),
     pub step: f64,
     pub raw_step: String,
@@ -79,6 +81,7 @@ impl Default for Settings {
         Settings {
             mode: Mode::Interactive,
             format_string: "Arabic: {arabic}, Hiragana: {hiragana}, Kanji: {kanji}, Banknote-style Daiji: {banknote_daiji}, Daiji: {daiji}\n".to_string(),
+            prompt: "Input:\n".to_string(),
             range: ("0".to_string(), "1000".to_string()),
             step: 1.0,
             raw_step: "1".to_string(),

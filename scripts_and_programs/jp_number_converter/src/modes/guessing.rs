@@ -49,7 +49,7 @@ pub fn guessing_mode(settings: Settings) {
 
         print!("{}", settings.format_string.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
 
-        println!("Input: ");
+        print!("{}", settings.prompt.replace("\\n", "\n"));
         let user_input = read_line().trim().to_string();
         if [input_string.as_str(), hiragana_output.as_str(), kanji_output.as_str(), banknote_daiji_output.as_str(), daiji_output.as_str()].contains(&user_input.as_str()) && &user_input != "" {
             print!("{}", settings.correct.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
