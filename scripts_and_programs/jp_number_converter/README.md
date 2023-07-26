@@ -86,4 +86,6 @@ cargo build --release
 
 - If you use multiply or exponent generation, be mindful not to start on 0 and don't use the default range.
 
+- Attempting to generate number lists of extremely high numbers (>10<sup>15</sup>) may result in an unusable amount of float error. Number identification in interactive mode is not affected by this.
+
 - Inspired by [https://www.sljfaq.org/cgi/numbers.cgi](https://www.sljfaq.org/cgi/numbers.cgi). If my number converter was something of interest to you, you my find many other interesting things on this site.
