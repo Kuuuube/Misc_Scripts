@@ -159,7 +159,7 @@ fn guessing_mode(settings: Settings) {
 
             let mut minimum_number = 1.0;
             let mut maximum_number = 9.0;
-            for _ in [0..digit] {
+            for _ in 2..digit {
                 minimum_number = minimum_number * 10.0;
                 maximum_number = maximum_number * 10.0 + 9.0;
             }
@@ -196,7 +196,7 @@ fn guessing_mode(settings: Settings) {
 
         println!("Input: ");
         let user_input = read_line().trim().to_string();
-        if vec![input_string.as_str(), hiragana_output.as_str(), kanji_output.as_str(), banknote_daiji_output.as_str(), daiji_output.as_str()].contains(&user_input.as_str()) {
+        if vec![input_string.as_str(), hiragana_output.as_str(), kanji_output.as_str(), banknote_daiji_output.as_str(), daiji_output.as_str()].contains(&user_input.as_str()) && &user_input != "" {
             println!("Correct!")
         } else {
             println!("Incorrect. Arabic Numeral: {}", &input_string);
