@@ -21,6 +21,8 @@ pub fn parse_args() -> Option<Settings> {
             "--step-type" => {settings.step_type = match safe_get_string(split, 1).as_str() {"multiply" => StepType::Multiply, "exponent" => StepType::Exponent, _ => StepType::Add}},
             "--precise" => {settings.precise = true},
             "--output" => {settings.output = safe_get_string(split, 1)},
+            "--correct" => {settings.correct = safe_get_string(split, 1)},
+            "--incorrect" => {settings.incorrect = safe_get_string(split, 1)},
             "--weight" => {settings.weight = true},
             "--max-decimal" => {settings.max_decimal = safe_parse_usize(safe_get_string(split.clone(), 1))}
             _ => {unknown_command_message(split[0]); return None}
@@ -32,7 +34,7 @@ pub fn parse_args() -> Option<Settings> {
 }
 
 fn help_message() {
-    println!("jp_number_converter\nUsage: jp_number_converter [OPTION]...\n\nModes:\n  --mode=MODE                    (interactive|generation|guessing)\n\nAll Modes:\n  --format=STR                   format string to override default in the following format:\n                                 `Arabic: {{arabic}}, Hiragana: {{hiragana}}, Kanji: {{kanji}}, Banknote-style Daiji: {{banknote_daiji}}, Daiji: {{daiji}}\\n`\n\nInteractive Mode:\n\n\nGeneration Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --step=FLOAT                   number to increment the output by\n  --step-type                    (add|multiply|exponent)\n  --precise                      enables arbitrary precision mode (slow)\n  --output=FILE                  set output FILE\n\nGuessing Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --weight                       makes all digits within the range equally likely\n  --max-decimal                  the maximum decimal places in generated numbers");
+    println!("jp_number_converter\nUsage: jp_number_converter [OPTION]...\n\nModes:\n  --mode=MODE                    (interactive|generation|guessing)\n\nAll Modes:\n  --format=STR                   format string to override default in the following format:\n                                 `Arabic: {{arabic}}, Hiragana: {{hiragana}}, Kanji: {{kanji}}, Banknote-style Daiji: {{banknote_daiji}}, Daiji: {{daiji}}\\n`\n\nInteractive Mode:\n\n\nGeneration Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --step=FLOAT                   number to increment the output by\n  --step-type                    (add|multiply|exponent)\n  --precise                      enables arbitrary precision mode (slow)\n  --output=FILE                  set output FILE\n\nGuessing Mode:\n  --range=ARGS                   range of numbers in the following format: `1-1000`\n  --correct=STR                  format string to override default correct message in the same format as --format\n  --incorrect=STR                format string to override default incorrect message in the same format as --format\n  --weight                       makes all digits within the range equally likely\n  --max-decimal                  the maximum decimal places in generated numbers");
 }
 
 fn unknown_command_message(command: &str) {
@@ -66,6 +68,8 @@ pub struct Settings {
     pub step_type: StepType,
     pub precise: bool,
     pub output: String,
+    pub correct: String,
+    pub incorrect: String,
     pub weight: bool,
     pub max_decimal: usize
 }
@@ -82,6 +86,8 @@ impl Default for Settings {
             step_type: StepType::Add,
             precise: false,
             output: "".to_string(),
+            correct: "Correct! Arabic: {arabic}, Hiragana: {hiragana}, Kanji: {kanji}, Banknote-style Daiji: {banknote_daiji}, Daiji: {daiji}\n".to_string(),
+            incorrect: "Incorrect. Arabic: {arabic}, Hiragana: {hiragana}, Kanji: {kanji}, Banknote-style Daiji: {banknote_daiji}, Daiji: {daiji}\n".to_string(),
             weight: false,
             max_decimal: 0
         }

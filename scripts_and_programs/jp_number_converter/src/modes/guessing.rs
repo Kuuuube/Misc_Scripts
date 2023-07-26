@@ -52,9 +52,9 @@ pub fn guessing_mode(settings: Settings) {
         println!("Input: ");
         let user_input = read_line().trim().to_string();
         if [input_string.as_str(), hiragana_output.as_str(), kanji_output.as_str(), banknote_daiji_output.as_str(), daiji_output.as_str()].contains(&user_input.as_str()) && &user_input != "" {
-            println!("Correct!")
+            print!("{}", settings.correct.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
         } else {
-            println!("Incorrect. Arabic Numeral: {}", &input_string);
+            print!("{}", settings.incorrect.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
         }
     }
 }

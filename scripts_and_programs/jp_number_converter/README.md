@@ -50,6 +50,10 @@ Outputs the japanese numeral equivalent for given arabic numerals.
 
 - `--range=ARGS`: Range of numbers in the following format: `1-1000`. Default: `0-1000`.
 
+-  `--correct=STR`: Format string to override default correct message in the same format as `--format`.
+
+-  `--incorrect=STR`: Format string to override default incorrect message in the same format as `--format`.
+
 - `--weight`: Makes all digits within the range equally likely. Default: `false`.
 
 - `--max-decimal`: The maximum decimal places in generated numbers. Default: `0`.
