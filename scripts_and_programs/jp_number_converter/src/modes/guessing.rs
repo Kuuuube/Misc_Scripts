@@ -11,12 +11,11 @@ pub fn guessing_mode(settings: Settings) {
         let input_string;
 
         if settings.weight {
-            let range = settings.range.clone();
-            let digit_start = range.0.len();
-            let digits_end = range.1.len();
+            let digit_start = settings.range.0.len();
+            let digits_end = settings.range.1.len();
 
-            let start_float = safe_parse_f64(range.0);
-            let end_float = safe_parse_f64(range.1);
+            let start_float = safe_parse_f64(&settings.range.0);
+            let end_float = safe_parse_f64(&settings.range.1);
 
             let digit = rand::thread_rng().gen_range(digit_start..=digits_end);
 
@@ -38,8 +37,7 @@ pub fn guessing_mode(settings: Settings) {
             let number = rand::thread_rng().gen_range(minimum_number..=maximum_number);
             input_string = clean_f64_to_string(number, settings.max_decimal);
         } else {
-            let range = settings.range.clone();
-            let number = rand::thread_rng().gen_range(safe_parse_f64(range.0)..=safe_parse_f64(range.1));
+            let number = rand::thread_rng().gen_range(safe_parse_f64(&settings.range.0)..=safe_parse_f64(&settings.range.1));
             input_string = clean_f64_to_string(number, settings.max_decimal)
         }
 

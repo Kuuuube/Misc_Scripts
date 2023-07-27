@@ -14,19 +14,19 @@ pub fn parse_args() -> Option<Settings> {
         match split[0].to_lowercase().as_str() {
             "--help" => {help_message(); return None},
             "-h" => {help_message(); return None},
-            "--mode" => {settings.mode = match safe_get_string(split, 1).as_str() {"generation" => Mode::Generation, "guessing" => Mode::Guessing, _ => Mode::Interactive}},
-            "--format" => {settings.format_string = safe_get_string(split, 1)},
-            "--prompt" => {settings.prompt = safe_get_string(split, 1)},
-            "--range" => {settings.range = parse_range(safe_get_string(split, 1))},
-            "--step" => {settings.raw_step = safe_get_string(split.clone(), 1); settings.step = safe_parse_f64(safe_get_string(split.clone(), 1)); if safe_get_string(split.clone(), 1).split(".").collect::<Vec<&str>>().len() == 2 {settings.step_decimal_len = safe_get_string(split, 1).len()}},
-            "--step-type" => {settings.step_type = match safe_get_string(split, 1).as_str() {"multiply" => StepType::Multiply, "exponent" => StepType::Exponent, _ => StepType::Add}},
+            "--mode" => {settings.mode = match safe_get_string(&split, 1).as_str() {"generation" => Mode::Generation, "guessing" => Mode::Guessing, _ => Mode::Interactive}},
+            "--format" => {settings.format_string = safe_get_string(&split, 1)},
+            "--prompt" => {settings.prompt = safe_get_string(&split, 1)},
+            "--range" => {settings.range = parse_range(safe_get_string(&split, 1))},
+            "--step" => {settings.raw_step = safe_get_string(&split, 1); settings.step = safe_parse_f64(safe_get_string(&split, 1)); if safe_get_string(&split, 1).split(".").collect::<Vec<&str>>().len() == 2 {settings.step_decimal_len = safe_get_string(&split, 1).len()}},
+            "--step-type" => {settings.step_type = match safe_get_string(&split, 1).as_str() {"multiply" => StepType::Multiply, "exponent" => StepType::Exponent, _ => StepType::Add}},
             "--precise" => {settings.precise = true},
-            "--round" => {settings.round = safe_parse_i64(safe_get_string(split, 1))}
-            "--output" => {settings.output = safe_get_string(split, 1)},
-            "--correct" => {settings.correct = safe_get_string(split, 1)},
-            "--incorrect" => {settings.incorrect = safe_get_string(split, 1)},
+            "--round" => {settings.round = safe_parse_i64(safe_get_string(&split, 1))}
+            "--output" => {settings.output = safe_get_string(&split, 1)},
+            "--correct" => {settings.correct = safe_get_string(&split, 1)},
+            "--incorrect" => {settings.incorrect = safe_get_string(&split, 1)},
             "--weight" => {settings.weight = true},
-            "--max-decimal" => {settings.max_decimal = safe_parse_usize(safe_get_string(split.clone(), 1))}
+            "--max-decimal" => {settings.max_decimal = safe_parse_usize(safe_get_string(&split, 1))}
             _ => {unknown_command_message(split[0]); return None}
         }
 
@@ -48,7 +48,7 @@ fn parse_range(input: String) -> (String, String) {
     return (range_vec.get(0).unwrap_or(&"").to_string(), range_vec.get(1).unwrap_or(&"").to_string());
 }
 
-fn safe_get_string(input: Vec<&str>, index: usize) -> String {
+fn safe_get_string(input: &Vec<&str>, index: usize) -> String {
     return input.get(index).unwrap_or(&"").to_string();
 }
 

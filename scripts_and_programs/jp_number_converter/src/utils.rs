@@ -18,8 +18,7 @@ pub fn bigdecimal_powf(x: BigDecimal, e: &BigDecimal) -> BigDecimal {
         let simplified_denominator = denominator / gcd;
 
         let whole_result = bigdecimal_powi(&x.round(50), &BigDecimal::from_u32(simplified_numerator).unwrap()).round(50);
-        let result = bigdecimal_root(BigDecimal::from_u32(simplified_denominator).unwrap(), whole_result.clone());
-        return result;
+        return bigdecimal_root(BigDecimal::from_u32(simplified_denominator).unwrap(), whole_result);
     } else {
         return bigdecimal_powi(&x, &whole_value);
     }
@@ -38,7 +37,7 @@ pub fn bigdecimal_powi(x: &BigDecimal, e: &BigDecimal) -> BigDecimal {
     let mut r = BigDecimal::from_str("1").unwrap();
     let mut i = BigDecimal::zero();
     while i < *e {
-        r *= x.clone();
+        r *= x;
         i += 1;
     }
     return r;
@@ -79,7 +78,7 @@ pub fn clean_f64_to_string(float: f64, rounding: usize) -> String {
     return rounded;
 }
 
-pub fn safe_parse_f64(input: String) -> f64 {
+pub fn safe_parse_f64(input: &str) -> f64 {
     return input.parse::<f64>().unwrap_or_default();
 }
 
