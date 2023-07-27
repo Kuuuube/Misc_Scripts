@@ -98,7 +98,7 @@ pub fn precise_generation_mode(settings: Settings) {
     let bigdecimal_step = BigDecimal::from_str(&settings.raw_step).unwrap_or_default();
     let mut i = start_number;
 
-    while i < end_number.clone() + bigdecimal_step.clone() {
+    while i < &end_number + &bigdecimal_step {
         let input_string = clean_decimal_string(format!("{}", i));
         let hiragana_output = if hiragana_convert {
             hiragana::convert_number(&input_string)
@@ -123,9 +123,9 @@ pub fn precise_generation_mode(settings: Settings) {
         generated_string += &format!("{}", settings.format_string.replace("{arabic}", &input_string).replace("{hiragana}", &hiragana_output).replace("{kanji}", &kanji_output).replace("{banknote_daiji}", &banknote_daiji_output).replace("{daiji}", &daiji_output).replace("\\n", "\n"));
 
         match settings.step_type {
-            StepType::Add => i += bigdecimal_step.clone(),
-            StepType::Multiply => i *= bigdecimal_step.clone(),
-            StepType::Exponent => i = bigdecimal_powf(i, bigdecimal_step.clone())
+            StepType::Add => i += &bigdecimal_step,
+            StepType::Multiply => i = (i * &bigdecimal_step).round(settings.round),
+            StepType::Exponent => i = bigdecimal_powf(i, &bigdecimal_step).round(settings.round)
         }
     }
 

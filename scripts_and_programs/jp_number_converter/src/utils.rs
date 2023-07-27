@@ -1,7 +1,7 @@
 use bigdecimal::{BigDecimal, Zero, FromPrimitive};
 use std::str::FromStr;
 
-pub fn bigdecimal_powf(x: BigDecimal, e: BigDecimal) -> BigDecimal {
+pub fn bigdecimal_powf(x: BigDecimal, e: &BigDecimal) -> BigDecimal {
     let exponent_string = format!("{}", e);
     let split: Vec<&str> = exponent_string.split(".").collect();
     let split_whole = split.get(0).unwrap();
@@ -17,10 +17,11 @@ pub fn bigdecimal_powf(x: BigDecimal, e: BigDecimal) -> BigDecimal {
         let simplified_numerator = numerator / gcd;
         let simplified_denominator = denominator / gcd;
 
-        let whole_result = bigdecimal_powi(x.clone(), BigDecimal::from_u32(simplified_numerator).unwrap());
-        return bigdecimal_root(BigDecimal::from_u32(simplified_denominator).unwrap(), whole_result.clone());
+        let whole_result = bigdecimal_powi(&x.round(50), &BigDecimal::from_u32(simplified_numerator).unwrap()).round(50);
+        let result = bigdecimal_root(BigDecimal::from_u32(simplified_denominator).unwrap(), whole_result.clone());
+        return result;
     } else {
-        return bigdecimal_powi(x.clone(), whole_value);
+        return bigdecimal_powi(&x, &whole_value);
     }
 }
 
@@ -33,10 +34,10 @@ fn euclid_gcd(mut m: u32, mut n: u32) -> u32 {
     return n
  }
 
-pub fn bigdecimal_powi(x: BigDecimal, e: BigDecimal) -> BigDecimal {
+pub fn bigdecimal_powi(x: &BigDecimal, e: &BigDecimal) -> BigDecimal {
     let mut r = BigDecimal::from_str("1").unwrap();
     let mut i = BigDecimal::zero();
-    while i < e {
+    while i < *e {
         r *= x.clone();
         i += 1;
     }
@@ -53,9 +54,10 @@ pub fn bigdecimal_root(n: BigDecimal, x: BigDecimal) -> BigDecimal {
         return BigDecimal::zero(); //NaN
     }
     loop {
-        d = (x.clone() / bigdecimal_powi(r.clone(), n.clone() - 1) - r.clone()) / n.clone();
-        r += d.clone();
-        if !(d.clone() >= BigDecimal::from_f64(f64::EPSILON).unwrap() * 10 || d <= BigDecimal::from_f64(-f64::EPSILON).unwrap() * 10) {
+        r = r.with_prec(50); //looping with round is too expensive, with_prec must be used
+        d = (&x / bigdecimal_powi(&r, &(&n - &1)) - &r) / &n;
+        r += &d;
+        if !(&d >= &(BigDecimal::from_f64(f64::EPSILON).unwrap() * 10) || &d <= &(BigDecimal::from_f64(-f64::EPSILON).unwrap() * 10)) {
             break;
         }
     }
