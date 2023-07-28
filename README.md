@@ -18,10 +18,6 @@ Simple script to convert hex to binary text. This will not read or write a file'
 
 Fixes Jisho occasionally loading pages scrolled to the bottom.
 
-## [JP Number Converter](./scripts_and_programs/jp_number_converter)
-
-Allows converting single arabic numerals to japanese numerals, generating lists of japanese numerals from a range, and generating random japanese numerals to guess.
-
 ## [Keyboard Layout Translator](./scripts_and_programs/keyboard_layout_translator)
 
 Encode and decode text typed on the wrong keyboard layout.
