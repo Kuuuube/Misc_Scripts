@@ -18,6 +18,10 @@ Simple script to convert hex to binary text. This will not read or write a file'
 
 Fixes Jisho occasionally loading pages scrolled to the bottom.
 
+## [KeePass DataBaseBackup Patch](./scripts_and_programs/keepass_databasebackup_patch)
+
+Minor changes to the KeePass DataBaseBackup plugin.
+
 ## [Keyboard Layout Translator](./scripts_and_programs/keyboard_layout_translator)
 
 Encode and decode text typed on the wrong keyboard layout.
