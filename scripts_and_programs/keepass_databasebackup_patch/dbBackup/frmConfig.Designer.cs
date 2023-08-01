@@ -134,6 +134,7 @@
             this.txtQtyBackup.Name = "txtQtyBackup";
             this.txtQtyBackup.Size = new System.Drawing.Size(48, 20);
             this.txtQtyBackup.TabIndex = 11;
+            this.txtQtyBackup.Maximum = 4294967295 / 2;
             // 
             // btnOK
             // 
