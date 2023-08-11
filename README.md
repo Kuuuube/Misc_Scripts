@@ -66,6 +66,10 @@ Resizes all images in a folder to a specified size.
 
 Command line study tool. Supports flashcards and repetition practice.
 
+## [RTINGS Bypass](./scripts_and_programs/rtings_bypass)
+
+Disables RTINGS' three review limit.
+
 ## [Terminal and Shell Config](./scripts_and_programs/terminal_and_shell_config)
 
 My terminal emulator and shell config files.
