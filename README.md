@@ -74,6 +74,10 @@ Command line study tool. Supports flashcards and repetition practice.
 
 Disables RTINGS' three review limit.
 
+## [Self Renaming Script](./scripts_and_programs/self_renaming_script)
+
+A python script that renames itself iteratively each time it is run.
+
 ## [Terminal and Shell Config](./scripts_and_programs/terminal_and_shell_config)
 
 My terminal emulator and shell config files.
