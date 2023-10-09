@@ -28,7 +28,8 @@ def generate_buttons(buttons):
         if button == "":
             column += 1
             continue
-        button_object = ttk.Button(frm, text = button, command = lambda: reset(button))
+
+        button_object = ttk.Button(frm, text = button, command = lambda button = button : reset(button)) #`button = button` is required to not lose reference on the button name
         button_object.grid(column = column, row = row, ipady = 25, pady = 5)
 
         button_objects.append(button_object)
