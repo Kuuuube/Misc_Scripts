@@ -76,7 +76,11 @@ def reset(new_immersion_type):
 
 def record():
     global start_time, immersion_type
-    with open(os.path.dirname(__file__) + "\\" + "log.csv", "a", encoding = "utf-8") as logfile:
+    save_path = config["config"]["log_file_path"].strip()
+    if not os.path.isabs(save_path):
+        save_path = os.path.dirname(__file__) + "\\" + save_path
+
+    with open(save_path, "a", encoding = "utf-8") as logfile:
         logfile.write(str(datetime.datetime.now()))
         logfile.write("\t")
         logfile.write(str(datetime.datetime.now() - start_time))
