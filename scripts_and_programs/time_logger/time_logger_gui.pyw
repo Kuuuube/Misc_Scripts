@@ -18,11 +18,15 @@ height_scale = int(config["config"]["height_scale"].strip())
 font_scale = int(config["config"]["font_scale"].strip())
 
 def window_size_watchdog():
+    current_scale = 1
     while True:
-        button_style = ttk.Style()
-        button_style.configure("TButton", font=("TkDefaultFont", int(10 * font_scale * (root.winfo_width() / original_root_width))))
-        selection_label.config(font = ("TkDefaultFont", int(10 * font_scale * (root.winfo_width() / original_root_width))))
-        time_label.config(font = ("TkDefaultFont", int(20 * font_scale * (root.winfo_width() / original_root_width))))
+        if (root.winfo_width() / original_root_width) != current_scale:
+            current_scale = root.winfo_width() / original_root_width
+            button_style = ttk.Style()
+            button_style.configure("TButton", font=("TkDefaultFont", int(10 * font_scale * current_scale)))
+            selection_label.config(font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
+            time_label.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
+
         time.sleep(0.1)
 
 def generate_buttons(buttons):
