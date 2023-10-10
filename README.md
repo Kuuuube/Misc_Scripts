@@ -82,6 +82,10 @@ A python script that renames itself iteratively each time it is run.
 
 My terminal emulator and shell config files.
 
+## [Time Logger](./scripts_and_programs/time_logger)
+
+Logs timer times to csv with configurable tags and ui.
+
 ## [Wikipedia Full Width Always](./scripts_and_programs/wikipedia_full_width_always)
 
 Automatically set wikipedia pages to full width.
