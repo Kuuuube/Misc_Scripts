@@ -28,7 +28,7 @@ def window_size_watchdog():
 def generate_buttons(buttons):
     global button_rows, button_columns
     button_style = ttk.Style()
-    button_style.configure("TButton", font=("TkDefaultFont", 10 * font_scale))
+    button_style.configure("TButton", font=("TkDefaultFont", 10 * font_scale), justify = "center")
     button_objects = []
     column = 0
     row = 0
@@ -41,6 +41,8 @@ def generate_buttons(buttons):
         if button == "":
             column += 1
             continue
+
+        button = button.replace("\\n", "\n")
 
         button_object = ttk.Button(frm, text = button, style = "TButton", command = lambda button = button : reset(button)) #`button = button` is required to not lose reference on the button name
         button_object.grid(column = column, row = row, ipady = 25, pady = 5, sticky=E+W+N+S)
