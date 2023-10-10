@@ -1,5 +1,5 @@
-from tkinter import *
-from tkinter import ttk
+import tkinter
+import tkinter.ttk
 import datetime
 import time
 import os
@@ -25,7 +25,7 @@ def window_size_watchdog():
     while True:
         if (root.winfo_width() / start_root_size[0]) != current_scale:
             current_scale = root.winfo_width() / start_root_size[0]
-            button_style = ttk.Style()
+            button_style = tkinter.ttk.Style()
             button_style.configure("TButton", font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
             selection_label.config(font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
             time_label.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
@@ -34,7 +34,7 @@ def window_size_watchdog():
 
 def generate_buttons(buttons):
     global button_rows, button_columns, frame
-    button_style = ttk.Style()
+    button_style = tkinter.ttk.Style()
     button_style.configure("TButton", font=("TkDefaultFont", 10 * font_scale), justify = "center")
     button_objects = []
     column = 0
@@ -51,8 +51,8 @@ def generate_buttons(buttons):
 
         button = button.replace("\\n", "\n")
 
-        button_object = ttk.Button(frame, text = button, style = "TButton", command = lambda button = button : reset(button)) #`button = button` is required to not lose reference on the button name
-        button_object.grid(column = column, row = row, ipady = 25, pady = 5, sticky = E+W+N+S)
+        button_object = tkinter.ttk.Button(frame, text = button, style = "TButton", command = lambda button = button : reset(button)) #`button = button` is required to not lose reference on the button name
+        button_object.grid(column = column, row = row, ipady = 25, pady = 5, sticky = "EWNS")
 
         button_objects.append(button_object)
 
@@ -89,8 +89,8 @@ def reset(new_tag_type):
 
     selection_label.config(text = tag_type)
 
-    edit_buttons(top_buttons, DISABLED)
-    edit_buttons(bottom_buttons, ACTIVE)
+    edit_buttons(top_buttons, tkinter.DISABLED)
+    edit_buttons(bottom_buttons, tkinter.ACTIVE)
 
     threading.Thread(target = start_timer).start()
 
@@ -109,8 +109,8 @@ def record():
 
     selection_label.config(text = "")
     
-    edit_buttons(bottom_buttons, DISABLED)
-    edit_buttons(top_buttons, ACTIVE)
+    edit_buttons(bottom_buttons, tkinter.DISABLED)
+    edit_buttons(top_buttons, tkinter.ACTIVE)
 
     reset_timer()
 
@@ -118,35 +118,35 @@ def discard():
     global selection_label
     selection_label.config(text = "")
     
-    edit_buttons(bottom_buttons, DISABLED)
-    edit_buttons(top_buttons, ACTIVE)
+    edit_buttons(bottom_buttons, tkinter.DISABLED)
+    edit_buttons(top_buttons, tkinter.ACTIVE)
 
     reset_timer()
 
-root = Tk()
+root = tkinter.Tk()
 root.title("Time Logger")
 root.columnconfigure(0, weight = 1)
 root.rowconfigure(0, weight = 1)
 
-frame = ttk.Frame(root, padding = 10)
-frame.grid(sticky = E+W+N+S)
+frame = tkinter.ttk.Frame(root, padding = 10)
+frame.grid(sticky = "EWNS")
 
 top_buttons = generate_buttons(map(str.strip, config["config"]["top_buttons"].split(",")))
 
-selection_label = ttk.Label(frame, text = "")
+selection_label = tkinter.ttk.Label(frame, text = "")
 selection_label.grid(column = 0, row = button_rows + 1, columnspan = button_columns)
 selection_label.config(font = ("TkDefaultFont", 10 * font_scale))
 frame.rowconfigure(button_rows + 1, weight = 1)
 
-time_label = ttk.Label(frame, text = "0:00:00")
+time_label = tkinter.ttk.Label(frame, text = "0:00:00")
 time_label.grid(column = 0, row = button_rows + 2, columnspan = button_columns)
 time_label.config(font = ("TkDefaultFont", 20 * font_scale))
 frame.rowconfigure(button_rows + 2, weight = 1)
 
-record_button = ttk.Button(frame, text = config["config"]["record_button_name"].strip(), state = DISABLED, command = record)
-record_button.grid(column = 0, row = button_rows + 3, ipady = 25, pady = 5, sticky = E+W+N+S)
-discard_button = ttk.Button(frame, text = config["config"]["discard_button_name"].strip(), state = DISABLED, command = discard)
-discard_button.grid(column = button_columns - 1, row = button_rows + 3, ipady=25, pady = 5, sticky = E+W+N+S)
+record_button = tkinter.ttk.Button(frame, text = config["config"]["record_button_name"].strip(), state = tkinter.DISABLED, command = record)
+record_button.grid(column = 0, row = button_rows + 3, ipady = 25, pady = 5, sticky = "EWNS")
+discard_button = tkinter.ttk.Button(frame, text = config["config"]["discard_button_name"].strip(), state = tkinter.DISABLED, command = discard)
+discard_button.grid(column = button_columns - 1, row = button_rows + 3, ipady=25, pady = 5, sticky = "EWNS")
 frame.rowconfigure(button_rows + 3, weight = 1)
 
 bottom_buttons = [record_button, discard_button]
