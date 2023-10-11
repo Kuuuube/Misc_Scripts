@@ -95,7 +95,7 @@ def reset(new_tag_type):
     threading.Thread(target = start_timer).start()
 
 def safe_csv_field(input_string):
-    return ("\"" + str(input_string).replace("\"", "\"\"").replace("\n", " ").replace("\t", " ") + "\"")
+    return ("\"" + str(input_string).replace("\"", "\"\"").replace("\n", " ").replace("\t", " ").replace("\r", " ") + "\"")
 
 def record():
     global start_time, tag_type, save_path, selection_label
