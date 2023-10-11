@@ -94,6 +94,9 @@ def reset(new_tag_type):
 
     threading.Thread(target = start_timer).start()
 
+def safe_csv_field(input_string):
+    return ("\"" + str(input_string).replace("\"", "\"\"").replace("\n", " ").replace("\t", " ") + "\"")
+
 def record():
     global start_time, tag_type, save_path, selection_label
     if not os.path.isabs(save_path):
@@ -101,10 +104,10 @@ def record():
 
     with open(save_path, "a", encoding = "utf-8") as logfile:
         logfile.write(str(datetime.datetime.now()))
-        logfile.write("\t")
+        logfile.write(",")
         logfile.write(str(datetime.datetime.now() - start_time))
-        logfile.write("\t")
-        logfile.write(tag_type)
+        logfile.write(",")
+        logfile.write(safe_csv_field(tag_type))
         logfile.write("\n")
 
     selection_label.config(text = "")
