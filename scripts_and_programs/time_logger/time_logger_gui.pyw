@@ -18,19 +18,16 @@ save_path = config["config"]["log_file_path"].strip()
 width_scale = int(config["config"]["width_scale"].strip())
 height_scale = int(config["config"]["height_scale"].strip())
 font_scale = int(config["config"]["font_scale"].strip())
+current_scale = 1
 
-def window_size_watchdog():
-    global selection_label, time_label, start_root_size
-    current_scale = 1
-    while True:
-        if (root.winfo_width() / start_root_size[0]) != current_scale:
-            current_scale = root.winfo_width() / start_root_size[0]
-            button_style = tkinter.ttk.Style()
-            button_style.configure("TButton", font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
-            selection_label.config(font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
-            time_label.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
-
-        time.sleep(0.1)
+def dynamic_font_scaler():
+    global selection_label, time_label, start_root_size, current_scale
+    if (root.winfo_width() / start_root_size[0]) != current_scale:
+        current_scale = root.winfo_width() / start_root_size[0]
+        button_style = tkinter.ttk.Style()
+        button_style.configure("TButton", font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
+        selection_label.config(font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
+        time_label.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
 
 def generate_buttons(buttons):
     global button_rows, button_columns, frame
@@ -158,6 +155,6 @@ root.update()
 start_root_size = (root.winfo_reqwidth(), root.winfo_reqheight())
 root.geometry(str(start_root_size[0] * width_scale) + "x" + str(start_root_size[1] * height_scale))
 
-threading.Thread(target = window_size_watchdog).start()
+root.bind("<Configure>",  lambda event : dynamic_font_scaler())
 
 root.mainloop()
