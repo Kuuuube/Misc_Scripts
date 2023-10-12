@@ -4,9 +4,9 @@ Logs timer times to csv with configurable tags and ui.
 
 ## Usage
 
-- Optionally, configure settings in `config.ini`.
-
 - Run `time_logger_gui.pyw`.
+
+- Optionally, configure settings in `config.ini`.
 
 - Press one of the top buttons to start the time with that button's tag.
 
@@ -24,9 +24,9 @@ Python 3: [Download link](https://www.python.org/downloads/)
     Date,Duration,Tag
     ```
 
-    Date is the datetime the `Record` button was pressed.
+    Date is the datetime when the `Record` button was pressed.
 
-    Duration is the timer duration before pressing `Record`.
+    Duration is the timer duration when the `Record` button was pressed.
 
     Tag is the button name pressed when starting the timer.
 
