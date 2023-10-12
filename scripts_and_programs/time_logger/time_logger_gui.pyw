@@ -12,12 +12,23 @@ timer_enabled = False
 button_rows = 0
 button_columns = 0
 
-config = configparser.ConfigParser()
-config.read(os.path.dirname(__file__) + "/" + "config.ini", encoding = "utf-8")
-save_path = config["config"]["log_file_path"].strip()
-width_scale = int(config["config"]["width_scale"].strip())
-height_scale = int(config["config"]["height_scale"].strip())
-font_scale = int(config["config"]["font_scale"].strip())
+def maybe_read_config(maybe, section, name = None):
+    try:
+        config = configparser.ConfigParser()
+        config.read(os.path.dirname(__file__) + "/" + "config.ini", encoding="utf-8")
+
+        if name == None:
+            return config[section]
+
+        return config[section][name]
+
+    except Exception:
+        return maybe
+
+save_path = maybe_read_config("log.csv", "config", "log_file_path").strip()
+width_scale = int(maybe_read_config("1", "config", "width_scale").strip())
+height_scale = int(maybe_read_config("1", "config", "height_scale").strip())
+font_scale = int(maybe_read_config("1", "config", "font_scale").strip())
 current_scale = 1
 
 def dynamic_font_scaler():
@@ -131,7 +142,10 @@ root.rowconfigure(0, weight = 1)
 frame = tkinter.ttk.Frame(root, padding = 10)
 frame.grid(sticky = "EWNS")
 
-top_buttons = generate_buttons(map(str.strip, config["config"]["top_buttons"].split(",")))
+top_buttons_list = list(map(str.strip, maybe_read_config("", "config", "top_buttons").split(",")))
+if len(top_buttons_list) <= 1: #prevent broken configs making UI unrunnable
+    top_buttons_list.append(" ")
+top_buttons = generate_buttons(top_buttons_list)
 
 selection_label = tkinter.ttk.Label(frame, text = "")
 selection_label.grid(column = 0, row = button_rows + 1, columnspan = button_columns)
@@ -143,9 +157,9 @@ time_label.grid(column = 0, row = button_rows + 2, columnspan = button_columns)
 time_label.config(font = ("TkDefaultFont", 20 * font_scale))
 frame.rowconfigure(button_rows + 2, weight = 1)
 
-record_button = tkinter.ttk.Button(frame, text = config["config"]["record_button_name"].strip(), state = tkinter.DISABLED, command = record)
+record_button = tkinter.ttk.Button(frame, text = maybe_read_config("Record", "config", "record_button_name").strip(), state = tkinter.DISABLED, command = record)
 record_button.grid(column = 0, row = button_rows + 3, ipady = 25, pady = 5, sticky = "EWNS")
-discard_button = tkinter.ttk.Button(frame, text = config["config"]["discard_button_name"].strip(), state = tkinter.DISABLED, command = discard)
+discard_button = tkinter.ttk.Button(frame, text = maybe_read_config("Discard", "config", "discard_button_name").strip(), state = tkinter.DISABLED, command = discard)
 discard_button.grid(column = button_columns - 1, row = button_rows + 3, ipady=25, pady = 5, sticky = "EWNS")
 frame.rowconfigure(button_rows + 3, weight = 1)
 
