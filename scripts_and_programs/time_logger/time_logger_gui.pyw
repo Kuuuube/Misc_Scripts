@@ -5,6 +5,7 @@ import time
 import os
 import threading
 import configparser
+import codecs
 
 start_time = datetime.datetime.now()
 tag_type = ""
@@ -57,7 +58,7 @@ def generate_buttons(buttons):
             column += 1
             continue
 
-        button = button.replace("\\n", "\n")
+        button = codecs.decode(button, "unicode_escape")
 
         button_object = tkinter.ttk.Button(frame, text = button, style = "TButton", command = lambda button = button : reset(button)) #`button = button` is required to not lose reference on the button name
         button_object.grid(column = column, row = row, ipady = 25, pady = 5, sticky = "EWNS")
