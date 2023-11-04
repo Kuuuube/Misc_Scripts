@@ -12,6 +12,8 @@ Logs timer times to csv with configurable tags and ui.
 
 - Press `Record` to write to the csv file and reset the time or `Discard` to reset the time without writing to file.
 
+- Optionally, run `graph.py` after recording some data to show a graph showing the sum of times recorded each day.
+
 ## Dependencies
 
 Python 3: [Download link](https://www.python.org/downloads/)
