@@ -1,5 +1,6 @@
 import matplotlib.pyplot
 import matplotlib.dates
+import numpy
 import datetime
 
 filename = "log.csv"
@@ -27,7 +28,14 @@ matplotlib.pyplot.ylabel("Time (hours:minutes)")
 matplotlib.pyplot.title("Daily Time Graph")
 
 matplotlib.pyplot.gca().yaxis.set_major_formatter(matplotlib.dates.DateFormatter('%H:%M'))
+matplotlib.pyplot.yticks(numpy.arange(datetime.datetime.strptime("00", "%S"), max(y_list), datetime.timedelta(minutes = 30)))
 
+matplotlib.pyplot.gca().xaxis.set_major_locator(matplotlib.dates.AutoDateLocator(maxticks = 14))
 matplotlib.pyplot.gca().xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%m-%d'))
+matplotlib.pyplot.gca().xaxis.set_minor_locator(matplotlib.dates.DayLocator(interval = 1))
+matplotlib.pyplot.xticks(rotation = 20)
+
+matplotlib.pyplot.grid(which = "both", axis = "x")
+matplotlib.pyplot.grid(which = "major", axis = "y")
 
 matplotlib.pyplot.show()
