@@ -150,6 +150,10 @@ def discard():
 
     reset_timer()
 
+def time_logger_graph():
+    import graph
+    graph.show_graph()
+
 root = tkinter.Tk()
 root.title("Time Logger")
 root.columnconfigure(0, weight = 1)
@@ -180,6 +184,10 @@ frame.rowconfigure(button_rows + 2, weight = 1)
 
 record_button = tkinter.ttk.Button(frame, text = maybe_read_config("Record", "config", "record_button_name").strip(), state = tkinter.DISABLED, command = record)
 record_button.grid(column = 0, row = button_rows + 3, ipady = 25, pady = 5, sticky = "EWNS")
+
+graph_button = tkinter.ttk.Button(frame, text = maybe_read_config("Graph", "config", "graph_button_name").strip(), command = time_logger_graph)
+graph_button.grid(column = button_columns // 2, row = button_rows + 3, ipady = 25, pady = 5, sticky = "EWNS")
+
 discard_button = tkinter.ttk.Button(frame, text = maybe_read_config("Discard", "config", "discard_button_name").strip(), state = tkinter.DISABLED, command = discard)
 discard_button.grid(column = button_columns - 1, row = button_rows + 3, ipady=25, pady = 5, sticky = "EWNS")
 frame.rowconfigure(button_rows + 3, weight = 1)
