@@ -6,6 +6,7 @@ import os
 import threading
 import configparser
 import codecs
+import re
 
 start_time = datetime.datetime.now()
 tag_type = ""
@@ -91,6 +92,11 @@ def reset_timer():
     timer_enabled = False
     time_label.config(text = "0:00:00")
 
+def reset_entry_box():
+    global entry_box
+    entry_box.delete(0,tkinter.END)
+    entry_box.insert(0, "0:00:00")
+
 def reset(new_tag_type):
     global start_time, tag_type, selection_label
     start_time = datetime.datetime.now()
@@ -100,6 +106,8 @@ def reset(new_tag_type):
 
     edit_buttons(top_buttons, tkinter.DISABLED)
     edit_buttons(bottom_buttons, tkinter.ACTIVE)
+    entry_box.config(state = tkinter.ACTIVE)
+    reset_entry_box()
 
     threading.Thread(target = start_timer).start()
 
@@ -114,24 +122,31 @@ def record():
     with open(save_path, "a", encoding = "utf-8") as logfile:
         logfile.write(str(datetime.datetime.now()))
         logfile.write(",")
-        logfile.write(str(datetime.datetime.now() - start_time))
+        if re.search("\d+:\d{1,2}:\d{1,2}(\.\d+|)", entry_box.get()) != None and entry_box.get() != "0:00:00":
+            logfile.write(str(re.sub("\..*", "", entry_box.get())) + ".000000")
+        else:
+            logfile.write(str(datetime.datetime.now() - start_time))
         logfile.write(",")
         logfile.write(safe_csv_field(tag_type))
         logfile.write("\n")
 
     selection_label.config(text = "")
-    
+    reset_entry_box()
+
     edit_buttons(bottom_buttons, tkinter.DISABLED)
     edit_buttons(top_buttons, tkinter.ACTIVE)
+    entry_box.config(state = tkinter.DISABLED)
 
     reset_timer()
 
 def discard():
     global selection_label
     selection_label.config(text = "")
+    reset_entry_box()
     
     edit_buttons(bottom_buttons, tkinter.DISABLED)
     edit_buttons(top_buttons, tkinter.ACTIVE)
+    entry_box.config(state = tkinter.DISABLED)
 
     reset_timer()
 
@@ -154,8 +169,13 @@ selection_label.config(font = ("TkDefaultFont", 10 * font_scale))
 frame.rowconfigure(button_rows + 1, weight = 1)
 
 time_label = tkinter.ttk.Label(frame, text = "0:00:00")
-time_label.grid(column = 0, row = button_rows + 2, columnspan = button_columns)
+time_label.grid(column = 0, row = button_rows + 2, columnspan = button_columns // 2)
 time_label.config(font = ("TkDefaultFont", 20 * font_scale))
+
+entry_box = tkinter.ttk.Entry(frame, width = 1, justify="center")
+entry_box.grid(column = button_columns // 2, row = button_rows + 2, columnspan = button_columns // 2, sticky = "EWNS")
+reset_entry_box()
+entry_box.config(font = ("TkDefaultFont", 20 * font_scale), state = tkinter.DISABLED)
 frame.rowconfigure(button_rows + 2, weight = 1)
 
 record_button = tkinter.ttk.Button(frame, text = maybe_read_config("Record", "config", "record_button_name").strip(), state = tkinter.DISABLED, command = record)
