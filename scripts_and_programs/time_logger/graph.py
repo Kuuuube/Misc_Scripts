@@ -20,6 +20,10 @@ def show_graph():
             x_list.append(day)
             y_list.append(duration)
 
+    #matplotlib.rcParams["toolbar"] = "None" #disable toolbar
+    matplotlib.pyplot.figure(num = "Time Logger Graph")
+    matplotlib.pyplot.subplots_adjust(bottom=0.125, top=0.95, right = 0.975) #window<->plot percentage margins
+
     matplotlib.pyplot.plot(x_list, y_list)
     matplotlib.pyplot.xlabel("Day (month-day)")
     matplotlib.pyplot.ylabel("Time (hours:minutes)")
