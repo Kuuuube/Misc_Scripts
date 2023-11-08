@@ -3,7 +3,7 @@ import matplotlib.dates
 import numpy
 import datetime
 
-def show_graph():
+def show_graph(graph_type = "plot"):
     filename = "log.csv"
     log_file = list(map(str.strip, open(filename, "r", encoding="UTF-8").readlines()))
     log_file.pop(0) #remove header
@@ -24,7 +24,16 @@ def show_graph():
     matplotlib.pyplot.figure(num = "Time Logger Graph")
     matplotlib.pyplot.subplots_adjust(bottom=0.125, top=0.95, right = 0.975) #window<->plot percentage margins
 
-    matplotlib.pyplot.plot(x_list, y_list)
+    if graph_type == "bar":
+        matplotlib.pyplot.bar(x_list, [x - datetime.datetime(1900, 1, 1) for x in y_list], bottom = datetime.datetime.strptime("00", "%S"))
+        matplotlib.pyplot.ylim(bottom = min(y_list), top = max(y_list) + datetime.timedelta(minutes = 10))
+    elif graph_type == "stem":
+        matplotlib.pyplot.stem(x_list, y_list, bottom = datetime.datetime.strptime("00", "%S"), basefmt = "")
+        matplotlib.pyplot.ylim(bottom = min(y_list), top = max(y_list) + datetime.timedelta(minutes = 10))
+    elif graph_type == "plot":
+        matplotlib.pyplot.plot(x_list, y_list)
+        matplotlib.pyplot.grid(visible = True, which = "both", axis = "x")
+
     matplotlib.pyplot.xlabel("Day (month-day)")
     matplotlib.pyplot.ylabel("Time (hours:minutes)")
 
@@ -38,10 +47,9 @@ def show_graph():
     matplotlib.pyplot.gca().xaxis.set_minor_locator(matplotlib.dates.DayLocator(interval = 1))
     matplotlib.pyplot.xticks(rotation = 20)
 
-    matplotlib.pyplot.grid(which = "both", axis = "x")
-    matplotlib.pyplot.grid(which = "major", axis = "y")
+    matplotlib.pyplot.grid(visible = True, which = "major", axis = "y")
 
     matplotlib.pyplot.show()
 
 if __name__ == "__main__":
-    show_graph()
+    show_graph("plot")

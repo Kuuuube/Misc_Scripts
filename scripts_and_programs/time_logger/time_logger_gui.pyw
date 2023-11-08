@@ -151,8 +151,9 @@ def discard():
     reset_timer()
 
 def time_logger_graph():
+    graph_type = maybe_read_config("plot", "config", "graph_type").strip()
     import graph
-    graph.show_graph()
+    graph.show_graph(graph_type)
 
 root = tkinter.Tk()
 root.title("Time Logger")
