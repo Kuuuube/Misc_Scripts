@@ -92,7 +92,7 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend):
     bar_bottom = numpy.full(len(x_list), datetime.datetime.strptime("00", "%S"))
 
     for key, y_list in y_dict.items():
-        setup_graph(graph_type, x_list, y_list, stacked, key.strip("\""), bottom_limit, top_limit, bar_bottom)
+        setup_graph(graph_type, x_list, y_list, stacked, key.strip("\"").replace("\"", "\"\""), bottom_limit, top_limit, bar_bottom)
         bar_bottom += [x - datetime.datetime(1900, 1, 1) for x in y_list]
 
     if legend:
