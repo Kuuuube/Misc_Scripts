@@ -154,8 +154,9 @@ def time_logger_graph():
     graph_type = maybe_read_config("plot", "config", "graph_type").strip()
     graph_x_grid = True if maybe_read_config("true", "config", "graph_x_grid").strip() == "true" else False
     graph_y_grid = True if maybe_read_config("true", "config", "graph_y_grid").strip() == "true" else False
+    graph_stacked = True if maybe_read_config("true", "config", "graph_stacked").strip() == "true" else False
     import graph
-    graph.show_graph(graph_type, graph_x_grid, graph_y_grid)
+    graph.show_graph(graph_type, graph_x_grid, graph_y_grid, graph_stacked)
 
 root = tkinter.Tk()
 root.title("Time Logger")
