@@ -26,9 +26,6 @@ def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limi
         matplotlib.pyplot.fill_between(x_list, y_list + (bar_bottom - datetime.datetime(1900, 1, 1)), bar_bottom, label = key)
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
 
-    if stacked:
-        matplotlib.pyplot.legend(loc = "upper right")
-
 def get_stacked_bar_top_limit(log_file):
     y_list = []
     x_list = []
@@ -72,7 +69,7 @@ def parse_log_file(log_file, stacked):
 
     return (x_list, y_dict)
 
-def show_graph(graph_type, x_grid, y_grid, stacked):
+def show_graph(graph_type, x_grid, y_grid, stacked, legend):
     filename = "log.csv"
     log_file = list(map(str.strip, open(filename, "r", encoding="UTF-8").readlines()))
     log_file.pop(0) #remove header
@@ -97,6 +94,9 @@ def show_graph(graph_type, x_grid, y_grid, stacked):
     for key, y_list in y_dict.items():
         setup_graph(graph_type, x_list, y_list, stacked, key.strip("\""), bottom_limit, top_limit, bar_bottom)
         bar_bottom += [x - datetime.datetime(1900, 1, 1) for x in y_list]
+
+    if legend:
+        matplotlib.pyplot.legend(loc = "upper right", draggable = True)
     if x_grid:
         matplotlib.pyplot.grid(visible = True, which = "both", axis = "x")
     if y_grid:
@@ -118,4 +118,4 @@ def show_graph(graph_type, x_grid, y_grid, stacked):
     matplotlib.pyplot.show()
 
 if __name__ == "__main__":
-    show_graph("bar", False, False, True)
+    show_graph("bar", False, False, True, True)
