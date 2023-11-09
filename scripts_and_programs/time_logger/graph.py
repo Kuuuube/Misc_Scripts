@@ -20,7 +20,7 @@ def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limi
     elif graph_type == "scatter":
         matplotlib.pyplot.scatter(x_list, y_list, label = key)
     elif graph_type == "stairs":
-        matplotlib.pyplot.stairs(y_list, linewidth = 2.5, label = key.replace("\"", ""), baseline = datetime.datetime.strptime("00", "%S"))
+        matplotlib.pyplot.stairs(y_list, x_list + [max(x_list) + datetime.timedelta(days = 1)], linewidth = 2.5, label = key.replace("\"", ""), baseline = datetime.datetime.strptime("00", "%S"))
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
     elif graph_type == "fill_between":
         matplotlib.pyplot.fill_between(x_list, y_list + (bar_bottom - datetime.datetime(1900, 1, 1)), bar_bottom, label = key)
