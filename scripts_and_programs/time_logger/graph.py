@@ -8,13 +8,13 @@ def zero_filler(input_list, target_len):
         input_list.append(datetime.datetime(1900, 1, 1))
     return input_list
 
-def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit):
+def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit, bar_bottom):
     if graph_type == "plot":
         matplotlib.pyplot.plot(x_list, y_list, label = key.replace("\"", ""))
         if stacked:
             matplotlib.pyplot.legend(loc = "upper right")
     elif graph_type == "bar":
-        matplotlib.pyplot.bar(x_list, [x - datetime.datetime(1900, 1, 1) for x in y_list], bottom = datetime.datetime.strptime("00", "%S"), label = key.replace("\"", ""))
+        matplotlib.pyplot.bar(x_list, [x - datetime.datetime(1900, 1, 1) for x in y_list], bottom = bar_bottom, label = key.replace("\"", ""))
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
         if stacked:
             matplotlib.pyplot.legend(loc = "upper right")
@@ -31,34 +31,52 @@ def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limi
         if stacked:
             matplotlib.pyplot.legend(loc = "upper right")
 
+def get_stacked_bar_top_limit(log_file):
+    y_list = []
+    x_list = []
+    for item in log_file:
+        day = datetime.datetime.strptime(item.split(",")[0].split(" ")[0], "%Y-%m-%d")
+        duration = datetime.datetime.strptime(item.split(",")[1], "%H:%M:%S.%f")
+        if day in x_list:
+            y_list[x_list.index(day)] += duration - datetime.datetime(1900, 1, 1)
+        else:
+            x_list.append(day)
+            y_list.append(duration)
+
+    return max(y_list)
+
+def parse_log_file(log_file, stacked):
+    x_list = []
+    y_dict = {}
+
+    for item in log_file:
+        day = datetime.datetime.strptime(item.split(",")[0].split(" ")[0], "%Y-%m-%d")
+        duration = datetime.datetime.strptime(item.split(",")[1], "%H:%M:%S.%f")
+
+        if stacked:
+            tag = item.split(",")[2]
+        else:
+            tag = "Time"
+
+        if not tag in y_dict.keys():
+            y_dict[tag] = []
+        for key in y_dict:
+            y_dict[key] = zero_filler(y_dict[key], len(x_list))
+
+        if day in x_list:
+            y_dict[tag][x_list.index(day)] += duration - datetime.datetime(1900, 1, 1)
+        else:
+            x_list.append(day)
+            y_dict[tag].append(duration)
+
+    return (x_list, y_dict)
+
 def show_graph(graph_type, x_grid, y_grid, stacked):
     filename = "log.csv"
     log_file = list(map(str.strip, open(filename, "r", encoding="UTF-8").readlines()))
     log_file.pop(0) #remove header
 
-    x_list = []
-    y_dict = {}
-
-    if True:
-        for item in log_file:
-            day = datetime.datetime.strptime(item.split(",")[0].split(" ")[0], "%Y-%m-%d")
-            duration = datetime.datetime.strptime(item.split(",")[1], "%H:%M:%S.%f")
-
-            if stacked:
-                tag = item.split(",")[2]
-            else:
-                tag = "Time"
-
-            if not tag in y_dict.keys():
-                y_dict[tag] = []
-            for key in y_dict:
-                y_dict[key] = zero_filler(y_dict[key], len(x_list))
-
-            if day in x_list:
-                y_dict[tag][x_list.index(day)] += duration - datetime.datetime(1900, 1, 1)
-            else:
-                x_list.append(day)
-                y_dict[tag].append(duration)
+    x_list, y_dict = parse_log_file(log_file, stacked)
 
     #matplotlib.rcParams["toolbar"] = "None" #disable toolbar
     matplotlib.pyplot.figure(num = "Time Logger Graph")
@@ -71,9 +89,13 @@ def show_graph(graph_type, x_grid, y_grid, stacked):
                 flattened_y_lists.append(y_item)
     bottom_limit = min(flattened_y_lists)
     top_limit = max(flattened_y_lists)
+    if stacked and graph_type == "bar":
+        top_limit = get_stacked_bar_top_limit(log_file)
+    bar_bottom = numpy.full(len(x_list), datetime.datetime.strptime("00", "%S"))
 
     for key, y_list in y_dict.items():
-        setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit)
+        setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit, bar_bottom)
+        bar_bottom += [x - datetime.datetime(1900, 1, 1) for x in y_list]
 
     if x_grid:
         matplotlib.pyplot.grid(visible = True, which = "both", axis = "x")
@@ -96,4 +118,4 @@ def show_graph(graph_type, x_grid, y_grid, stacked):
     matplotlib.pyplot.show()
 
 if __name__ == "__main__":
-    show_graph("plot", False, False, True)
+    show_graph("bar", False, False, True)
