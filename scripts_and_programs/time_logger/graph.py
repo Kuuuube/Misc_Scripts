@@ -22,6 +22,9 @@ def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limi
     elif graph_type == "stairs":
         matplotlib.pyplot.stairs(y_list, linewidth = 2.5, label = key.replace("\"", ""), baseline = datetime.datetime.strptime("00", "%S"))
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
+    elif graph_type == "fill_between":
+        matplotlib.pyplot.fill_between(x_list, y_list + (bar_bottom - datetime.datetime(1900, 1, 1)), bar_bottom, label = key)
+        matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
 
     if stacked:
         matplotlib.pyplot.legend(loc = "upper right")
@@ -64,6 +67,9 @@ def parse_log_file(log_file, stacked):
             x_list.append(day)
             y_dict[tag].append(duration)
 
+    for key in y_dict:
+        y_dict[key] = zero_filler(y_dict[key], len(x_list))
+
     return (x_list, y_dict)
 
 def show_graph(graph_type, x_grid, y_grid, stacked):
@@ -84,14 +90,13 @@ def show_graph(graph_type, x_grid, y_grid, stacked):
                 flattened_y_lists.append(y_item)
     bottom_limit = min(flattened_y_lists)
     top_limit = max(flattened_y_lists)
-    if stacked and graph_type == "bar":
+    if stacked and (graph_type == "bar" or graph_type == "fill_between"):
         top_limit = get_stacked_bar_top_limit(log_file)
     bar_bottom = numpy.full(len(x_list), datetime.datetime.strptime("00", "%S"))
 
     for key, y_list in y_dict.items():
         setup_graph(graph_type, x_list, y_list, stacked, key.strip("\""), bottom_limit, top_limit, bar_bottom)
         bar_bottom += [x - datetime.datetime(1900, 1, 1) for x in y_list]
-
     if x_grid:
         matplotlib.pyplot.grid(visible = True, which = "both", axis = "x")
     if y_grid:
