@@ -152,8 +152,10 @@ def discard():
 
 def time_logger_graph():
     graph_type = maybe_read_config("plot", "config", "graph_type").strip()
+    graph_x_grid = True if maybe_read_config("true", "config", "graph_x_grid").strip() == "true" else False
+    graph_y_grid = True if maybe_read_config("true", "config", "graph_y_grid").strip() == "true" else False
     import graph
-    graph.show_graph(graph_type)
+    graph.show_graph(graph_type, graph_x_grid, graph_y_grid)
 
 root = tkinter.Tk()
 root.title("Time Logger")
