@@ -10,26 +10,21 @@ def zero_filler(input_list, target_len):
 
 def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit, bar_bottom):
     if graph_type == "plot":
-        matplotlib.pyplot.plot(x_list, y_list, label = key.replace("\"", ""))
-        if stacked:
-            matplotlib.pyplot.legend(loc = "upper right")
+        matplotlib.pyplot.plot(x_list, y_list, label = key)
     elif graph_type == "bar":
-        matplotlib.pyplot.bar(x_list, [x - datetime.datetime(1900, 1, 1) for x in y_list], bottom = bar_bottom, label = key.replace("\"", ""))
+        matplotlib.pyplot.bar(x_list, [x - datetime.datetime(1900, 1, 1) for x in y_list], bottom = bar_bottom, label = key)
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
-        if stacked:
-            matplotlib.pyplot.legend(loc = "upper right")
     elif graph_type == "stem":
-        matplotlib.pyplot.stem(x_list, y_list, bottom = datetime.datetime.strptime("00", "%S"), basefmt = "")
+        matplotlib.pyplot.stem(x_list, y_list, "", bottom = datetime.datetime.strptime("00", "%S"), basefmt = "", label = key)
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
     elif graph_type == "scatter":
-        matplotlib.pyplot.scatter(x_list, y_list, label = key.replace("\"", ""))
-        if stacked:
-            matplotlib.pyplot.legend(loc = "upper right")
+        matplotlib.pyplot.scatter(x_list, y_list, label = key)
     elif graph_type == "stairs":
         matplotlib.pyplot.stairs(y_list, linewidth = 2.5, label = key.replace("\"", ""), baseline = datetime.datetime.strptime("00", "%S"))
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
-        if stacked:
-            matplotlib.pyplot.legend(loc = "upper right")
+
+    if stacked:
+        matplotlib.pyplot.legend(loc = "upper right")
 
 def get_stacked_bar_top_limit(log_file):
     y_list = []
@@ -94,7 +89,7 @@ def show_graph(graph_type, x_grid, y_grid, stacked):
     bar_bottom = numpy.full(len(x_list), datetime.datetime.strptime("00", "%S"))
 
     for key, y_list in y_dict.items():
-        setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit, bar_bottom)
+        setup_graph(graph_type, x_list, y_list, stacked, key.strip("\""), bottom_limit, top_limit, bar_bottom)
         bar_bottom += [x - datetime.datetime(1900, 1, 1) for x in y_list]
 
     if x_grid:
