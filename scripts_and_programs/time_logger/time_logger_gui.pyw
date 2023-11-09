@@ -41,6 +41,7 @@ def dynamic_font_scaler():
         button_style.configure("TButton", font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
         selection_label.config(font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
         time_label.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
+        entry_box.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
 
 def generate_buttons(buttons):
     global button_rows, button_columns, frame
