@@ -69,10 +69,11 @@ def parse_log_file(log_file, stacked):
 
     return (x_list, y_dict)
 
-def show_graph(graph_type, x_grid, y_grid, stacked, legend):
+def show_graph(graph_type, x_grid, y_grid, stacked, legend, csv_has_header):
     filename = "log.csv"
     log_file = list(map(str.strip, open(filename, "r", encoding="UTF-8").readlines()))
-    log_file.pop(0) #remove header
+    if csv_has_header:
+        log_file.pop(0) #remove header
 
     x_list, y_dict = parse_log_file(log_file, stacked)
 
@@ -118,4 +119,4 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend):
     matplotlib.pyplot.show()
 
 if __name__ == "__main__":
-    show_graph("bar", False, False, True, True)
+    show_graph("bar", False, False, True, True, True)

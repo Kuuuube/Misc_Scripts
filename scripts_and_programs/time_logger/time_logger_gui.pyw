@@ -157,8 +157,9 @@ def time_logger_graph():
     graph_y_grid = True if maybe_read_config("true", "config", "graph_y_grid").strip() == "true" else False
     graph_stacked = True if maybe_read_config("true", "config", "graph_stacked").strip() == "true" else False
     graph_legend = True if maybe_read_config("true", "config", "graph_legend").strip() == "true" else False
+    csv_has_header = True if maybe_read_config("true", "config", "csv_has_header").strip() == "true" else False
     import graph
-    graph.show_graph(graph_type, graph_x_grid, graph_y_grid, graph_stacked, graph_legend)
+    graph.show_graph(graph_type, graph_x_grid, graph_y_grid, graph_stacked, graph_legend, csv_has_header)
 
 root = tkinter.Tk()
 root.title("Time Logger")
