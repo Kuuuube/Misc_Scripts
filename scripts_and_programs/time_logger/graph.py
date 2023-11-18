@@ -53,6 +53,16 @@ def parse_log_file(log_file, stacked):
         else:
             tag = "Time"
 
+        #days with no logs are recorded as having zero time instead of being ignored to fix plotting issues on some graph types
+        if len(x_list) > 0 and day - x_list[-1] > datetime.timedelta(days = 1):
+            for _ in range((day - x_list[-1]).days - 1):
+                new_day = x_list[-1] + datetime.timedelta(days = 1)
+                x_list.append(new_day)
+                if not tag in y_dict.keys():
+                    y_dict[tag] = []
+                y_dict[tag] = zero_filler(y_dict[tag], len(x_list))
+                y_dict[tag][x_list.index(new_day)] = datetime.datetime(1900, 1, 1)
+
         if not tag in y_dict.keys():
             y_dict[tag] = []
         for key in y_dict:
