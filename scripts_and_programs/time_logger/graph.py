@@ -26,11 +26,12 @@ def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limi
         matplotlib.pyplot.fill_between(x_list, y_list + (bar_bottom - datetime.datetime(1900, 1, 1)), bar_bottom, label = key)
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
 
-def get_stacked_bar_top_limit(log_file):
+def get_stacked_bar_top_limit(log_file, day_offset):
     y_list = []
     x_list = []
     for item in log_file:
-        day = datetime.datetime.strptime(item.split(",")[0].split(" ")[0], "%Y-%m-%d")
+        raw_day = datetime.datetime.strptime(item.split(",")[0], "%Y-%m-%d %H:%M:%S.%f")
+        day = (raw_day + datetime.timedelta(hours = day_offset)).replace(hour=0, minute=0, second=0, microsecond=0)
         duration = datetime.datetime.strptime(item.split(",")[1], "%H:%M:%S.%f")
         if day in x_list:
             y_list[x_list.index(day)] += duration - datetime.datetime(1900, 1, 1)
@@ -40,12 +41,13 @@ def get_stacked_bar_top_limit(log_file):
 
     return max(y_list)
 
-def parse_log_file(log_file, stacked):
+def parse_log_file(log_file, stacked, day_offset):
     x_list = []
     y_dict = {}
 
     for item in log_file:
-        day = datetime.datetime.strptime(item.split(",")[0].split(" ")[0], "%Y-%m-%d")
+        raw_day = datetime.datetime.strptime(item.split(",")[0], "%Y-%m-%d %H:%M:%S.%f")
+        day = (raw_day + datetime.timedelta(hours = day_offset)).replace(hour=0, minute=0, second=0, microsecond=0)
         duration = datetime.datetime.strptime(item.split(",")[1], "%H:%M:%S.%f")
 
         if stacked:
@@ -79,13 +81,13 @@ def parse_log_file(log_file, stacked):
 
     return (x_list, y_dict)
 
-def show_graph(graph_type, x_grid, y_grid, stacked, legend, csv_has_header):
+def show_graph(graph_type, x_grid, y_grid, stacked, legend, csv_has_header, day_offset):
     filename = "log.csv"
     log_file = list(map(str.strip, open(filename, "r", encoding="UTF-8").readlines()))
     if csv_has_header:
         log_file.pop(0) #remove header
 
-    x_list, y_dict = parse_log_file(log_file, stacked)
+    x_list, y_dict = parse_log_file(log_file, stacked, day_offset)
 
     #matplotlib.rcParams["toolbar"] = "None" #disable toolbar
     matplotlib.pyplot.figure(num = "Time Logger Graph")
@@ -99,7 +101,7 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend, csv_has_header):
     bottom_limit = min(flattened_y_lists)
     top_limit = max(flattened_y_lists)
     if stacked and (graph_type == "bar" or graph_type == "fill_between"):
-        top_limit = get_stacked_bar_top_limit(log_file)
+        top_limit = get_stacked_bar_top_limit(log_file, day_offset)
     bar_bottom = numpy.full(len(x_list), datetime.datetime.strptime("00", "%S"))
 
     for key, y_list in y_dict.items():
@@ -129,4 +131,5 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend, csv_has_header):
     matplotlib.pyplot.show()
 
 if __name__ == "__main__":
-    show_graph("bar", False, False, True, True, True)
+    #show_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit, bar_bottom, day_offset)
+    show_graph("bar", False, False, True, True, True, 0)
