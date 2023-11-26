@@ -6,6 +6,10 @@ Miscellaneous scripts, small programs, and notes. Everything uploaded here will 
 
 Generates blank files from a newline separated list of filenames in `list.txt`. 
 
+## [Duckduckgo Detracker](./scripts_and_programs/duckduckgo_detracker)
+
+Removes tracker links from direct html.duckduckgo search results.
+
 ## [EVE Online Targetting Calculator](./scripts_and_programs/eve_online_targetting_calculator)
 
 Calculates how long it takes to lock target on a ship in [EVE Online](https://www.eveonline.com/).
