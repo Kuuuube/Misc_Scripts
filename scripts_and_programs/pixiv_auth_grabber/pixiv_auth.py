@@ -18,7 +18,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 
 # Latest app version can be found using GET /v1/application-info/android
-USER_AGENT = "PixivIOSApp/7.13.3 (iOS 14.6; iPhone13,2)"
+USER_AGENT = "PixivAndroidApp/5.0.234 (Android 9.0; Pixel 3)"
 REDIRECT_URI = "https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback"
 LOGIN_URL = "https://app-api.pixiv.net/web/v1/login"
 AUTH_TOKEN_URL = "https://oauth.secure.pixiv.net/auth/token"
@@ -55,7 +55,7 @@ def print_auth_token_response(response):
     except KeyError:
         print("error:")
         pprint(data)
-        sys.exit(1)
+        return
 
     print("access_token:", access_token)
     print("refresh_token:", refresh_token)
@@ -113,8 +113,9 @@ def login():
         },
         headers={
             "user-agent": USER_AGENT,
-            "app-os-version": "14.6",
-            "app-os": "ios",
+            "app-os-version": "9.0",
+            "app-version": "5.0.234",
+            "app-os": "android",
         },
         **REQUESTS_KWARGS
     )
@@ -154,6 +155,8 @@ def main():
                 print("Pixiv Auth Grabber: unknown option\nUsage: pixiv_auth.py [OPTION]...\n\nTry `pixiv_auth.py --help` for more options.\n")
     else:
         login()
+
+    input("Finished. Press any key to exit...")
 
 if __name__ == "__main__":
     main()
