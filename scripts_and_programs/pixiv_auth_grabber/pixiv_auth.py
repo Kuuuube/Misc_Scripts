@@ -4,13 +4,13 @@ import time
 import json
 import re
 import requests
+import sys
 
 from argparse import ArgumentParser
 from base64 import urlsafe_b64encode
 from hashlib import sha256
 from pprint import pprint
 from secrets import token_urlsafe
-from sys import exit
 from urllib.parse import urlencode
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -55,7 +55,7 @@ def print_auth_token_response(response):
     except KeyError:
         print("error:")
         pprint(data)
-        exit(1)
+        sys.exit(1)
 
     print("access_token:", access_token)
     print("refresh_token:", refresh_token)
@@ -141,19 +141,19 @@ def refresh(refresh_token):
     )
     print_auth_token_response(response)
 
-
 def main():
-    parser = ArgumentParser()
-    subparsers = parser.add_subparsers()
-    parser.set_defaults(func=lambda _: parser.print_usage())
-    login_parser = subparsers.add_parser("login")
-    login_parser.set_defaults(func=lambda _: login())
-    refresh_parser = subparsers.add_parser("refresh")
-    refresh_parser.add_argument("refresh_token")
-    refresh_parser.set_defaults(func=lambda ns: refresh(ns.refresh_token))
-    args = parser.parse_args()
-    args.func(args)
-
+    if len(sys.argv) > 1:
+        match sys.argv[1]:
+            case "login":
+                login()
+            case "refresh":
+                refresh(sys.argv[2])
+            case "-h" | "--help":
+                print("Pixiv Auth Grabber\nUsage: pixiv_auth.py [OPTION]...\n\nOptional:\n  login                          Log in to grab Access token and Refresh token (default when no args passed)\n  refresh OLD_REFRESH_TOKEN      Refresh an old Refresh token\n  -h,--help                      Display this help message\n")
+            case _:
+                print("Pixiv Auth Grabber: unknown option\nUsage: pixiv_auth.py [OPTION]...\n\nTry `pixiv_auth.py --help` for more options.\n")
+    else:
+        login()
 
 if __name__ == "__main__":
     main()
