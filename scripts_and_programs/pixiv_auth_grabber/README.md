@@ -31,3 +31,5 @@ Extract the zip and place the `chromedriver` binary file next to `pixiv_auth.py`
 # Notes
 
 - Refreshing an old Refresh token is also supported. Run `pixiv_auth.py --help` for full options.
+
+- Forked from https://gist.github.com/upbit/6edda27cb1644e94183291109b8a5fde
