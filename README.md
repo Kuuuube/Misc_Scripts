@@ -70,6 +70,10 @@ Tools for tracking osu! data from a list of users.
 
 Script to write a hex dump from pcap data for every packet using tshark.
 
+## [Pixiv Auth Grabber](./scripts_and_programs/pixiv_auth_grabber)
+
+Grabs pixiv Access token and Refresh token.
+
 ## [Python Image Resizer](./scripts_and_programs/python_image_resizer)
 
 Resizes all images in a folder to a specified size.
