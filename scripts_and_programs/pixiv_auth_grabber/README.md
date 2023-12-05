@@ -4,7 +4,7 @@ Grabs pixiv Access token and Refresh token.
 
 # Usage
 
-- Run `pixiv_auth.py`
+- Run `pixiv_auth_grabber.py`
 
 - Log in to pixiv in the browser window
 
@@ -26,10 +26,10 @@ Find the list of `Stable` builds and open the link for the `chromedriver` versio
 
 For normal windows installs: `win64`. For m1 mac: `mac-arm64`. For older mac: `mac-x64`. For linux: `linux64`.
 
-Extract the zip and place the `chromedriver` binary file next to `pixiv_auth.py`. (Windows users will need to rename `chromedriver.exe` to `chromedriver`)
+Extract the zip and place the `chromedriver` binary file next to `pixiv_auth_grabber.py`. (Windows users will need to rename `chromedriver.exe` to `chromedriver`)
 
 # Notes
 
-- Refreshing an old Refresh token is also supported. Run `pixiv_auth.py --help` for full options.
+- Refreshing an old Refresh token is also supported. Run `pixiv_auth_grabber.py --help` for full options.
 
 - Forked from https://gist.github.com/upbit/6edda27cb1644e94183291109b8a5fde

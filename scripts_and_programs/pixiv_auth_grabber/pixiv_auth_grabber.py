@@ -150,9 +150,9 @@ def main():
             case "refresh":
                 refresh(sys.argv[2])
             case "-h" | "--help":
-                print("Pixiv Auth Grabber\nUsage: pixiv_auth.py [OPTION]...\n\nOptional:\n  login                          Log in to grab Access token and Refresh token (default when no args passed)\n  refresh OLD_REFRESH_TOKEN      Refresh an old Refresh token\n  -h,--help                      Display this help message\n")
+                print("Pixiv Auth Grabber\nUsage: pixiv_auth_grabber.py [OPTION]...\n\nOptional:\n  login                          Log in to grab Access token and Refresh token (default when no args passed)\n  refresh OLD_REFRESH_TOKEN      Refresh an old Refresh token\n  -h,--help                      Display this help message\n")
             case _:
-                print("Pixiv Auth Grabber: unknown option\nUsage: pixiv_auth.py [OPTION]...\n\nTry `pixiv_auth.py --help` for more options.\n")
+                print("Pixiv Auth Grabber: unknown option\nUsage: pixiv_auth_grabber.py [OPTION]...\n\nTry `pixiv_auth_grabber.py --help` for more options.\n")
     else:
         login()
 
