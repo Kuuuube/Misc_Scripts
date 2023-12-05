@@ -13,7 +13,8 @@ from secrets import token_urlsafe
 from sys import exit
 from urllib.parse import urlencode
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 
 # Latest app version can be found using GET /v1/application-info/android
@@ -62,10 +63,11 @@ def print_auth_token_response(response):
 
 
 def login():
-    caps = DesiredCapabilities.CHROME.copy()
-    caps["goog:loggingPrefs"] = {"performance": "ALL"}  # enable performance logs
+    options = ChromeOptions()
+    options.set_capability("goog:loggingPrefs", {"performance": "ALL"})  # enable performance logs
 
-    driver = webdriver.Chrome("./chromedriver", desired_capabilities=caps)
+    chromedriver_service = Service(executable_path="./chromedriver")
+    driver = webdriver.Chrome(service=chromedriver_service, options=options)
 
     code_verifier, code_challenge = oauth_pkce(s256)
     login_params = {
