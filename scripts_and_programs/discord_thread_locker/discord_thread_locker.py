@@ -12,6 +12,12 @@ client = discord.Client(intents=intents)
 eng_channel_ids = []
 jp_channel_ids = []
 
+#Timer values
+minimum_inactivity_for_archive_minutes = 5
+grace_period_minutes = 10
+timer_pause_add_minutes = 5
+loop_timer_seconds = 60
+
 async def archive_threads_with_notifications():
     thread_timers = {}
     notification_sent = []
@@ -21,10 +27,10 @@ async def archive_threads_with_notifications():
         for channel_id in (eng_channel_ids + jp_channel_ids):
             channel = client.get_channel(channel_id)
             if channel:
-                print(f"Processing Channel: {channel.name} (ID: {channel.id})")  # Debug print
+                print(f"Processing Channel: {channel.name} (ID: {channel.id})")
                 threads = channel.threads
                 for thread in threads:
-                    print(f"Processing thread: {thread.name} (ID: {thread.id})")  # Debug print
+                    print(f"Processing thread: {thread.name} (ID: {thread.id})")
                     if thread.locked:
                         print("Thread locked, skipping")
                         continue
@@ -66,20 +72,20 @@ async def archive_threads_with_notifications():
                     print("Max Duration: " + str(max_duration))
 
                     # Archiving the thread
-                    if elapsed_time >= max_duration and not datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=5):
+                    if elapsed_time >= max_duration and not datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=minimum_inactivity_for_archive):
                         archive_message = "This thread is archived. You cannot reply anymore."
                         if thread.parent_id in jp_channel_ids:
                             archive_message = "このスレッドはアーカイブされています。もう書き込むことはできません。"
                         await thread.send(archive_message)
                         await thread.edit(archived=True, locked=True)
-                        del thread_timers[thread.id]  # Remove thread from tracking
+                        del thread_timers[thread.id]
                         if thread.id in notification_sent:
                             notification_sent.remove(thread.id)
                         continue
 
                     # Send a 10-minute warning message if applicable
-                    if elapsed_time >= (max_duration - timedelta(minutes=10)) and thread.id not in notification_sent:
-                        notification_message = "This thread will get archived in 10 minutes. You can prolong its life by posting in it more."
+                    if elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and thread.id not in notification_sent:
+                        notification_message = "This thread will get archived in " + str(grace_period_minutes) + " minutes. You can prolong its life by posting in it more."
                         if thread.parent_id in jp_channel_ids:
                             notification_message = "このスレッドは１０分以内にアーカイブされます。さらに書き込むことで長持ちできます。"
                         await thread.send(notification_message)
@@ -87,8 +93,8 @@ async def archive_threads_with_notifications():
                         continue
 
                     # Check if there is recent activity and handle timer pause
-                    if elapsed_time >= (max_duration - timedelta(minutes=5)) and last_message and datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=5) and not last_message.author.bot and thread.id not in grace_notification_sent:
-                        thread_timers[thread.id] += timedelta(minutes=5)
+                    if elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and last_message and datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=5) and not last_message.author.bot and thread.id not in grace_notification_sent:
+                        thread_timers[thread.id] += timedelta(minutes=timer_pause_add_minutes)
                         print("Timer stopped subtracting time: " + str(datetime.now(timezone.utc) - thread_timers[thread.id]))
                         pause_message = "Thread Stopper has stopped!"
                         if thread.parent_id in jp_channel_ids:
@@ -98,8 +104,8 @@ async def archive_threads_with_notifications():
                         continue
 
                     # Handle timer resuming
-                    elif elapsed_time >= (max_duration - timedelta(minutes=5)) and last_message and datetime.now(timezone.utc) - last_message.created_at >= timedelta(minutes=5) and thread.id in grace_notification_sent:
-                        print("Timer started subtracting time: " + str(datetime.now(timezone.utc) - thread_timers[thread.id]))
+                    elif elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and last_message and datetime.now(timezone.utc) - last_message.created_at >= timedelta(minutes=5) and thread.id in grace_notification_sent:
+                        print("Timer started remaining time: " + str(datetime.now(timezone.utc) - thread_timers[thread.id]))
                         resume_message = "Thread Stopper has started!"
                         if thread.parent_id in jp_channel_ids:
                             resume_message = "Thread Stopperが動きました！"
@@ -107,11 +113,11 @@ async def archive_threads_with_notifications():
                         if thread.id in grace_notification_sent:
                             grace_notification_sent.remove(thread.id)
 
-        await asyncio.sleep(60)  # Check every minute
+        await asyncio.sleep(loop_timer_seconds)
 
 @client.event
 async def on_ready():
-    print(f'Logged in as {client.user}')  # Debug print
+    print(f'Logged in as {client.user}')
     client.loop.create_task(archive_threads_with_notifications())
 
 client.run(open(".env", "r", encoding="UTF-8").read().split("=", 1)[1].strip())
