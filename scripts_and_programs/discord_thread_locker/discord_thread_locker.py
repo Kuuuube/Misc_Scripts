@@ -86,13 +86,13 @@ async def archive_threads_with_notifications():
                     if elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and thread.id not in notification_sent:
                         notification_message = "This thread will get archived in " + str(grace_period_minutes) + " minutes. You can prolong its life by posting in it more."
                         if thread.parent_id in jp_channel_ids:
-                            notification_message = "このスレッドは１０分以内にアーカイブされます。さらに書き込むことで長持ちできます。"
+                            notification_message = "このスレッドは " + str(grace_period_minutes) + " 分以内にアーカイブされます。さらに書き込むことで長持ちできます。"
                         await thread.send(notification_message)
                         notification_sent.append(thread.id)
                         continue
 
                     # Check if there is recent activity and handle timer pause
-                    if elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and last_message and datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=5) and not last_message.author.bot and thread.id not in grace_notification_sent:
+                    if elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and last_message and datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=grace_period_minutes) and not last_message.author.bot and thread.id not in grace_notification_sent:
                         thread_timers[thread.id] += timedelta(minutes=timer_pause_add_minutes)
                         print("Timer stopped subtracting time: " + str(datetime.now(timezone.utc) - thread_timers[thread.id]))
                         pause_message = "Thread Stopper has stopped!"
@@ -103,7 +103,7 @@ async def archive_threads_with_notifications():
                         continue
 
                     # Handle timer resuming
-                    elif elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and last_message and datetime.now(timezone.utc) - last_message.created_at >= timedelta(minutes=5) and thread.id in grace_notification_sent:
+                    elif elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and last_message and datetime.now(timezone.utc) - last_message.created_at >= timedelta(minutes=timer_pause_add_minutes) and thread.id in grace_notification_sent:
                         print("Timer started remaining time: " + str(datetime.now(timezone.utc) - thread_timers[thread.id]))
                         resume_message = "Thread Stopper has started!"
                         if thread.parent_id in jp_channel_ids:
