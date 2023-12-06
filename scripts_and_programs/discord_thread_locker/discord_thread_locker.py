@@ -13,7 +13,6 @@ eng_channel_ids = []
 jp_channel_ids = []
 
 #Timer values
-minimum_inactivity_for_archive_minutes = 5
 grace_period_minutes = 10
 timer_pause_add_minutes = 5
 loop_timer_seconds = 60
@@ -72,7 +71,7 @@ async def archive_threads_with_notifications():
                     print("Max Duration: " + str(max_duration))
 
                     # Archiving the thread
-                    if elapsed_time >= max_duration and not datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=minimum_inactivity_for_archive):
+                    if elapsed_time >= max_duration and not datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=timer_pause_add_minutes * 2):
                         archive_message = "This thread is archived. You cannot reply anymore."
                         if thread.parent_id in jp_channel_ids:
                             archive_message = "このスレッドはアーカイブされています。もう書き込むことはできません。"
