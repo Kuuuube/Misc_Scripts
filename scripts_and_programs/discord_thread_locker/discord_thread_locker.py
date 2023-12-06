@@ -65,8 +65,17 @@ async def archive_threads_with_notifications():
                         max_duration = timedelta(hours=1, minutes=30)
                     elif replies < 200:
                         max_duration = timedelta(hours=2)
-                    else:
+                    elif replies < 1000:
                         max_duration = timedelta(hours=3)
+                    else: # Threads over 1000 replies are archived
+                        archive_message = "This thread is archived. You cannot reply anymore."
+                        if thread.parent_id in jp_channel_ids:
+                            archive_message = "このスレッドはアーカイブされています。もう書き込むことはできません。"
+                        await thread.send(archive_message)
+                        await thread.edit(archived=True, locked=True)
+                        if thread.id in notification_sent:
+                            notification_sent.remove(thread.id)
+                        continue
 
                     print("Max Duration: " + str(max_duration))
 

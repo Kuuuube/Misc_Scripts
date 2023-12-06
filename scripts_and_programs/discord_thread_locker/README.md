@@ -33,3 +33,5 @@ pip install discord.py
 - The bot will send a warning 10 minutes before archiving the thread.
 
 - Threads with a message sent within the last 5 minutes will not archive. If a thread is scheduled to archive and a message is sent in the last 5 minutes the bot will send a message stating the timer is paused. If another message is sent while the timer is paused, the timer will not unpause until there has been at least 5 minutes of inactivity. After 5 minutes of inactivity, the bot will send a message stating the timer has resumed, the timer will resume, and the thread will archive after another 5 minutes of no activity.
+
+- Threads with 1000 or more replies are archived regardless of the time.
