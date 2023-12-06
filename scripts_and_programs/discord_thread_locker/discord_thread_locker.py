@@ -15,7 +15,7 @@ jp_channel_ids = []
 #Timer values
 grace_period_minutes = 10
 timer_pause_add_minutes = 5
-loop_timer_seconds = 60
+loop_timer_seconds = 10
 
 async def archive_threads_with_notifications():
     thread_timers = {}
