@@ -99,7 +99,6 @@ async def archive_threads_with_notifications():
 
                     # Handle timer resuming
                     elif elapsed_time >= (max_duration - timedelta(minutes=5)) and last_message and datetime.now(timezone.utc) - last_message.created_at >= timedelta(minutes=5) and thread.id in grace_notification_sent:
-                        thread_timers[thread.id] += timedelta(minutes=5)
                         print("Timer started subtracting time: " + str(datetime.now(timezone.utc) - thread_timers[thread.id]))
                         resume_message = "Thread Stopper has started!"
                         if thread.parent_id in jp_channel_ids:
