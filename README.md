@@ -6,6 +6,10 @@ Miscellaneous scripts, small programs, and notes. Everything uploaded here will 
 
 Generates blank files from a newline separated list of filenames in `list.txt`. 
 
+## [Discord Anonymous Forum](./scripts_and_programs/discord_anonymous_forum)
+
+A discord bot that anonymizes messages and threads created in a forums channel.
+
 ## [Discord Thread Locker](./scripts_and_programs/discord_thread_locker)
 
 A simple discord bot that locks and archives discord threads after a set amount of time.
