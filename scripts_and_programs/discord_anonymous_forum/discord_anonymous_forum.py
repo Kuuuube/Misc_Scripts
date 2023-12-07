@@ -17,6 +17,14 @@ bot = nextcord.ext.commands.Bot(intents = intents)
 # Replace with your forum channel ID
 FORUM_CHANNEL_ID = your_forum_channel_id_here
 
+#Bot message configuration
+dm_error_message = "ＥＲＲＯＲ： Use /p to post. It is also recommended you unfollow the thread. \n書き込むには/pを使用してください。また、スレッドへのフォローを解除することをおすすめします。"
+anon_title_prefix = " 名無しさん@TMW.bbs (ID: "
+anon_title_suffix = ")"
+interaction_confirmation_prefix = "書き込みが終わりました。 ["
+interaction_confirmation_suffix = "]\n\nこのメッセージを非表示にすることができます。"
+
+
 open_threads = []
 random_salt = secrets.token_hex(256)
 
@@ -39,7 +47,8 @@ def write_json(filename, json_object):
 userids = read_json("userid_log.json")
 
 def get_id(discord_user_id):
-    user_id = hashlib.sha256((str(discord_user_id) + random_salt).encode()).hexdigest()[:9]
+    current_day = datetime.datetime.utcnow().strftime("%Y%m%d")
+    user_id = hashlib.sha256((str(discord_user_id) + random_salt + current_day).encode()).hexdigest()[:9]
 
     write_file = False
 
@@ -82,17 +91,20 @@ async def replace_thread(channel, message):
         user_id = get_id(message.author.id)
         await message.channel.delete()
         if message.attachments:
-            await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001 名無しさん@TMW.bbs (ID: " + user_id + ")", description = message.content), files = [await attachment.to_file() for attachment in message.attachments])
+            await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001" + anon_title_prefix + user_id + anon_title_suffix, description = message.content), files = [await attachment.to_file() for attachment in message.attachments])
         else:
-            await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001 名無しさん@TMW.bbs (ID: " + user_id + ")", description = message.content))
+            await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001" + anon_title_prefix + user_id + anon_title_suffix, description = message.content))
     except Exception as e:
-        print(f'An error occurred: {e}')
+        print("Replace thread failed: ", e)
 
 async def replace_message(message):
     try:
         await message.delete()
-        #send dm
-        await message.author.send("ＥＲＲＯＲ： Use /p to post. It is also recommended you unfollow the thread. \n書き込むには/pを使用してください。また、スレッドへのフォローを解除することをおすすめします。")
+        # Send DM
+        await message.author.send(dm_error_message)
+        # If you would prefer users to be able to send messages normally and have their messages replaced, uncomment the below lines
+        # You may also want to comment out the above line that sends the DM if you are not deleting normal messages
+        #
         #if message.attachments:
         #    await message.channel.send(embed = nextcord.Embed(description = message.content), files = [await attachment.to_file() for attachment in message.attachments])
         #else:
@@ -105,34 +117,35 @@ async def post_command(interaction: nextcord.Interaction, message: str):
     user_id = get_id(interaction.user.id)
 
     if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id == FORUM_CHANNEL_ID:
-        await interaction.send("書き込みが終わりました。 [" + str(round(bot.latency, 6)) + "]\n\nこのメッセージを非表示にすることができます。", ephemeral=True)
+        await interaction.send(interaction_confirmation_prefix + str(round(bot.latency, 6)) + interaction_confirmation_suffix, ephemeral=True)
         await send_message(interaction.channel, message.replace("\\n", "\n"), user_id)
     else:
         await interaction.send("You cannot use this command here", ephemeral=True)
-
-@bot.slash_command(name = "r")
-async def reply_command(interaction: nextcord.Interaction, message: str):
-    await post_command(interaction, message)
-#async def reply_command(interaction: nextcord.Interaction, message: str, reply: str):
-    #if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id == FORUM_CHANNEL_ID:
-    #    reference = await get_message_reference(interaction.channel.id, reply)
-    #    if not reference:
-    #        await interaction.send("Failed to set reply reference", ephemeral=True)
-    #        return
-    #    await interaction.send("書き込みが終わりました。 [" + str(round(bot.latency, 6)) + "]\n\nこのメッセージを非表示にすることができます。", ephemeral=True)
-    #    await send_reply(interaction.channel, message.replace("\\n", "\n"), reply)
-    #else:
-    #    await interaction.send("You cannot use this command here", ephemeral=True)
 
 async def send_message(channel, message, user_id):
     thread_length = 1
     async for _ in channel.history(limit=None):
         thread_length += 1
     try:
-        await channel.send(embed = nextcord.Embed(title = format(thread_length, "03") + " 名無しさん@TMW.bbs (ID: " + user_id + ")", description = message))
+        await channel.send(embed = nextcord.Embed(title = format(thread_length, "03") + anon_title_prefix + user_id + anon_title_suffix, description = message))
     except Exception as e:
-        print(f'An error occurred: {e}')
+        print("Send message failed: ", e)
 
+# This command is the same as the /p (post command) but it accepts a messageid to add as a reply
+# Uncomment all below lines to enable this commmand
+#
+#@bot.slash_command(name = "r")
+#async def reply_command(interaction: nextcord.Interaction, message: str, reply: str):
+#    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id == FORUM_CHANNEL_ID:
+#        reference = await get_message_reference(interaction.channel.id, reply)
+#        if not reference:
+#            await interaction.send("Failed to set reply reference", ephemeral=True)
+#            return
+#        await interaction.send("書き込みが終わりました。 [" + str(round(bot.latency, 6)) + "]\n\nこのメッセージを非表示にすることができます。", ephemeral=True)
+#        await send_reply(interaction.channel, message.replace("\\n", "\n"), reply)
+#    else:
+#        await interaction.send("You cannot use this command here", ephemeral=True)
+#
 #async def send_reply(channel, message, reply):
 #    try:
 #        await channel.send(embed = nextcord.Embed(description = message), reference = nextcord.MessageReference(channel_id = channel.id, message_id = int(reply)))
@@ -147,6 +160,6 @@ async def get_message_reference(channel_id, message_id_str):
 
 @bot.event
 async def on_ready():
-    print(f'Logged in as {bot.user}')
+    print("Logged in as: " + str(bot.user))
 
 bot.run(open(".env", "r", encoding="UTF-8").read().split("=", 1)[1].strip())
