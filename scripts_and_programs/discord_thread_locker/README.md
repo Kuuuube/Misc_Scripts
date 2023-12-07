@@ -8,7 +8,7 @@ A simple discord bot that locks and archives discord threads after a set amount 
 
     (DO NOT share your token with anyone, it is more valuable than a password)
 
-- In `discord_thread_locker.py` under `# List of specific channel IDs to check` add a list of channels to check for threads in.
+- In `discord_thread_locker.py` under `# List of specific channel IDs to check` add a list of channel IDs to check for threads in.
 
     Channel ids in `eng_channel_ids` will be sent bot messages in English. Channel ids in `jp_channel_ids` will be sent bot messages in Japanese.
 

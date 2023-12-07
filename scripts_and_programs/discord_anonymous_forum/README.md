@@ -8,7 +8,7 @@ A discord bot that anonymizes messages and threads created in a forums channel.
 
     (DO NOT share your token with anyone, it is more valuable than a password)
 
-- In `discord_anonymous_forum.py` under `# Replace with your forum channel ID` add the forum channel to use.
+- In `discord_anonymous_forum.py` under `# Replace with your forum channel ID` add the forum channel ID to use.
 
 - Run `discord_anonymous_forum.py`
 
