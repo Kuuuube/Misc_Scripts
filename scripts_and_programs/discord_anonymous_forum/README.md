@@ -34,4 +34,4 @@ pip install nextcord
 
      It is okay to cut off the hash ONLY because hash collisions are both extremely unlikely and not a major issue in this case. NEVER do this for password hashing or any kind of security where collisions are a big deal.
 
-- Discord user IDs and their corresponding message IDs are logged to `userid_log.json`. To turn off logging, remove the portion of `get_id` that writes the log.
+- Discord user IDs and their corresponding message IDs are logged to `userid_log.json`. To turn off logging, under `# General configuration` change `logging_enabled` to `False`.
