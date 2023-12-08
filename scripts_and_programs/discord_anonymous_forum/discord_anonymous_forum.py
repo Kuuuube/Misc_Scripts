@@ -21,11 +21,14 @@ anon_title_suffix = ")"
 interaction_confirmation_prefix = "書き込みが終わりました。 ["
 interaction_confirmation_suffix = "]\n\nこのメッセージを非表示にすることができます。"
 attachment_prefix = "\n\n**Attachment:**\n"
+blacklisted_message = "You have been blacklisted"
+wrong_channel_message = "You cannot use this command here"
 
 # General configuration
 logging_enabled = True
 enabled_guild_ids = [your_guild_ids_here]
 forum_channel_ids = [your_forum_channel_ids_here]
+blacklisted_roles = [] # (Optional) Role ids or names
 
 
 open_threads = []
@@ -129,6 +132,11 @@ async def replace_message(message):
 
 @bot.slash_command(name = "p", guild_ids = enabled_guild_ids)
 async def post_command(interaction: nextcord.Interaction, message: str, attachment: nextcord.Attachment = nextcord.SlashOption(required = False)):
+    for role in interaction.user.roles:
+        if role.id in blacklisted_roles or role.name in blacklisted_roles:
+            await interaction.send(blacklisted_message, ephemeral=True)
+            return
+
     user_id = get_id(interaction.user.id)
 
     if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in forum_channel_ids:
@@ -138,7 +146,7 @@ async def post_command(interaction: nextcord.Interaction, message: str, attachme
         else:
             await send_message(interaction.channel, message.replace("\\n", "\n"), user_id)
     else:
-        await interaction.send("You cannot use this command here", ephemeral=True)
+        await interaction.send(wrong_channel_message, ephemeral=True)
 
 async def send_message(channel, message, user_id):
     thread_length = 1
@@ -177,6 +185,10 @@ async def check_id(interaction: nextcord.Interaction, message_id: str):
 #
 #@bot.slash_command(name = "r", guild_ids = enabled_guild_ids)
 #async def reply_command(interaction: nextcord.Interaction, message: str, reply: str):
+#    for role in interaction.user.roles:
+#        if role.id in blacklisted_roles or role.name in blacklisted_roles:
+#            await interaction.send(blacklisted_message, ephemeral=True)
+#            return
 #    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in forum_channel_ids:
 #        reference = await get_message_reference(interaction.channel.id, reply)
 #        if not reference:
