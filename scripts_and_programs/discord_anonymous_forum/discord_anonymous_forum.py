@@ -14,9 +14,6 @@ intents.message_content = True
 
 bot = nextcord.ext.commands.Bot(intents = intents)
 
-# Replace with your forum channel ID
-FORUM_CHANNEL_ID = your_forum_channel_id_here
-
 # Bot message configuration
 dm_error_message = "ＥＲＲＯＲ： Use /p to post. It is also recommended you unfollow the thread. \n書き込むには/pを使用してください。また、スレッドへのフォローを解除することをおすすめします。"
 anon_title_prefix = " 名無しさん@TMW.bbs (ID: "
@@ -27,6 +24,8 @@ attachment_prefix = "\n\n**Attachment:**\n"
 
 # General configuration
 logging_enabled = True
+enabled_guild_ids = [your_guild_ids_here]
+forum_channel_ids = [your_forum_channel_ids_here]
 
 
 open_threads = []
@@ -80,11 +79,11 @@ async def on_message(message):
     if message.author == bot.user or message.author.bot:
         return
 
-    if hasattr(message.channel, "parent_id") and message.channel.parent_id == FORUM_CHANNEL_ID:
+    if hasattr(message.channel, "parent_id") and message.channel.parent_id in forum_channel_ids:
         if message.channel.id in open_threads:
             await replace_message(message)
         else:
-            channel = bot.get_channel(FORUM_CHANNEL_ID)
+            channel = bot.get_channel(message.channel.parent_id)
             thread = channel.get_thread(message.channel.id)
             first_message = await thread.history(limit = 1, oldest_first = True).__anext__()
             if message.id == first_message.id:
@@ -128,11 +127,11 @@ async def replace_message(message):
     except Exception as e:
         print(f'An error occurred: {e}')
 
-@bot.slash_command(name = "p")
+@bot.slash_command(name = "p", guild_ids = enabled_guild_ids)
 async def post_command(interaction: nextcord.Interaction, message: str, attachment: nextcord.Attachment = nextcord.SlashOption(required = False)):
     user_id = get_id(interaction.user.id)
 
-    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id == FORUM_CHANNEL_ID:
+    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in forum_channel_ids:
         await interaction.send(interaction_confirmation_prefix + str(round(bot.latency, 6)) + interaction_confirmation_suffix, ephemeral=True)
         if attachment:
             await send_attachment_message(interaction.channel, message.replace("\\n", "\n"), user_id, attachment)
@@ -164,12 +163,21 @@ async def send_attachment_message(channel, message, user_id, attachment):
     except Exception as e:
         print("Send message failed: ", e)
 
+@bot.slash_command(name = "check_id", guild_ids = enabled_guild_ids, default_member_permissions = nextcord.Permissions(administrator=True))
+async def check_id(interaction: nextcord.Interaction, message_id: str):
+    for i, message_id_list in enumerate(userids.values()):
+        if message_id in message_id_list:
+            await interaction.send("Message ID (" + str(message_id) + ") matches User ID (" + str(list(userids.keys())[i]) + ")", ephemeral=True)
+            return
+
+    await interaction.send("Message ID (" + str(message_id) + ") does not match any logged User ID", ephemeral=True)
+
 # This command is the same as the /p (post command) but it accepts a messageid to add as a reply
 # Uncomment all below lines to enable this commmand
 #
-#@bot.slash_command(name = "r")
+#@bot.slash_command(name = "r", guild_ids = enabled_guild_ids)
 #async def reply_command(interaction: nextcord.Interaction, message: str, reply: str):
-#    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id == FORUM_CHANNEL_ID:
+#    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in forum_channel_ids:
 #        reference = await get_message_reference(interaction.channel.id, reply)
 #        if not reference:
 #            await interaction.send("Failed to set reply reference", ephemeral=True)
