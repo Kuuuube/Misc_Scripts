@@ -90,10 +90,19 @@ async def on_message(message):
 async def replace_thread(channel, message):
     try:
         user_id = get_id(message.author.id)
-        await message.channel.delete()
         if message.attachments:
-            await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001" + anon_title_prefix + user_id + anon_title_suffix, description = message.content), files = [await attachment.to_file() for attachment in message.attachments])
+            files = []
+            for attachment in message.attachments:
+                if attachment.content_type.startswith("image"):
+                    files.append(await attachment.to_file())
+                    break #only first image is used
+            await message.channel.delete()
+            embed = nextcord.Embed(title = "001" + anon_title_prefix + user_id + anon_title_suffix, description = message.content)
+            if files:
+                embed.set_image("attachment://" + files[0].filename)
+            await channel.create_thread(name = message.channel.name, embed = embed, files = files)
         else:
+            await message.channel.delete()
             await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001" + anon_title_prefix + user_id + anon_title_suffix, description = message.content))
     except Exception as e:
         print("Replace thread failed: ", e)
