@@ -34,4 +34,8 @@ pip install nextcord
 
      It is okay to cut off the hash ONLY because hash collisions are both extremely unlikely and not a major issue in this case. NEVER do this for password hashing or any kind of security where collisions are a big deal.
 
-- Discord user IDs and their corresponding message IDs are logged to `userid_log.json`. To turn off logging, under `# General configuration` change `logging_enabled` to `False`.
+- Discord user IDs and their corresponding message IDs are logged to `userid_log.json`. Users with the `Administrator` permission can use `/check_id` to find the discord user ID attached to a message ID. To turn off logging, under `# General configuration` change `logging_enabled` to `False`.
+
+- By default, a user can only send a message using `/p` every 5 seconds and cannot send multiple duplicate messages in a row.
+
+- Due to bugs in the discord desktop client, on desktop, attachments can only be sent in threads using slash commands while a forum thread is opened in full view.
