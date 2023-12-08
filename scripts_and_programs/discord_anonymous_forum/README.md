@@ -28,7 +28,7 @@ pip install nextcord
 
 - Messages can only be sent in forums using the slash commands `/p`. When typing a message that starts with `/` discord does not show the user who is typing.
 
-- If a user tries to send a message without a slash command they are sent a DM explaining that they cannot send messages like that.
+- If a user tries to send a message without a slash command the message is deleted and they are sent a DM explaining that they cannot send messages like that.
 
 - Message IDs are salted and hashed from discord user IDs. They contain the first 9 characters of the resulting sha256 hash. Every time the bot is restarted or after one day the salt is reset and all message IDs will change. This prevents reverse engineering of the code allowing potential reversing of the message IDs. There is also no possibility of leaking a secret key.
 
