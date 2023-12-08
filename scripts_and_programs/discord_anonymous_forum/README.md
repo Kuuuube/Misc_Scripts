@@ -30,7 +30,7 @@ pip install nextcord
 
 - If a user tries to send a message without a slash command the message is deleted and they are sent a DM explaining that they cannot send messages like that.
 
-- Message IDs are salted and hashed from discord user IDs. They contain the first 9 characters of the resulting sha256 hash. Every time the bot is restarted or after one day the salt is reset and all message IDs will change. This prevents reverse engineering of the code allowing potential reversing of the message IDs. There is also no possibility of leaking a secret key.
+- Message IDs are salted and hashed from discord user IDs. They contain the first 9 characters of the resulting sha256 hash. Every time the bot is restarted or after one day, the salt is reset and all message IDs will change. This prevents potential reversing of the message IDs through reverse engineering of the code. There is also no possibility of leaking a secret key.
 
      It is okay to cut off the hash ONLY because hash collisions are both extremely unlikely and not a major issue in this case. NEVER do this for password hashing or any kind of security where collisions are a big deal.
 
