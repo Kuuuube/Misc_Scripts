@@ -23,6 +23,7 @@ anon_title_prefix = " 名無しさん@TMW.bbs (ID: "
 anon_title_suffix = ")"
 interaction_confirmation_prefix = "書き込みが終わりました。 ["
 interaction_confirmation_suffix = "]\n\nこのメッセージを非表示にすることができます。"
+attachment_prefix = "\n\n**Attachment:**\n"
 
 
 open_threads = []
@@ -113,12 +114,15 @@ async def replace_message(message):
         print(f'An error occurred: {e}')
 
 @bot.slash_command(name = "p")
-async def post_command(interaction: nextcord.Interaction, message: str):
+async def post_command(interaction: nextcord.Interaction, message: str, attachment: nextcord.Attachment = nextcord.SlashOption(required = False)):
     user_id = get_id(interaction.user.id)
 
     if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id == FORUM_CHANNEL_ID:
         await interaction.send(interaction_confirmation_prefix + str(round(bot.latency, 6)) + interaction_confirmation_suffix, ephemeral=True)
-        await send_message(interaction.channel, message.replace("\\n", "\n"), user_id)
+        if attachment:
+            await send_attachment_message(interaction.channel, message.replace("\\n", "\n"), user_id, attachment)
+        else:
+            await send_message(interaction.channel, message.replace("\\n", "\n"), user_id)
     else:
         await interaction.send("You cannot use this command here", ephemeral=True)
 
@@ -128,6 +132,20 @@ async def send_message(channel, message, user_id):
         thread_length += 1
     try:
         await channel.send(embed = nextcord.Embed(title = format(thread_length, "03") + anon_title_prefix + user_id + anon_title_suffix, description = message))
+    except Exception as e:
+        print("Send message failed: ", e)
+
+async def send_attachment_message(channel, message, user_id, attachment):
+    thread_length = 1
+    async for _ in channel.history(limit=None):
+        thread_length += 1
+    try:
+        embed = nextcord.Embed(title = format(thread_length, "03") + anon_title_prefix + user_id + anon_title_suffix, description = message)
+        if attachment.content_type.startswith("image"):
+            embed.set_image(attachment.proxy_url)
+        else:
+            embed.description += attachment_prefix + "[" + attachment.filename + "](" + attachment.proxy_url.replace("media.discordapp.net", "cdn.discordapp.com") + ") (" + attachment.content_type.rsplit(";")[0] + ")"
+        await channel.send(embed = embed)
     except Exception as e:
         print("Send message failed: ", e)
 
