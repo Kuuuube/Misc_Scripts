@@ -26,7 +26,7 @@ pip install nextcord
 
 - Threads in the forum channel are auto deleted and recreated by the bot.
 
-- Messages can only be sent in forums using the slash commands `/p` or `/r`. Both of these commands function identically. When typing a message that starts with `/` discord does not show the user who is typing.
+- Messages can only be sent in forums using the slash commands `/p`. When typing a message that starts with `/` discord does not show the user who is typing.
 
 - If a user tries to send a message without a slash command they are sent a DM explaining that they cannot send messages like that.
 
