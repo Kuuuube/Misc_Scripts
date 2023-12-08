@@ -23,14 +23,21 @@ interaction_confirmation_suffix = "]\n\nこのメッセージを非表示にす�
 attachment_prefix = "\n\n**Attachment:**\n"
 blacklisted_message = "You have been blacklisted"
 wrong_channel_message = "You cannot use this command here"
+post_slowmode_message_prefix = "You must wait at least "
+post_slowmode_message_suffix = " seconds before posting again"
+restrict_duplicate_messages_message = "You cannot send the same message twice in a row"
 
 # General configuration
 logging_enabled = True
 enabled_guild_ids = [your_guild_ids_here]
 forum_channel_ids = [your_forum_channel_ids_here]
 blacklisted_roles = [] # (Optional) Role ids or names
+post_slowmode = 5 # Timeout in seconds between /p command being sent
+restrict_duplicate_messages = True # Disallows the same message to be sent twice in a row by the same user
 
 
+post_slowmode_timers = {}
+last_post = {}
 open_threads = []
 random_salt = secrets.token_hex(256)
 
@@ -137,6 +144,9 @@ async def post_command(interaction: nextcord.Interaction, message: str, attachme
             await interaction.send(blacklisted_message, ephemeral=True)
             return
 
+    if await spam_check(interaction, interaction.user.id, message):
+        return
+
     user_id = get_id(interaction.user.id)
 
     if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in forum_channel_ids:
@@ -171,6 +181,25 @@ async def send_attachment_message(channel, message, user_id, attachment):
     except Exception as e:
         print("Send message failed: ", e)
 
+async def spam_check(interaction, discord_user_id, current_post_content):
+    # post slowmode check
+    if post_slowmode > 0:
+        if discord_user_id in post_slowmode_timers.keys() and datetime.datetime.utcnow() - post_slowmode_timers[discord_user_id] < datetime.timedelta(seconds = post_slowmode):
+            await interaction.send(post_slowmode_message_prefix + str(post_slowmode) + post_slowmode_message_suffix, ephemeral=True)
+            return True
+        else:
+            post_slowmode_timers[discord_user_id] = datetime.datetime.utcnow()
+
+    # restrict duplicate messages check
+    if restrict_duplicate_messages:
+        if discord_user_id in last_post.keys() and last_post[discord_user_id] == current_post_content:
+            await interaction.send(restrict_duplicate_messages_message, ephemeral=True)
+            return True
+        else:
+            last_post[discord_user_id] = current_post_content
+
+    return False
+
 @bot.slash_command(name = "check_id", guild_ids = enabled_guild_ids, default_member_permissions = nextcord.Permissions(administrator=True))
 async def check_id(interaction: nextcord.Interaction, message_id: str):
     for i, message_id_list in enumerate(userids.values()):
@@ -189,6 +218,9 @@ async def check_id(interaction: nextcord.Interaction, message_id: str):
 #        if role.id in blacklisted_roles or role.name in blacklisted_roles:
 #            await interaction.send(blacklisted_message, ephemeral=True)
 #            return
+#
+#    if await spam_check(interaction, interaction.user.id, message):
+#        return
 #    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in forum_channel_ids:
 #        reference = await get_message_reference(interaction.channel.id, reply)
 #        if not reference:
