@@ -17,13 +17,16 @@ bot = nextcord.ext.commands.Bot(intents = intents)
 # Replace with your forum channel ID
 FORUM_CHANNEL_ID = your_forum_channel_id_here
 
-#Bot message configuration
+# Bot message configuration
 dm_error_message = "ＥＲＲＯＲ： Use /p to post. It is also recommended you unfollow the thread. \n書き込むには/pを使用してください。また、スレッドへのフォローを解除することをおすすめします。"
 anon_title_prefix = " 名無しさん@TMW.bbs (ID: "
 anon_title_suffix = ")"
 interaction_confirmation_prefix = "書き込みが終わりました。 ["
 interaction_confirmation_suffix = "]\n\nこのメッセージを非表示にすることができます。"
 attachment_prefix = "\n\n**Attachment:**\n"
+
+# General configuration
+logging_enabled = True
 
 
 open_threads = []
@@ -50,6 +53,9 @@ userids = read_json("userid_log.json")
 def get_id(discord_user_id):
     current_day = datetime.datetime.utcnow().strftime("%Y%m%d")
     user_id = hashlib.sha256((str(discord_user_id) + random_salt + current_day).encode()).hexdigest()[:9]
+
+    if not logging_enabled:
+        return user_id
 
     write_file = False
 
@@ -178,12 +184,12 @@ async def send_attachment_message(channel, message, user_id, attachment):
 #        await channel.send(embed = nextcord.Embed(description = message), reference = nextcord.MessageReference(channel_id = channel.id, message_id = int(reply)))
 #    except Exception as e:
 #        print(f'An error occurred: {e}')
-
-async def get_message_reference(channel_id, message_id_str):
-    try:
-        return nextcord.MessageReference(channel_id = channel_id, message_id = int(message_id_str))
-    except Exception:
-        return None
+#
+#async def get_message_reference(channel_id, message_id_str):
+#    try:
+#        return nextcord.MessageReference(channel_id = channel_id, message_id = int(message_id_str))
+#    except Exception:
+#        return None
 
 @bot.event
 async def on_ready():
