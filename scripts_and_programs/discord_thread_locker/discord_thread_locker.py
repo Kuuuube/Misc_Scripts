@@ -101,7 +101,7 @@ async def archive_threads_with_notifications():
                         continue
 
                     # Check if there is recent activity and handle timer pause
-                    if elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and last_message and datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=grace_period_minutes) and not last_message.author.bot and thread.id not in grace_notification_sent:
+                    if elapsed_time >= (max_duration - timedelta(minutes=grace_period_minutes)) and last_message and datetime.now(timezone.utc) - last_message.created_at < timedelta(minutes=grace_period_minutes) and not last_message.author == client.user and thread.id not in grace_notification_sent:
                         thread_timers[thread.id] += timedelta(minutes=timer_pause_add_minutes)
                         print("Timer stopped subtracting time: " + str(datetime.now(timezone.utc) - thread_timers[thread.id]))
                         pause_message = "Thread Stopper has stopped!"
