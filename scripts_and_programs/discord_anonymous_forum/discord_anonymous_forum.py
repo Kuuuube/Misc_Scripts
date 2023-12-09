@@ -43,9 +43,16 @@ def validate_settings(json_dict, expected_fields):
 userids = read_json("userid_log.json")
 settings = read_json("settings.json")
 
-def get_id(discord_user_id):
-    current_day = datetime.datetime.utcnow().strftime("%Y%m%d")
-    user_id = hashlib.sha256((str(discord_user_id) + random_salt + current_day).encode()).hexdigest()[:9]
+def get_id(discord_user_id, channel_id):
+    hashstring = str(discord_user_id) + random_salt
+
+    if settings["per_day_ids"]:
+        current_day = datetime.datetime.utcnow().strftime("%Y%m%d")
+        hashstring += current_day
+    if settings["per_thread_ids"]:
+        hashstring += str(channel_id)
+
+    user_id = hashlib.sha256((hashstring).encode()).hexdigest()[:9]
 
     if not settings["logging_enabled"]:
         return user_id
@@ -87,8 +94,14 @@ async def on_message(message):
                 open_threads.append(message.channel.id)
 
 async def replace_thread(channel, message):
+    if settings["per_thread_ids"]:
+        await edit_replace_thread(channel, message)
+    else:
+        await direct_replace_thread(channel, message)
+
+async def direct_replace_thread(channel, message):
     try:
-        user_id = get_id(message.author.id)
+        user_id = get_id(message.author.id, channel.id)
         if message.attachments:
             files = []
             for attachment in message.attachments:
@@ -103,6 +116,32 @@ async def replace_thread(channel, message):
         else:
             await message.channel.delete()
             await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001" + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"], description = message.content))
+    except Exception as e:
+        print("Replace thread failed: ", e)
+
+async def edit_replace_thread(channel, message):
+    try:
+        if message.attachments:
+            files = []
+            for attachment in message.attachments:
+                if attachment.content_type.startswith("image"):
+                    files.append(await attachment.to_file())
+                    break #only first image is used
+            await message.channel.delete()
+            embed = nextcord.Embed(title = "001" + settings["bot_embed_title_prefix"] + "000000000" + settings["bot_embed_title_suffix"], description = message.content)
+            if files:
+                embed.set_image("attachment://" + files[0].filename)
+            thread = await channel.create_thread(name = message.channel.name, embed = embed, files = files)
+            user_id = get_id(message.author.id, thread.id)
+            embed.title = "001" + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"]
+            await thread.last_message.edit(embed = embed)
+        else:
+            await message.channel.delete()
+            embed = nextcord.Embed(title = "001" + settings["bot_embed_title_prefix"] + "000000000" + settings["bot_embed_title_suffix"], description = message.content)
+            thread = await channel.create_thread(name = message.channel.name, embed = embed)
+            user_id = get_id(message.author.id, thread.id)
+            embed.title = "001" + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"]
+            await thread.last_message.edit(embed = embed)
     except Exception as e:
         print("Replace thread failed: ", e)
 
@@ -123,7 +162,7 @@ async def post_command(interaction: nextcord.Interaction, message: str, attachme
     if await spam_check(interaction, interaction.user.id, message):
         return
 
-    user_id = get_id(interaction.user.id)
+    user_id = get_id(interaction.user.id, interaction.channel.id)
 
     if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in settings["forum_channel_ids"]:
         await interaction.send(settings["interaction_confirmation_prefix"] + str(round(bot.latency, 6)) + settings["interaction_confirmation_suffix"], ephemeral=True)
@@ -202,11 +241,12 @@ async def check_id(interaction: nextcord.Interaction):
     global settings
     new_settings = read_json("settings.json")
     expected_fields = ["enabled_guild_ids","forum_channel_ids","blacklisted_roles",
-                       "post_slowmode","restrict_duplicate_messages","logging_enabled",
-                       "bot_dm_on_normal_message","bot_embed_title_prefix","bot_embed_title_suffix",
-                       "interaction_confirmation_prefix","interaction_confirmation_suffix","attachment_prefix",
-                       "blacklisted_message","wrong_channel_message","post_slowmode_error_message_prefix",
-                       "post_slowmode_error_message_suffix","restrict_duplicate_messages_error_message"]
+                       "post_slowmode","restrict_duplicate_messages","per_day_ids",
+                       "per_thread_ids","logging_enabled","bot_dm_on_normal_message",
+                       "bot_embed_title_prefix","bot_embed_title_suffix","interaction_confirmation_prefix",
+                       "interaction_confirmation_suffix","attachment_prefix","blacklisted_message",
+                       "wrong_channel_message","post_slowmode_error_message_prefix","post_slowmode_error_message_suffix",
+                       "restrict_duplicate_messages_error_message"]
     if new_settings and validate_settings(new_settings, expected_fields):
         settings = new_settings
         print("Settings reloaded successfully")
