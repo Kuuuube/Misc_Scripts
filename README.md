@@ -110,6 +110,10 @@ Logs timer times to csv with configurable tags and ui.
 
 Automatically set wikipedia pages to full width.
 
+## [Wikipedia No Fundraising](./scripts_and_programs/wikipedia_no_fundraising)
+
+Automatically remove wikipedia fundraising popups.
+
 ## [Window Aspect Ratio Lock](./scripts_and_programs/window_aspect_ratio_lock)
 
 Script to lock the aspect ratio of a window when resizing.
