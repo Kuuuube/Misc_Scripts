@@ -32,6 +32,14 @@ def write_json(filename, json_object):
     except Exception as e:
         print("Failed to write json " + str(filename) + ": ", e)
 
+def validate_settings(json_dict, expected_fields):
+    try:
+        for expected_field in expected_fields:
+            json_dict[expected_field]
+        return True
+    except Exception as e:
+        print("Settings validation failed: ", e)
+
 userids = read_json("userid_log.json")
 settings = read_json("settings.json")
 
@@ -176,6 +184,24 @@ async def check_id(interaction: nextcord.Interaction, message_id: str):
             return
 
     await interaction.send("Message ID (" + str(message_id) + ") does not match any logged User ID", ephemeral=True)
+
+@bot.slash_command(name = "reload_settings", guild_ids = settings["enabled_guild_ids"], default_member_permissions = nextcord.Permissions(administrator=True))
+async def check_id(interaction: nextcord.Interaction):
+    global settings
+    new_settings = read_json("settings.json")
+    expected_fields = ["enabled_guild_ids","forum_channel_ids","blacklisted_roles",
+                       "post_slowmode","restrict_duplicate_messages","logging_enabled",
+                       "bot_dm_on_normal_message","bot_embed_title_prefix","bot_embed_title_suffix",
+                       "interaction_confirmation_prefix","interaction_confirmation_suffix","attachment_prefix",
+                       "blacklisted_message","wrong_channel_message","post_slowmode_error_message_prefix",
+                       "post_slowmode_error_message_suffix","restrict_duplicate_messages_error_message"]
+    if new_settings and validate_settings(new_settings, expected_fields):
+        settings = new_settings
+        print("Settings reloaded successfully")
+        await interaction.send("Settings reloaded successfully. Note: Changes to enabled_guild_ids require a restart.", ephemeral=True)
+    else:
+        print("Settings file parsing or validation failed")
+        await interaction.send("Settings file parsing or validation failed. Settings will not be reloaded.", ephemeral=True)
 
 @bot.event
 async def on_ready():
