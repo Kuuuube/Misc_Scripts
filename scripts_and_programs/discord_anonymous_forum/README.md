@@ -84,4 +84,4 @@ pip install nextcord
 
      It is okay to cut off the hash ONLY because hash collisions are both extremely unlikely and not a major issue in this case. NEVER do this for password hashing or any kind of security where collisions are a big deal.
 
-- Due to bugs in the discord desktop client, on desktop, attachments can only be sent in threads using slash commands while a forum thread is opened in full view.
+- Due to bugs in the discord desktop client, on desktop, attachments can only be sent in slash commands while a forum thread is opened in full view.
