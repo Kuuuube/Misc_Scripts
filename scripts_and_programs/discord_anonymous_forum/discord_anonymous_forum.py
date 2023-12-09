@@ -176,6 +176,18 @@ async def spam_check(interaction, discord_user_id, current_post_content):
 
     return False
 
+@bot.slash_command(name = "rename_thread", guild_ids = settings["enabled_guild_ids"], default_member_permissions = nextcord.Permissions(manage_threads=True))
+async def rename_thread(interaction: nextcord.Interaction, new_thread_name: str):
+    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in settings["forum_channel_ids"]:
+        try:
+            await interaction.channel.edit(name = new_thread_name)
+            await interaction.send("Thread renamed", ephemeral=True)
+        except Exception as e:
+            print("Failed to rename thread: ", e)
+            await interaction.send("Failed to rename thread", ephemeral=True)
+    else:
+        await interaction.send(settings["wrong_channel_message"], ephemeral=True)
+
 @bot.slash_command(name = "check_id", guild_ids = settings["enabled_guild_ids"], default_member_permissions = nextcord.Permissions(administrator=True))
 async def check_id(interaction: nextcord.Interaction, message_id: str):
     for i, message_id_list in enumerate(userids.values()):

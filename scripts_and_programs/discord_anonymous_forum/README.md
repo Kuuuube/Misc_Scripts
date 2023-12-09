@@ -58,6 +58,10 @@ A discord bot that anonymizes messages and threads created in a forums channel.
 
 - `/p` `message` `(optional) attachment`: Used to post in anonymous threads.
 
+### Moderator
+
+- `/rename_thread` `new_thread_name`: Renames the thread this command is sent in. (Requires `Manage Threads` permission)
+
 ### Administrator
 
 - `/check_id` `message_id`: Returns the discord user ID associated with the message ID if it has been logged.
