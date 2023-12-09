@@ -14,6 +14,8 @@ A discord bot that anonymizes messages and threads created in a forums channel.
 
 - Run `discord_anonymous_forum.py`
 
+- Create threads in the active forum channels. Post in the threads using the `/p` command.
+
 ## Settings
 
 - `enabled_guild_ids` `array`: List of guilds IDs (server IDs) the bot will be active in.
@@ -50,6 +52,18 @@ A discord bot that anonymizes messages and threads created in a forums channel.
 
 - `restrict_duplicate_messages_error_message` `str`: The messege sent to users who try to send a duplicate message using `/p`.
 
+## Commands
+
+### General
+
+- `/p` `message` `(optional) attachment`: Used to post in anonymous threads.
+
+### Administrator
+
+- `/check_id` `message_id`: Returns the discord user ID associated with the message ID if it has been logged.
+
+- `/reload_settings`: Reloads the bot's settings from `settings.json`.
+
 ## Dependencies
 
 Python 3: [Download link](https://www.python.org/downloads/)
@@ -69,7 +83,5 @@ pip install nextcord
 - Message IDs are salted and hashed from discord user IDs. They contain the first 9 characters of the resulting sha256 hash. Every time the bot is restarted or after one day, the salt is reset and all message IDs will change. This prevents potential reversing of the message IDs through reverse engineering of the code. There is also no possibility of leaking a secret key.
 
      It is okay to cut off the hash ONLY because hash collisions are both extremely unlikely and not a major issue in this case. NEVER do this for password hashing or any kind of security where collisions are a big deal.
-
-- Discord user IDs and their corresponding message IDs are logged to `userid_log.json`. Users with the `Administrator` permission can use `/check_id` to find the discord user ID attached to a message ID. To turn off logging, change the `logging_enabled` setting to `false`.
 
 - Due to bugs in the discord desktop client, on desktop, attachments can only be sent in threads using slash commands while a forum thread is opened in full view.
