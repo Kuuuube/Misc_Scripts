@@ -101,15 +101,7 @@ async def replace_thread(channel, message):
 async def replace_message(message):
     try:
         await message.delete()
-        # Send DM
-        await message.author.send(settings["bot_dm_on_normal_message"])
-        # If you would prefer users to be able to send messages normally and have their messages replaced, uncomment the below lines
-        # You may also want to comment out the above line that sends the DM if you are not deleting normal messages
-        #
-        #if message.attachments:
-        #    await message.channel.send(embed = nextcord.Embed(description = message.content), files = [await attachment.to_file() for attachment in message.attachments])
-        #else:
-        #    await message.channel.send(message.content)
+        await message.author.send(settings["bot_dm_on_normal_message"]) # Send DM
     except Exception as e:
         print(f'An error occurred: {e}')
 
