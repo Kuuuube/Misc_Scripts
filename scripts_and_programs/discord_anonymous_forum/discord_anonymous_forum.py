@@ -185,40 +185,6 @@ async def check_id(interaction: nextcord.Interaction, message_id: str):
 
     await interaction.send("Message ID (" + str(message_id) + ") does not match any logged User ID", ephemeral=True)
 
-# This command is the same as the /p (post command) but it accepts a messageid to add as a reply
-# Uncomment all below lines to enable this commmand
-#
-#@bot.slash_command(name = "r", guild_ids = enabled_guild_ids)
-#async def reply_command(interaction: nextcord.Interaction, message: str, reply: str):
-#    for role in interaction.user.roles:
-#        if role.id in blacklisted_roles or role.name in blacklisted_roles:
-#            await interaction.send(blacklisted_message, ephemeral=True)
-#            return
-#
-#    if await spam_check(interaction, interaction.user.id, message):
-#        return
-#    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in forum_channel_ids:
-#        reference = await get_message_reference(interaction.channel.id, reply)
-#        if not reference:
-#            await interaction.send("Failed to set reply reference", ephemeral=True)
-#            return
-#        await interaction.send("書き込みが終わりました。 [" + str(round(bot.latency, 6)) + "]\n\nこのメッセージを非表示にすることができます。", ephemeral=True)
-#        await send_reply(interaction.channel, message.replace("\\n", "\n"), reply)
-#    else:
-#        await interaction.send("You cannot use this command here", ephemeral=True)
-#
-#async def send_reply(channel, message, reply):
-#    try:
-#        await channel.send(embed = nextcord.Embed(description = message), reference = nextcord.MessageReference(channel_id = channel.id, message_id = int(reply)))
-#    except Exception as e:
-#        print(f'An error occurred: {e}')
-#
-#async def get_message_reference(channel_id, message_id_str):
-#    try:
-#        return nextcord.MessageReference(channel_id = channel_id, message_id = int(message_id_str))
-#    except Exception:
-#        return None
-
 @bot.event
 async def on_ready():
     print("Logged in as: " + str(bot.user))
