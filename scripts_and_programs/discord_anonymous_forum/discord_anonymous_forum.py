@@ -1,40 +1,15 @@
 import nextcord
 import nextcord.ext.commands
-import time
 import datetime
-import random
 import hashlib
 import secrets
 import json
-import os
 
 intents = nextcord.Intents.default()
 intents.messages = True
 intents.message_content = True
 
 bot = nextcord.ext.commands.Bot(intents = intents)
-
-# Bot message configuration
-bot_dm_on_normal_message = "ＥＲＲＯＲ： Use /p to post. It is also recommended you unfollow the thread. \n書き込むには/pを使用してください。また、スレッドへのフォローを解除することをおすすめします。"
-bot_embed_title_prefix = " 名無しさん@TMW.bbs (ID: "
-bot_embed_title_suffix = ")"
-interaction_confirmation_prefix = "書き込みが終わりました。 ["
-interaction_confirmation_suffix = "]\n\nこのメッセージを非表示にすることができます。"
-attachment_prefix = "\n\n**Attachment:**\n"
-blacklisted_message = "You have been blacklisted"
-wrong_channel_message = "You cannot use this command here"
-post_slowmode_error_message_prefix = "You must wait at least "
-post_slowmode_error_message_suffix = " seconds before posting again"
-restrict_duplicate_messages_error_message = "You cannot send the same message twice in a row"
-
-# General configuration
-logging_enabled = True
-enabled_guild_ids = [your_guild_ids_here]
-forum_channel_ids = [your_forum_channel_ids_here]
-blacklisted_roles = [] # (Optional) Role ids or names
-post_slowmode = 5 # Timeout in seconds between /p command being sent
-restrict_duplicate_messages = True # Disallows the same message to be sent twice in a row by the same user
-
 
 post_slowmode_timers = {}
 last_post = {}
@@ -58,12 +33,13 @@ def write_json(filename, json_object):
         print("Failed to write json " + str(filename) + ": ", e)
 
 userids = read_json("userid_log.json")
+settings = read_json("settings.json")
 
 def get_id(discord_user_id):
     current_day = datetime.datetime.utcnow().strftime("%Y%m%d")
     user_id = hashlib.sha256((str(discord_user_id) + random_salt + current_day).encode()).hexdigest()[:9]
 
-    if not logging_enabled:
+    if not settings["logging_enabled"]:
         return user_id
 
     write_file = False
@@ -89,7 +65,7 @@ async def on_message(message):
     if message.author == bot.user or message.author.bot:
         return
 
-    if hasattr(message.channel, "parent_id") and message.channel.parent_id in forum_channel_ids:
+    if hasattr(message.channel, "parent_id") and message.channel.parent_id in settings["forum_channel_ids"]:
         if message.channel.id in open_threads:
             await replace_message(message)
         else:
@@ -112,13 +88,13 @@ async def replace_thread(channel, message):
                     files.append(await attachment.to_file())
                     break #only first image is used
             await message.channel.delete()
-            embed = nextcord.Embed(title = "001" + bot_embed_title_prefix + user_id + bot_embed_title_suffix, description = message.content)
+            embed = nextcord.Embed(title = "001" + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"], description = message.content)
             if files:
                 embed.set_image("attachment://" + files[0].filename)
             await channel.create_thread(name = message.channel.name, embed = embed, files = files)
         else:
             await message.channel.delete()
-            await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001" + bot_embed_title_prefix + user_id + bot_embed_title_suffix, description = message.content))
+            await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001" + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"], description = message.content))
     except Exception as e:
         print("Replace thread failed: ", e)
 
@@ -126,7 +102,7 @@ async def replace_message(message):
     try:
         await message.delete()
         # Send DM
-        await message.author.send(bot_dm_on_normal_message)
+        await message.author.send(settings["bot_dm_on_normal_message"])
         # If you would prefer users to be able to send messages normally and have their messages replaced, uncomment the below lines
         # You may also want to comment out the above line that sends the DM if you are not deleting normal messages
         #
@@ -137,11 +113,11 @@ async def replace_message(message):
     except Exception as e:
         print(f'An error occurred: {e}')
 
-@bot.slash_command(name = "p", guild_ids = enabled_guild_ids)
+@bot.slash_command(name = "p", guild_ids = settings["enabled_guild_ids"])
 async def post_command(interaction: nextcord.Interaction, message: str, attachment: nextcord.Attachment = nextcord.SlashOption(required = False)):
     for role in interaction.user.roles:
-        if role.id in blacklisted_roles or role.name in blacklisted_roles:
-            await interaction.send(blacklisted_message, ephemeral=True)
+        if role.id in settings["blacklisted_roles"] or role.name in settings["blacklisted_roles"]:
+            await interaction.send(settings["blacklisted_message"], ephemeral=True)
             return
 
     if await spam_check(interaction, interaction.user.id, message):
@@ -149,21 +125,21 @@ async def post_command(interaction: nextcord.Interaction, message: str, attachme
 
     user_id = get_id(interaction.user.id)
 
-    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in forum_channel_ids:
-        await interaction.send(interaction_confirmation_prefix + str(round(bot.latency, 6)) + interaction_confirmation_suffix, ephemeral=True)
+    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in settings["forum_channel_ids"]:
+        await interaction.send(settings["interaction_confirmation_prefix"] + str(round(bot.latency, 6)) + settings["interaction_confirmation_suffix"], ephemeral=True)
         if attachment:
             await send_attachment_message(interaction.channel, message.replace("\\n", "\n"), user_id, attachment)
         else:
             await send_message(interaction.channel, message.replace("\\n", "\n"), user_id)
     else:
-        await interaction.send(wrong_channel_message, ephemeral=True)
+        await interaction.send(settings["wrong_channel_message"], ephemeral=True)
 
 async def send_message(channel, message, user_id):
     thread_length = 1
     async for _ in channel.history(limit=None):
         thread_length += 1
     try:
-        await channel.send(embed = nextcord.Embed(title = format(thread_length, "03") + bot_embed_title_prefix + user_id + bot_embed_title_suffix, description = message))
+        await channel.send(embed = nextcord.Embed(title = format(thread_length, "03") + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"], description = message))
     except Exception as e:
         print("Send message failed: ", e)
 
@@ -172,35 +148,35 @@ async def send_attachment_message(channel, message, user_id, attachment):
     async for _ in channel.history(limit=None):
         thread_length += 1
     try:
-        embed = nextcord.Embed(title = format(thread_length, "03") + bot_embed_title_prefix + user_id + bot_embed_title_suffix, description = message)
+        embed = nextcord.Embed(title = format(thread_length, "03") + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"], description = message)
         if attachment.content_type.startswith("image"):
             embed.set_image(attachment.proxy_url)
         else:
-            embed.description += attachment_prefix + "[" + attachment.filename + "](" + attachment.proxy_url.replace("media.discordapp.net", "cdn.discordapp.com") + ") (" + attachment.content_type.rsplit(";")[0] + ")"
+            embed.description += settings["attachment_prefix"] + "[" + attachment.filename + "](" + attachment.proxy_url.replace("media.discordapp.net", "cdn.discordapp.com") + ") (" + attachment.content_type.rsplit(";")[0] + ")"
         await channel.send(embed = embed)
     except Exception as e:
         print("Send message failed: ", e)
 
 async def spam_check(interaction, discord_user_id, current_post_content):
     # post slowmode check
-    if post_slowmode > 0:
-        if discord_user_id in post_slowmode_timers.keys() and datetime.datetime.utcnow() - post_slowmode_timers[discord_user_id] < datetime.timedelta(seconds = post_slowmode):
-            await interaction.send(post_slowmode_error_message_prefix + str(post_slowmode) + post_slowmode_error_message_suffix, ephemeral=True)
+    if settings["post_slowmode"] > 0:
+        if discord_user_id in post_slowmode_timers.keys() and datetime.datetime.utcnow() - post_slowmode_timers[discord_user_id] < datetime.timedelta(seconds = settings["post_slowmode"]):
+            await interaction.send(settings["post_slowmode_error_message_prefix"] + str(settings["post_slowmode"]) + settings["post_slowmode_error_message_suffix"], ephemeral=True)
             return True
         else:
             post_slowmode_timers[discord_user_id] = datetime.datetime.utcnow()
 
     # restrict duplicate messages check
-    if restrict_duplicate_messages:
+    if settings["restrict_duplicate_messages"]:
         if discord_user_id in last_post.keys() and last_post[discord_user_id] == current_post_content:
-            await interaction.send(restrict_duplicate_messages_error_message, ephemeral=True)
+            await interaction.send(settings["restrict_duplicate_messages_error_message"], ephemeral=True)
             return True
         else:
             last_post[discord_user_id] = current_post_content
 
     return False
 
-@bot.slash_command(name = "check_id", guild_ids = enabled_guild_ids, default_member_permissions = nextcord.Permissions(administrator=True))
+@bot.slash_command(name = "check_id", guild_ids = settings["enabled_guild_ids"], default_member_permissions = nextcord.Permissions(administrator=True))
 async def check_id(interaction: nextcord.Interaction, message_id: str):
     for i, message_id_list in enumerate(userids.values()):
         if message_id in message_id_list:

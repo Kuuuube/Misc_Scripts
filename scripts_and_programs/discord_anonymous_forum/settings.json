@@ -1,0 +1,25 @@
+{
+    "enabled_guild_ids": [
+        your_guild_ids_here
+    ],
+    "forum_channel_ids": [
+        your_forum_channel_ids_here
+    ],
+    "blacklisted_roles": [
+        "(optional) put your blacklisted role ids or names here"
+    ],
+    "post_slowmode": 5,
+    "restrict_duplicate_messages": true,
+    "logging_enabled": true,
+    "bot_dm_on_normal_message": "Use /p to post. Normal messages are not allowed. It is also recommended you unfollow the thread.",
+    "bot_embed_title_prefix": "Anon BBS (ID: ",
+    "bot_embed_title_suffix": ")",
+    "interaction_confirmation_prefix": "Message received [",
+    "interaction_confirmation_suffix": "]",
+    "attachment_prefix": "\n\n**Attachment:**\n",
+    "blacklisted_message": "You have been blacklisted.",
+    "wrong_channel_message": "You cannot use this command here.",
+    "post_slowmode_error_message_prefix": "You must wait at least ",
+    "post_slowmode_error_message_suffix": " seconds before posting again.",
+    "restrict_duplicate_messages_error_message": "You cannot send the same message twice in a row."
+}
