@@ -12,7 +12,7 @@
     "restrict_duplicate_messages": true,
     "logging_enabled": true,
     "bot_dm_on_normal_message": "Use /p to post. Normal messages are not allowed. It is also recommended you unfollow the thread.",
-    "bot_embed_title_prefix": "Anon BBS (ID: ",
+    "bot_embed_title_prefix": " Anon BBS (ID: ",
     "bot_embed_title_suffix": ")",
     "interaction_confirmation_prefix": "Message received [",
     "interaction_confirmation_suffix": "]",
