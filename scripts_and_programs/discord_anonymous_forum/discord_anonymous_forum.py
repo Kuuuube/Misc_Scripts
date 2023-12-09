@@ -47,7 +47,7 @@ def read_json(filename):
             userids = json.load(json_file)
             return userids
     except Exception as e:
-        print("Failed to read json: ", e)
+        print("Failed to read json " + str(filename) + ": ", e)
         return {}
 
 def write_json(filename, json_object):
@@ -55,7 +55,7 @@ def write_json(filename, json_object):
         with open (filename, "w") as json_file:
             json_file.write(json.dumps(json_object, indent=4))
     except Exception as e:
-        print("Failed to write json: ", e)
+        print("Failed to write json " + str(filename) + ": ", e)
 
 userids = read_json("userid_log.json")
 
