@@ -28,6 +28,10 @@ A discord bot that anonymizes messages and threads created in a forums channel.
 
 - `restrict_duplicate_messages` `bool`: Whether or not to restrict users from sending the same message twice with `/p`.
 
+- `per_day_ids` `bool`: Whether or not all message IDs should change daily.
+
+- `per_thread_ids` `bool`: Whether or not message IDs for the same user should be different in each thread.
+
 - `logging_enabled` `bool`: Whether or not to log which discord user IDs and their corresponding message IDs.
 
 - `bot_dm_on_normal_message` `str`: The message sent by the bot when a user tries to send a message without using `/p`.
