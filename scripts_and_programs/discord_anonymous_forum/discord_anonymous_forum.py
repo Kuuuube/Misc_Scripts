@@ -4,6 +4,8 @@ import datetime
 import hashlib
 import secrets
 import json
+import sys
+import time
 
 intents = nextcord.Intents.default()
 intents.messages = True
@@ -32,16 +34,51 @@ def write_json(filename, json_object):
     except Exception as e:
         print("Failed to write json " + str(filename) + ": ", e)
 
-def validate_settings(json_dict, expected_fields):
+def validate_settings(json_dict):
+    class JSONValidationException(Exception):
+        pass
+
+    expected_fields = [("enabled_guild_ids", list, [int]),
+                       ("forum_channel_ids", list, [int]),
+                       ("blacklisted_roles", list, [int, str]),
+                       ("post_slowmode", int),
+                       ("restrict_duplicate_messages", bool),
+                       ("per_day_ids", bool),
+                       ("per_thread_ids", bool),
+                       ("logging_enabled", bool),
+                       ("bot_dm_on_normal_message", str),
+                       ("bot_embed_title_prefix", str),
+                       ("bot_embed_title_suffix", str),
+                       ("interaction_confirmation_prefix", str),
+                       ("interaction_confirmation_suffix", str),
+                       ("attachment_prefix", str),
+                       ("blacklisted_message", str),
+                       ("wrong_channel_message", str),
+                       ("post_slowmode_error_message_prefix", str),
+                       ("post_slowmode_error_message_suffix", str),
+                       ("restrict_duplicate_messages_error_message", str)]
     try:
         for expected_field in expected_fields:
-            json_dict[expected_field]
+            if type(json_dict[expected_field[0]]) != expected_field[1]:
+                raise JSONValidationException(expected_field[0] + " expected type `" + str(expected_field[1].__name__) + "` but found type `" + str(type(json_dict[expected_field[0]]).__name__) + "`")
+            if expected_field[1] == list:
+                for item in json_dict[expected_field[0]]:
+                    if type(item) not in expected_field[2]:
+                        raise JSONValidationException(expected_field[0] + " expected type `" + str([expected_type.__name__ for expected_type in expected_field[2]]).replace("'", "")  + "` but found type `[" + str(type(item).__name__) + "]`")
         return True
     except Exception as e:
         print("Settings validation failed: ", e)
 
 userids = read_json("userid_log.json")
 settings = read_json("settings.json")
+if not validate_settings(settings):
+    #Slow Blink: `\033[5m`, Bright Red: `\033[91m`, Underline: `\033[4m`, Bold: `\033[1m`, Invert FG/BG: `\033[7m`, Reset: `\033[0m`
+    for _ in range(2):
+        sys.stdout.write("\033[5m\033[91m\033[4m\033[1m\033[7m" + "!!!FATAL: INITIAL SETTINGS VALIDATION FAILED!!! EXITING" + "\033[0m" + "\r")
+        time.sleep(0.1)
+        sys.stdout.write("\033[5m\033[91m\033[4m\033[1m" + "!!!FATAL: INITIAL SETTINGS VALIDATION FAILED!!! EXITING" + "\033[0m" + "\r")
+        time.sleep(0.1)
+    sys.exit()
 
 def get_id(discord_user_id, channel_id):
     hashstring = str(discord_user_id) + random_salt
@@ -240,14 +277,7 @@ async def check_id(interaction: nextcord.Interaction, message_id: str):
 async def check_id(interaction: nextcord.Interaction):
     global settings
     new_settings = read_json("settings.json")
-    expected_fields = ["enabled_guild_ids","forum_channel_ids","blacklisted_roles",
-                       "post_slowmode","restrict_duplicate_messages","per_day_ids",
-                       "per_thread_ids","logging_enabled","bot_dm_on_normal_message",
-                       "bot_embed_title_prefix","bot_embed_title_suffix","interaction_confirmation_prefix",
-                       "interaction_confirmation_suffix","attachment_prefix","blacklisted_message",
-                       "wrong_channel_message","post_slowmode_error_message_prefix","post_slowmode_error_message_suffix",
-                       "restrict_duplicate_messages_error_message"]
-    if new_settings and validate_settings(new_settings, expected_fields):
+    if new_settings and validate_settings(new_settings):
         settings = new_settings
         print("Settings reloaded successfully")
         await interaction.send("Settings reloaded successfully. Note: Changes to enabled_guild_ids require a restart.", ephemeral=True)
