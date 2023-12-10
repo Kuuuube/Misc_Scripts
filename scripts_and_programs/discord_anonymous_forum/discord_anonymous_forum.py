@@ -274,7 +274,7 @@ async def check_id(interaction: nextcord.Interaction, message_id: str):
     await interaction.send("Message ID (" + str(message_id) + ") does not match any logged User ID", ephemeral=True)
 
 @bot.slash_command(name = "reload_settings", guild_ids = settings["enabled_guild_ids"], default_member_permissions = nextcord.Permissions(administrator=True))
-async def check_id(interaction: nextcord.Interaction):
+async def reload_settings(interaction: nextcord.Interaction):
     global settings
     new_settings = read_json("settings.json")
     if new_settings and validate_settings(new_settings):
