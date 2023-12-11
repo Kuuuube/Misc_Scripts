@@ -12,7 +12,7 @@ A discord bot that anonymizes messages and threads created in a forums channel.
 
 ## [Discord Thread Locker](./scripts_and_programs/discord_thread_locker)
 
-A simple discord bot that locks and archives discord threads after a set amount of time.
+A simple discord bot that locks and archives inactive or old discord threads.
 
 ## [Duckduckgo Detracker](./scripts_and_programs/duckduckgo_detracker)
 

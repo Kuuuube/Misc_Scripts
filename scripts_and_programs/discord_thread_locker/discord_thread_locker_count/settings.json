@@ -1,0 +1,10 @@
+{
+    "enabled_guild_ids": [
+        your_guild_ids_here
+    ],
+    "forum_channel_ids": [
+        your_forum_channel_ids_here
+    ],
+    "max_threads": 20,
+    "loop_timer_seconds": 10
+}

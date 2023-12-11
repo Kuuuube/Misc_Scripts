@@ -1,4 +1,44 @@
-# Discord Thread Locker
+# Discord Thread Locker Count
+
+A simple discord bot that locks and archives threads after their activity falls below other threads.
+
+## Usage
+
+- Add your discord bot token to `.env` after `TOKEN=`
+
+    (DO NOT share your token with anyone, it is more valuable than a password)
+
+- In `settings.json` under `enabled_guild_ids` add the guild IDs (server IDs) the bot will be active in.
+
+- In `settings.json` under `forum_channel_ids` add the forum channel IDs the bot will be active in.
+
+- Run `discord_thread_locker_count.py`
+
+## Dependencies
+
+Python 3: [Download link](https://www.python.org/downloads/)
+
+Python `nextcord` module: To install it, enter the following command in cmd or a terminal:
+
+```
+pip install nextcord
+```
+
+## Settings
+
+- `enabled_guild_ids` `array`: List of guilds IDs (server IDs) the bot will be active in.
+
+- `forum_channel_ids` `array`: List of forum channel IDs the bot will be active in.
+
+- `max_threads` `int`: The maximum number of threads that can be active (per channel).
+
+- `loop_timer_seconds` `int`: The number of seconds between checking for threads to be archived.
+
+## Notes
+
+- If there are more threads than `max_threads`, threads will be archived to fit this limit. The threads with the oldest last message will be archived first.
+
+# Discord Thread Locker Time
 
 A simple discord bot that locks and archives discord threads after a set amount of time.
 
@@ -8,11 +48,11 @@ A simple discord bot that locks and archives discord threads after a set amount 
 
     (DO NOT share your token with anyone, it is more valuable than a password)
 
-- In `discord_thread_locker.py` under `# List of specific channel IDs to check` add a list of channel IDs to check for threads in.
+- In `discord_thread_locker_time.py` under `# List of specific channel IDs to check` add a list of channel IDs to check for threads in.
 
     Channel ids in `eng_channel_ids` will be sent bot messages in English. Channel ids in `jp_channel_ids` will be sent bot messages in Japanese.
 
-- Run `discord_thread_locker.py`
+- Run `discord_thread_locker_time.py`
 
 ## Dependencies
 
