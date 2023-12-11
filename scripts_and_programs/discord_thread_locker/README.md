@@ -34,6 +34,12 @@ pip install nextcord
 
 - `loop_timer_seconds` `int`: The number of seconds between checking for threads to be archived.
 
+## Commands
+
+### Administrator
+
+- `/reload_settings`: Reloads the bot's settings from `settings.json`.
+
 ## Notes
 
 - If there are more threads than `max_threads`, threads will be archived to fit this limit. The threads with the oldest last message will be archived first.
