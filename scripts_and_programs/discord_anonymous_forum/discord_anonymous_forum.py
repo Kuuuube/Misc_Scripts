@@ -6,6 +6,8 @@ import secrets
 import json
 import sys
 import time
+import traceback
+import logging
 
 intents = nextcord.Intents.default()
 intents.messages = True
@@ -18,21 +20,55 @@ last_post = {}
 open_threads = []
 random_salt = secrets.token_hex(256)
 
+def nextcord_debug_log():
+    logger = logging.getLogger("nextcord")
+    logger.setLevel(logging.DEBUG)
+    handler = logging.FileHandler("nextcord.log", "a", encoding = "utf-8")
+    handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s"))
+    logger.addHandler(handler)
+
+def error_log(message, error = ""):
+    try:
+        utc_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+        with open ("error_log.log", "a", encoding="utf8") as log_file:
+            log_file.write(utc_time + ", " + str(message).replace("\r", r"\r").replace("\n", r"\n") + ", " + str(error).replace("\r", r"\r").replace("\n", r"\n") + "\n")
+        print(message)
+        print(error)
+    except Exception:
+        try:
+            print("Could not write to error log:")
+            print(traceback.format_exc())
+        except Exception:
+            pass
+
+def base_log(message):
+    try:
+        utc_time = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+        with open ("base_log.log", "a", encoding="utf8") as log_file:
+            log_file.write(utc_time + ", " + str(message).replace("\r", r"\r").replace("\n", r"\n") + "\n")
+        print(message)
+    except Exception:
+        try:
+            print("Could not write to base log:")
+            print(traceback.format_exc())
+        except Exception:
+            pass
+
 def read_json(filename):
     try:
         with open (filename, "r") as json_file:
             userids = json.load(json_file)
             return userids
-    except Exception as e:
-        print("Failed to read json " + str(filename) + ": ", e)
+    except Exception:
+        error_log("Failed to read json " + str(filename) + ": ", traceback.format_exc())
         return {}
 
 def write_json(filename, json_object):
     try:
         with open (filename, "w") as json_file:
             json_file.write(json.dumps(json_object, indent=4))
-    except Exception as e:
-        print("Failed to write json " + str(filename) + ": ", e)
+    except Exception:
+        error_log("Failed to write json " + str(filename) + ": ", traceback.format_exc())
 
 def validate_settings(json_dict):
     class JSONValidationException(Exception):
@@ -66,8 +102,8 @@ def validate_settings(json_dict):
                     if type(item) not in expected_field[2]:
                         raise JSONValidationException(expected_field[0] + " expected type `" + str([expected_type.__name__ for expected_type in expected_field[2]]).replace("'", "")  + "` but found type `[" + str(type(item).__name__) + "]`")
         return True
-    except Exception as e:
-        print("Settings validation failed: ", e)
+    except Exception:
+        error_log("Settings validation failed: ", traceback.format_exc())
 
 userids = read_json("userid_log.json")
 settings = read_json("settings.json")
@@ -107,28 +143,31 @@ def get_id(discord_user_id, channel_id):
 
         if write_file:
             write_json("userid_log.json", userids)
-    except Exception as e:
-        print(e)
+    except Exception:
+        error_log("Logging message id failed: ", traceback.format_exc())
 
     return user_id
 
 @bot.event
 async def on_message(message):
-    if message.author == bot.user or message.author.bot:
-        return
+    try:
+        if message.author == bot.user or message.author.bot:
+            return
 
-    if hasattr(message.channel, "parent_id") and message.channel.parent_id in settings["forum_channel_ids"]:
-        if message.channel.id in open_threads:
-            await replace_message(message)
-        else:
-            channel = bot.get_channel(message.channel.parent_id)
-            thread = channel.get_thread(message.channel.id)
-            first_message = await thread.history(limit = 1, oldest_first = True).__anext__()
-            if message.id == first_message.id:
-                await replace_thread(channel, message)
-            else:
+        if hasattr(message.channel, "parent_id") and message.channel.parent_id in settings["forum_channel_ids"]:
+            if message.channel.id in open_threads:
                 await replace_message(message)
-                open_threads.append(message.channel.id)
+            else:
+                channel = bot.get_channel(message.channel.parent_id)
+                thread = channel.get_thread(message.channel.id)
+                first_message = await thread.history(limit = 1, oldest_first = True).__anext__()
+                if message.id == first_message.id:
+                    await replace_thread(channel, message)
+                else:
+                    await replace_message(message)
+                    open_threads.append(message.channel.id)
+    except Exception:
+        error_log("On_message failed", traceback.format_exc())
 
 async def replace_thread(channel, message):
     if settings["per_thread_ids"]:
@@ -153,8 +192,8 @@ async def direct_replace_thread(channel, message):
         else:
             await message.channel.delete()
             await channel.create_thread(name = message.channel.name, embed = nextcord.Embed(title = "001" + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"], description = message.content))
-    except Exception as e:
-        print("Replace thread failed: ", e)
+    except Exception:
+        error_log("Replace thread failed: ", traceback.format_exc())
 
 async def edit_replace_thread(channel, message):
     try:
@@ -179,59 +218,62 @@ async def edit_replace_thread(channel, message):
             user_id = get_id(message.author.id, thread.id)
             embed.title = "001" + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"]
             await thread.last_message.edit(embed = embed)
-    except Exception as e:
-        print("Replace thread failed: ", e)
+    except Exception:
+        error_log("Replace thread failed: ", traceback.format_exc())
 
 async def replace_message(message):
     try:
         await message.delete()
         await message.author.send(settings["bot_dm_on_normal_message"]) # Send DM
-    except Exception as e:
-        print(f'An error occurred: {e}')
+    except Exception:
+        error_log("Replace message failed: ", traceback.format_exc())
 
 @bot.slash_command(name = "p", guild_ids = settings["enabled_guild_ids"])
 async def post_command(interaction: nextcord.Interaction, message: str, attachment: nextcord.Attachment = nextcord.SlashOption(required = False)):
-    for role in interaction.user.roles:
-        if role.id in settings["blacklisted_roles"] or role.name in settings["blacklisted_roles"]:
-            await interaction.send(settings["blacklisted_message"], ephemeral=True)
+    try:
+        for role in interaction.user.roles:
+            if role.id in settings["blacklisted_roles"] or role.name in settings["blacklisted_roles"]:
+                await interaction.send(settings["blacklisted_message"], ephemeral=True)
+                return
+
+        if await spam_check(interaction, interaction.user.id, message):
             return
 
-    if await spam_check(interaction, interaction.user.id, message):
-        return
+        user_id = get_id(interaction.user.id, interaction.channel.id)
 
-    user_id = get_id(interaction.user.id, interaction.channel.id)
-
-    if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in settings["forum_channel_ids"]:
-        await interaction.send(settings["interaction_confirmation_prefix"] + str(round(bot.latency, 6)) + settings["interaction_confirmation_suffix"], ephemeral=True)
-        if attachment:
-            await send_attachment_message(interaction.channel, message.replace("\\n", "\n"), user_id, attachment)
+        if hasattr(interaction.channel, "parent_id") and interaction.channel.parent_id in settings["forum_channel_ids"]:
+            await interaction.send(settings["interaction_confirmation_prefix"] + str(round(bot.latency, 6)) + settings["interaction_confirmation_suffix"], ephemeral=True)
+            if attachment:
+                await send_attachment_message(interaction.channel, message.replace("\\n", "\n"), user_id, attachment)
+            else:
+                await send_message(interaction.channel, message.replace("\\n", "\n"), user_id)
         else:
-            await send_message(interaction.channel, message.replace("\\n", "\n"), user_id)
-    else:
-        await interaction.send(settings["wrong_channel_message"], ephemeral=True)
+            await interaction.send(settings["wrong_channel_message"], ephemeral=True)
+    except Exception:
+        error_log("Post command failed: ", traceback.format_exc())
 
 async def send_message(channel, message, user_id):
-    thread_length = 1
-    async for _ in channel.history(limit=None):
-        thread_length += 1
     try:
+        thread_length = 1
+        async for _ in channel.history(limit=None):
+            thread_length += 1
         await channel.send(embed = nextcord.Embed(title = format(thread_length, "03") + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"], description = message))
-    except Exception as e:
-        print("Send message failed: ", e)
+    except Exception:
+        error_log("Send message failed: ", traceback.format_exc())
 
 async def send_attachment_message(channel, message, user_id, attachment):
-    thread_length = 1
-    async for _ in channel.history(limit=None):
-        thread_length += 1
     try:
+        thread_length = 1
+        async for _ in channel.history(limit=None):
+            thread_length += 1
         embed = nextcord.Embed(title = format(thread_length, "03") + settings["bot_embed_title_prefix"] + user_id + settings["bot_embed_title_suffix"], description = message)
         if attachment.content_type.startswith("image"):
             embed.set_image(attachment.proxy_url)
         else:
             embed.description += settings["attachment_prefix"] + "[" + attachment.filename + "](" + attachment.proxy_url.replace("media.discordapp.net", "cdn.discordapp.com") + ") (" + attachment.content_type.rsplit(";")[0] + ")"
         await channel.send(embed = embed)
-    except Exception as e:
-        print("Send message failed: ", e)
+    except Exception:
+        error_log("Send attachment message failed: ", traceback.format_exc())
 
 async def spam_check(interaction, discord_user_id, current_post_content):
     # post slowmode check
@@ -258,8 +300,8 @@ async def rename_thread(interaction: nextcord.Interaction, new_thread_name: str)
         try:
             await interaction.channel.edit(name = new_thread_name)
             await interaction.send("Thread renamed", ephemeral=True)
-        except Exception as e:
-            print("Failed to rename thread: ", e)
+        except Exception:
+            error_log("Failed to rename thread: ", traceback.format_exc())
             await interaction.send("Failed to rename thread", ephemeral=True)
     else:
         await interaction.send(settings["wrong_channel_message"], ephemeral=True)
@@ -279,14 +321,15 @@ async def reload_settings(interaction: nextcord.Interaction):
     new_settings = read_json("settings.json")
     if new_settings and validate_settings(new_settings):
         settings = new_settings
-        print("Settings reloaded successfully")
+        base_log("Settings reloaded successfully")
         await interaction.send("Settings reloaded successfully. Note: Changes to enabled_guild_ids require a restart.", ephemeral=True)
     else:
-        print("Settings file parsing or validation failed")
+        error_log("Settings file parsing or validation failed")
         await interaction.send("Settings file parsing or validation failed. Settings will not be reloaded.", ephemeral=True)
 
 @bot.event
 async def on_ready():
-    print("Logged in as: " + str(bot.user))
+    base_log("Logged in as: " + str(bot.user))
 
+nextcord_debug_log()
 bot.run(open(".env", "r", encoding="UTF-8").read().split("=", 1)[1].strip())
