@@ -106,6 +106,10 @@ My terminal emulator and shell config files.
 
 Logs timer times to csv with configurable tags and ui.
 
+## [TSV to Freq Dict](./scripts_and_programs/tsv_to_freq_dict)
+
+Converts a simple tsv from corpora word frequency analysis into a rank-based yomitan frequency dictionary.
+
 ## [Wikipedia Full Width Always](./scripts_and_programs/wikipedia_full_width_always)
 
 Automatically set wikipedia pages to full width.
