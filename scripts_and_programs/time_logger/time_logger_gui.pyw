@@ -123,15 +123,17 @@ def record():
     with open(save_path, "a", encoding = "utf-8") as logfile:
         logfile.write(str(datetime.datetime.now()))
         logfile.write(",")
+        logged_time = ""
         if re.search("\d+:\d{1,2}:\d{1,2}(\.\d+|)", entry_box.get()) != None and entry_box.get() != "0:00:00":
-            logfile.write(str(re.sub("\..*", "", entry_box.get())) + ".000000")
+            logged_time = str(re.sub("\..*", "", entry_box.get())) + ".000000"
         else:
-            logfile.write(str(datetime.datetime.now() - start_time))
+            logged_time = str(datetime.datetime.now() - start_time)
+        logfile.write(logged_time)
         logfile.write(",")
         logfile.write(safe_csv_field(tag_type))
         logfile.write("\n")
 
-    selection_label.config(text = "")
+    selection_label.config(text = tag_type + ": " + logged_time[:-7])
     reset_entry_box()
 
     edit_buttons(bottom_buttons, tkinter.DISABLED)
