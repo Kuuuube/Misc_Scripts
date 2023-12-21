@@ -18,6 +18,12 @@ Converts a simple tsv from corpora word frequency analysis into a rank-based yom
 
 - Run `tsv_to_freq_dict.py`
 
+- Edit `index.json` with the metadata you want. Do not change the `format` field.
+
+- Zip `index.json` and `term_meta_bank_1.json`
+
+- The dictionary is now ready to be imported into yomitan!
+
 ## Dependencies
 
 Python 3: [Download link](https://www.python.org/downloads/)
