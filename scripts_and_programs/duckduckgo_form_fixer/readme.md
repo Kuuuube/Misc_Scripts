@@ -1,6 +1,6 @@
 # Duckduckgo Form Fixer
 
-Forces searching from the URL instead of POST when using html.duckduckgo.
+Forces searching from the URL instead of POST when using html.duckduckgo. This allows proper use of the browser back button.
 
 ## Usage
 

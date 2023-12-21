@@ -2,7 +2,7 @@
 // @name         Duckduckgo Form Fixer
 // @namespace    https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/duckduckgo_form_fixer
 // @version      0.1
-// @description  Forces searching from the URL instead of POST when using html.duckduckgo.
+// @description  Forces searching from the URL instead of POST when using html.duckduckgo. This allows proper use of the browser back button.
 // @author       Kuuube
 // @match        https://html.duckduckgo.com/html/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=duckduckgo.com
