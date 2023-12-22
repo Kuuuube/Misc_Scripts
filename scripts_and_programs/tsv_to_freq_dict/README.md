@@ -16,7 +16,15 @@ Converts a simple tsv from corpora word frequency analysis into a rank-based yom
 
 - Name your file `list.tsv` and put it next to `tsv_to_freq_dict.py`.
 
-- Run `tsv_to_freq_dict.py`
+- Run `tsv_to_freq_dict.py` or `tsv_to_freq_dict_ranged.py`
+
+    `tsv_to_freq_dict.py` handled occurance collisions in the frequency list by giving all same-occurance words the same single frequency value.
+
+    For example: If "abc" and "cba" collide at 50 occurances and the script is at rank 30, both will be given rank 30. Then next word after these two then gets rank 31.
+
+    `tsv_to_freq_dict_ranged.py` handled occurance collisions in the frequency list by giving all same-occurance words a range of frequency values for the amount of words that have collided.
+
+    For example: If "abc" and "cba" collide at 50 occurances and the script is at rank 30, both will be given rank 30-31. Then next word after these two then gets rank 32.
 
 - Edit `index.json` with the metadata you want. Do not change the `format` field.
 
