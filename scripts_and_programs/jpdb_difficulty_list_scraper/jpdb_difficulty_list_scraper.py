@@ -16,6 +16,7 @@ def scrape_list(difficulty_list, listing_items):
     while True:
         print(next_page)
         response = requests.get("https://jpdb.io/" + difficulty_list + "-difficulty-list?offset=" + next_page)
+        response.encoding = response.apparent_encoding #fix jpdb reporting the wrong encoding for the web novel difficulty list
 
         listings_regex = re.findall("(<h5 style(\s|.)*?</div>)", response.text)
         if not listings_regex:
