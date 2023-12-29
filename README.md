@@ -34,6 +34,10 @@ Simple script to convert hex to binary text. This will not read or write a file'
 
 Fixes Jisho occasionally loading pages scrolled to the bottom.
 
+## [JPDB Difficulty List Scraper](./scripts_and_programs/jpdb_difficulty_list_scraper)
+
+Scrapes [JPDB](https://jpdb.io) `Anime`, `Novels`, `Visual novels`, `Web novels`, and `Live action` difficulty lists.
+
 ## [KeePass DataBaseBackup Patch](./scripts_and_programs/keepass_databasebackup_patch)
 
 Minor changes to the KeePass DataBaseBackup plugin.
