@@ -18,7 +18,6 @@ function redirect() {
 }
 
 function replace() {
-    console.log("hit");
     var links = document.getElementsByTagName("a");
     for (var i = 0; i < links.length; i++) {
         if (links[i].href.includes("youtube.com/shorts/")) {
