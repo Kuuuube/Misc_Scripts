@@ -114,6 +114,10 @@ Logs timer times to csv with configurable tags and ui.
 
 Converts a simple tsv from corpora word frequency analysis into a rank-based yomitan frequency dictionary.
 
+## [Unicode Range Generator](./scripts_and_programs/unicode_range_generator)
+
+Writes unicode characters within a list of unicode ranges to file.
+
 ## [Wikipedia Full Width Always](./scripts_and_programs/wikipedia_full_width_always)
 
 Automatically set wikipedia pages to full width.
