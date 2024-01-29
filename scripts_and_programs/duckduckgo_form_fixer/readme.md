@@ -16,4 +16,4 @@ Any userscript extension/add-on. I use [TamperMonkey](https://www.tampermonkey.n
 
 ## Notes
 
-- To properly add html.duckduckgo to Firefox follow these steps: [How to add HTML DuckDuckGo in Firefox](../../notes/firefox_how_to_add_html_ddg.md). Adding it by right clicking the search bar when on the URL will cause issues.
+- To properly add html.duckduckgo, follow these steps: [Firefox](../../notes/how_to_add_html_ddg/firefox.md) or [Chrome](../../notes/how_to_add_html_ddg/chrome.md).
