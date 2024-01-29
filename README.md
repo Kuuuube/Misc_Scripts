@@ -114,6 +114,10 @@ Logs timer times to csv with configurable tags and ui.
 
 Converts a simple tsv from corpora word frequency analysis into a rank-based yomitan frequency dictionary.
 
+## [Ungoogled Chromium Updater](./scripts_and_programs/ungoogled_chromium_updater)
+
+Updater script for Ungoogled Chromium on win-x64.
+
 ## [Unicode Range Generator](./scripts_and_programs/unicode_range_generator)
 
 Writes unicode characters within a list of unicode ranges to file.
