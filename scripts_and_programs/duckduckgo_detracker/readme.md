@@ -13,3 +13,7 @@ Removes tracker links from direct html.duckduckgo search results.
 ## Dependencies
 
 Any userscript extension/add-on. I use [TamperMonkey](https://www.tampermonkey.net/).
+
+## Notes
+
+- To properly add html.duckduckgo to Firefox follow these steps: [How to add HTML DuckDuckGo in Firefox](../../notes/firefox_how_to_add_html_ddg.md). Adding it by right clicking the search bar when on the URL will cause issues.
