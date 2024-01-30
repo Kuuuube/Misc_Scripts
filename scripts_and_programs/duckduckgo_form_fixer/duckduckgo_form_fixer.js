@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  Forces searching from the URL instead of POST when using html.duckduckgo. This allows proper use of the browser back button.
 // @author       Kuuube
-// @match        https://html.duckduckgo.com/html/*
+// @match        https://html.duckduckgo.com/html*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=duckduckgo.com
 // ==/UserScript==
 
