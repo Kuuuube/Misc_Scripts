@@ -7,6 +7,7 @@ import threading
 import configparser
 import codecs
 import re
+import math
 
 start_time = datetime.datetime.now()
 tag_type = ""
@@ -207,7 +208,7 @@ time_label.grid(column = 0, row = button_rows + 2, columnspan = button_columns /
 time_label.config(font = ("TkDefaultFont", 20 * font_scale))
 
 entry_box = tkinter.ttk.Entry(frame, width = 1, justify="center")
-entry_box.grid(column = button_columns // 2, row = button_rows + 2, columnspan = button_columns // 2, sticky = "EWNS")
+entry_box.grid(column = math.ceil(button_columns / 2), row = button_rows + 2, columnspan = button_columns // 2, sticky = "EWNS")
 reset_entry_box()
 entry_box.config(font = ("TkDefaultFont", 20 * font_scale), state = tkinter.DISABLED)
 frame.rowconfigure(button_rows + 2, weight = 1)
