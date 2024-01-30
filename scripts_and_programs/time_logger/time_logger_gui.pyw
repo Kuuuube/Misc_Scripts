@@ -32,6 +32,7 @@ width_scale = int(maybe_read_config("1", "config", "width_scale").strip())
 height_scale = int(maybe_read_config("1", "config", "height_scale").strip())
 font_scale = int(maybe_read_config("1", "config", "font_scale").strip())
 current_scale = 1
+show_notes_box = maybe_read_config("false", "config", "show_notes_box").strip() == "true"
 
 def dynamic_font_scaler():
     global selection_label, time_label, start_root_size, current_scale
@@ -42,6 +43,8 @@ def dynamic_font_scaler():
         selection_label.config(font = ("TkDefaultFont", int(10 * font_scale * current_scale)))
         time_label.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
         entry_box.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
+        if show_notes_box:
+            notes_box.config(font = ("TkDefaultFont", int(20 * font_scale * current_scale)))
 
 def generate_buttons(buttons):
     global button_rows, button_columns, frame
@@ -98,6 +101,11 @@ def reset_entry_box():
     entry_box.delete(0,tkinter.END)
     entry_box.insert(0, "0:00:00")
 
+def reset_notes_box():
+    if show_notes_box:
+        global notes_box
+        notes_box.delete(0,tkinter.END)
+
 def reset(new_tag_type):
     global start_time, tag_type, selection_label
     start_time = datetime.datetime.now()
@@ -108,7 +116,10 @@ def reset(new_tag_type):
     edit_buttons(top_buttons, tkinter.DISABLED)
     edit_buttons(bottom_buttons, tkinter.ACTIVE)
     entry_box.config(state = tkinter.ACTIVE)
+    if show_notes_box:
+        notes_box.config(state = tkinter.ACTIVE)
     reset_entry_box()
+    reset_notes_box()
 
     threading.Thread(target = start_timer).start()
 
@@ -131,14 +142,20 @@ def record():
         logfile.write(logged_time)
         logfile.write(",")
         logfile.write(safe_csv_field(tag_type))
+        if show_notes_box:
+            logfile.write(",")
+            logfile.write(safe_csv_field(notes_box.get()))
         logfile.write("\n")
 
     selection_label.config(text = tag_type + ": " + logged_time[:-7])
     reset_entry_box()
+    reset_notes_box()
 
     edit_buttons(bottom_buttons, tkinter.DISABLED)
     edit_buttons(top_buttons, tkinter.ACTIVE)
     entry_box.config(state = tkinter.DISABLED)
+    if show_notes_box:
+        notes_box.config(state = tkinter.DISABLED)
 
     reset_timer()
 
@@ -146,10 +163,13 @@ def discard():
     global selection_label
     selection_label.config(text = "")
     reset_entry_box()
+    reset_notes_box()
     
     edit_buttons(bottom_buttons, tkinter.DISABLED)
     edit_buttons(top_buttons, tkinter.ACTIVE)
     entry_box.config(state = tkinter.DISABLED)
+    if show_notes_box:
+        notes_box.config(state = tkinter.DISABLED)
 
     reset_timer()
 
@@ -191,6 +211,13 @@ entry_box.grid(column = button_columns // 2, row = button_rows + 2, columnspan =
 reset_entry_box()
 entry_box.config(font = ("TkDefaultFont", 20 * font_scale), state = tkinter.DISABLED)
 frame.rowconfigure(button_rows + 2, weight = 1)
+
+if show_notes_box:
+    button_rows += 1
+    notes_box = tkinter.ttk.Entry(frame, width = 1, justify="left")
+    notes_box.grid(column = 0, row = button_rows + 2, columnspan = button_columns, pady = 5, sticky = "EWNS")
+    notes_box.config(font = ("TkDefaultFont", 20 * font_scale), state = tkinter.DISABLED)
+    frame.rowconfigure(button_rows + 2, weight = 1)
 
 record_button = tkinter.ttk.Button(frame, text = maybe_read_config("Record", "config", "record_button_name").strip(), state = tkinter.DISABLED, command = record)
 record_button.grid(column = 0, row = button_rows + 3, ipady = 25, pady = 5, sticky = "EWNS")

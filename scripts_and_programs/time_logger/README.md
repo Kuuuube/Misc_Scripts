@@ -31,7 +31,7 @@ Python 3: [Download link](https://www.python.org/downloads/)
 - The csv file uses the following format:
 
     ```
-    Date,Duration,Tag
+    Date,Duration,Tag,Notes
     ```
 
     Date is the datetime when the `Record` button was pressed.
@@ -39,5 +39,7 @@ Python 3: [Download link](https://www.python.org/downloads/)
     Duration is the timer duration or manually entered time when the `Record` button was pressed.
 
     Tag is the button name pressed when starting the timer.
+
+    Notes is the input of the blank entry box when `show_notes_box` is set to `true` in the config.
 
 - When importing the csv into applications such as libreoffice make sure to enable `Detect special numbers` (Excel does this by default). The durations may not be parsed correctly otherwise.
