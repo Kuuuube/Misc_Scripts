@@ -1,1 +1,1 @@
-load(io.popen('oh-my-posh init cmd --config C:/Users/wormhole/AppData/Local/Programs/oh-my-posh/themes/agnoster.minimal_tokyonight_storm.omp.json'):read("*a"))()
+load(io.popen('oh-my-posh init cmd --config %localappdata%/Programs/oh-my-posh/themes/agnoster.minimal_tokyonight_storm.omp.json'):read("*a"))()

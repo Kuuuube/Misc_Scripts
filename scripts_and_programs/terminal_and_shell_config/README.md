@@ -12,11 +12,11 @@ My terminal emulator and shell config files.
 
 - Install alacritty [https://alacritty.org/](https://alacritty.org/)
 
-- Place `alacritty.yml` in one of the config locations. 
+- Place `alacritty.toml` in one of the config locations.
 
-    Windows: `%appdata%\alacritty\alacritty.yml`
+    Windows: `%appdata%\alacritty\alacritty.toml`
 
-    Linux: `$XDG_CONFIG_HOME/alacritty/alacritty.yml`, `$XDG_CONFIG_HOME/alacritty.yml`, `$HOME/.config/alacritty/alacritty.yml`, or `$HOME/.alacritty.yml`
+    Linux: `$XDG_CONFIG_HOME/alacritty/alacritty.toml`, `$XDG_CONFIG_HOME/alacritty.toml`, `$HOME/.config/alacritty/alacritty.toml`, or `$HOME/.alacritty.toml`
 
 - If you are not on windows or do not want to use clink, change the `shell:    program: cmd.exe /k clink inject` section of the config. 
 
@@ -26,7 +26,7 @@ My terminal emulator and shell config files.
 
 - Install Oh My Posh
 
-    Windows: `winget install JanDeDobbeleer.OhMyPosh -s winget`
+    Windows: `winget install JanDeDobbeleer.OhMyPosh -s winget` or `Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))`
 
     *nix: `brew install jandedobbeleer/oh-my-posh/oh-my-posh`
 
@@ -49,6 +49,8 @@ My terminal emulator and shell config files.
 - Add `Microsoft.Powershell_profile.ps1` to the profile directory. 
 
     Enter `$PROFILE` in powershell to get the profile directory. If the directory does not exist, create it.
+
+- You may need to set the execution policy for powershell. To set it to unrestricted, use: `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser`.
 
 ## Other shells
 
