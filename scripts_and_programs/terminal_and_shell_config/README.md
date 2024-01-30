@@ -50,7 +50,9 @@ My terminal emulator and shell config files.
 
     Enter `$PROFILE` in powershell to get the profile directory. If the directory does not exist, create it.
 
-- You may need to set the execution policy for powershell. To set it to unrestricted, use: `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser`.
+- If your powershell execution policy does not allow the script, you can it to unrestricted using: `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser`.
+
+- You may also need to allow the file with `Unblock-File $PROFILE`.
 
 ## Other shells
 
