@@ -10,7 +10,7 @@ Logs timer times to csv with configurable tags and ui.
 
 - Press one of the top buttons to start the time with that button's tag.
 
-- Opionally, manually set the time by editing the input box on the right.
+- Optionally, manually set the time by editing the input box on the right.
 
     If the input box is edited and contains a valid time in the format of `H:MM:SS` (`0:00:00`) it will override the timer when `Record` is pressed.
 
