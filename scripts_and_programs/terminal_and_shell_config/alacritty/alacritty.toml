@@ -135,9 +135,6 @@ mods = "Control"
 action = "PasteSelection"
 mouse = "Right"
 
-[shell]
-program = "cmd.exe /k clink inject"
-
 [window]
 decorations = "Full"
 opacity = 0.95

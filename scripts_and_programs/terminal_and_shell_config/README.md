@@ -18,9 +18,12 @@ My terminal emulator and shell config files.
 
     Linux: `$XDG_CONFIG_HOME/alacritty/alacritty.toml`, `$XDG_CONFIG_HOME/alacritty.toml`, `$HOME/.config/alacritty/alacritty.toml`, or `$HOME/.alacritty.toml`
 
-- If you are not on windows or do not want to use clink, change the `shell:    program: cmd.exe /k clink inject` section of the config. 
+- If you are on windows and want to use clink add the following to the end of `alacritty.toml`:
 
-    For example, replace `cmd.exe /k clink inject` with `powershell`, `bash`, or `zsh`. Using `cmd` is not recommended as you cannot use `Oh My Posh`.
+    ```
+    [shell]
+    program = "cmd.exe /k clink inject"
+    ```
 
 ## Oh My Posh
 
