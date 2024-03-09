@@ -37,6 +37,22 @@ My terminal emulator and shell config files.
 
     Windows: `%localappdata%\Programs\oh-my-posh\themes`
 
+    Linux: Themes directory varies on Linux, I use the alacritty config directory instead `$HOME/.config/alacritty/`.
+
+    - If you installed through Homebrew: `$(brew --prefix oh-my-posh)`.
+
+    - Make sure to edit the the bashrc command theme directory if you do not use the alacritty directory.
+
+## Bash (linux only)
+
+- Run `nano ~/.bashrc`.
+
+- Add the following line to the end of the file: `eval "$(oh-my-posh init bash --config ~/.config/alacritty/agnoster.minimal_tokyonight_storm.omp.json)"`.
+
+- Save and exit nano.
+
+- Run `exec bash`.
+
 ## Clink (windows only)
 
 - Download clink from here [https://github.com/chrisant996/clink](https://github.com/chrisant996/clink). You may find an older, incompatible version of clink if you search for it yourself.
