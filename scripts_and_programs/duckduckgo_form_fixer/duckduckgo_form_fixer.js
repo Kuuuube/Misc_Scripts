@@ -9,16 +9,16 @@
 // ==/UserScript==
 
 function header_form() {
-    var header_form = document.getElementsByClassName("header__form");
-    for (var i = 0; i < header_form.length; i++) {
-        header_form[i].removeAttribute("method")
+    var header_form_element = document.getElementsByClassName("header__form");
+    for (var i = 0; i < header_form_element.length; i++) {
+        header_form_element[i].removeAttribute("method")
     }
 }
 
 function homepage_form() {
-    var search_form_homepage = document.getElementsByClassName("search");
-    for (var i = 0; i < search_form_homepage.length; i++) {
-        search_form_homepage[i].removeAttribute("method")
+    var homepage_form_element = document.getElementsByClassName("search");
+    for (var i = 0; i < homepage_form_element.length; i++) {
+        homepage_form_element[i].removeAttribute("method")
     }
 }
 
