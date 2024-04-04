@@ -4,6 +4,9 @@ Reads serial data output from US Solid scales to terminal.
 
 ## Usage
 
+- Run `us_solid_scale_reader.py`.
+
+- Select the serial port to read by entering in the number next to the correct port.
 
 ## Dependencies
 
