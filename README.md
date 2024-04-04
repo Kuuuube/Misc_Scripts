@@ -122,6 +122,10 @@ Updater script for Ungoogled Chromium on win-x64.
 
 Writes unicode characters within a list of unicode ranges to file.
 
+## [US Solid Scale Reader](./scripts_and_programs/us_solid_scale_reader)
+
+Reads serial data output from US Solid scales to terminal.
+
 ## [Wikipedia Full Width Always](./scripts_and_programs/wikipedia_full_width_always)
 
 Automatically set wikipedia pages to full width.
