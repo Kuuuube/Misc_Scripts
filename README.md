@@ -138,6 +138,10 @@ Automatically remove wikipedia fundraising popups.
 
 Script to lock the aspect ratio of a window when resizing.
 
+## [Windows URL File Opener](./scripts_and_programs/windows_url_file_opener)
+
+Opens windows `.url` files in the default browser on Linux.
+
 ## [Word List Compressor](./scripts_and_programs/word_list_compressor)
 
 Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
