@@ -16,7 +16,7 @@ button_columns = 0
 
 def maybe_read_config(maybe, section, name = None):
     try:
-        config = configparser.ConfigParser()
+        config = configparser.RawConfigParser()
         config.read(os.path.dirname(__file__) + "/" + "config.ini", encoding="utf-8")
 
         if name == None:
