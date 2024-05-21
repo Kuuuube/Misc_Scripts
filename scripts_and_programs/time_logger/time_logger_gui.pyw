@@ -180,10 +180,11 @@ def time_logger_graph():
     graph_y_grid = True if maybe_read_config("true", "config", "graph_y_grid").strip() == "true" else False
     graph_stacked = True if maybe_read_config("true", "config", "graph_stacked").strip() == "true" else False
     graph_legend = True if maybe_read_config("true", "config", "graph_legend").strip() == "true" else False
+    graph_total_label = maybe_read_config("", "config", "graph_total_label").strip()
     csv_has_header = True if maybe_read_config("true", "config", "csv_has_header").strip() == "true" else False
     graph_day_offset = float(maybe_read_config(0, "config", "graph_day_offset").strip())
     import graph
-    graph.show_graph(graph_type, graph_x_grid, graph_y_grid, graph_stacked, graph_legend, csv_has_header, graph_day_offset)
+    graph.show_graph(graph_type, graph_x_grid, graph_y_grid, graph_stacked, graph_legend, graph_total_label, csv_has_header, graph_day_offset)
 
 root = tkinter.Tk()
 root.title("Time Logger")
@@ -208,7 +209,7 @@ time_label.grid(column = 0, row = button_rows + 2, columnspan = button_columns /
 time_label.config(font = ("TkDefaultFont", 20 * font_scale))
 
 entry_box = tkinter.ttk.Entry(frame, width = 1, justify="center")
-entry_box.grid(column = math.ceil(button_columns / 2), row = button_rows + 2, columnspan = button_columns // 2, sticky = "EWNS")
+entry_box.grid(column = button_columns // 2, row = button_rows + 2, columnspan = button_columns // 2, sticky = "EWNS")
 reset_entry_box()
 entry_box.config(font = ("TkDefaultFont", 20 * font_scale), state = tkinter.DISABLED)
 frame.rowconfigure(button_rows + 2, weight = 1)

@@ -26,6 +26,13 @@ def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limi
         matplotlib.pyplot.fill_between(x_list, y_list + (bar_bottom - datetime.datetime(1900, 1, 1)), bar_bottom, label = key)
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
 
+def add_total(flattened_y_lists, graph_total_label):
+    total = datetime.timedelta()
+    for value in flattened_y_lists:
+        total += value - datetime.datetime(1900, 1, 1)
+    hours_string = str(total.seconds // 3600 + total.days * 24)
+    matplotlib.pyplot.title(graph_total_label.replace("%d", hours_string), loc = 'right')
+
 def get_stacked_bar_top_limit(log_file, day_offset):
     y_list = []
     x_list = []
@@ -81,7 +88,7 @@ def parse_log_file(log_file, stacked, day_offset):
 
     return (x_list, y_dict)
 
-def show_graph(graph_type, x_grid, y_grid, stacked, legend, csv_has_header, day_offset):
+def show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, csv_has_header, day_offset):
     filename = "log.csv"
     log_file = list(map(str.strip, open(filename, "r", encoding="UTF-8").readlines()))
     if csv_has_header:
@@ -120,6 +127,9 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend, csv_has_header, day_
 
     matplotlib.pyplot.title("Daily Time Graph")
 
+    if (graph_total_label):
+        add_total(flattened_y_lists, graph_total_label)
+
     matplotlib.pyplot.gca().yaxis.set_major_formatter(matplotlib.dates.DateFormatter('%H:%M'))
     matplotlib.pyplot.yticks(numpy.arange(datetime.datetime.strptime("00", "%S"), top_limit, datetime.timedelta(minutes = 30)))
 
@@ -131,5 +141,5 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend, csv_has_header, day_
     matplotlib.pyplot.show()
 
 if __name__ == "__main__":
-    #show_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit, bar_bottom, day_offset)
-    show_graph("bar", False, False, True, True, True, 0)
+    #show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, csv_has_header, day_offset)
+    show_graph("bar", False, False, True, True, "Total: %d hours", True, -4)
