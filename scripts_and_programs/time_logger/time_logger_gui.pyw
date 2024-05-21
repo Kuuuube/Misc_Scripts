@@ -7,7 +7,6 @@ import threading
 import configparser
 import codecs
 import re
-import math
 
 start_time = datetime.datetime.now()
 tag_type = ""
@@ -25,7 +24,8 @@ def maybe_read_config(maybe, section, name = None):
 
         return config[section][name]
 
-    except Exception:
+    except Exception as e:
+        print(e)
         return maybe
 
 save_path = maybe_read_config("log.csv", "config", "log_file_path").strip()
@@ -136,8 +136,8 @@ def record():
         logfile.write(str(datetime.datetime.now()))
         logfile.write(",")
         logged_time = ""
-        if re.search("\d+:\d{1,2}:\d{1,2}(\.\d+|)", entry_box.get()) != None and entry_box.get() != "0:00:00":
-            logged_time = str(re.sub("\..*", "", entry_box.get())) + ".000000"
+        if re.search("\\d+:\\d{1,2}:\\d{1,2}(\\.\\d+|)", entry_box.get()) != None and entry_box.get() != "0:00:00":
+            logged_time = str(re.sub("\\..*", "", entry_box.get())) + ".000000"
         else:
             logged_time = str(datetime.datetime.now() - start_time)
         logfile.write(logged_time)
