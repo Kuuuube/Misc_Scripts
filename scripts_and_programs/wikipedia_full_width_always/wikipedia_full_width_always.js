@@ -37,7 +37,7 @@ function disableSidebar() {
 }
 
 function setCookie() {
-    document.cookie = "enwikimwclientpreferences=vector-feature-limited-width-clientpref-0,vector-feature-appearance-pinned-clientpref-0"
+    document.cookie = "enwikimwclientpreferences=vector-feature-appearance-pinned-clientpref-0%2Cvector-feature-limited-width-clientpref-0"
     document.cookie = "enwikilimited-width-aware=1";
 }
 
