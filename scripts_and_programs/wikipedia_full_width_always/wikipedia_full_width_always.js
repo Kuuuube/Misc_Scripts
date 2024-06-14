@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Wikipedia Full Width Always
 // @namespace    https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/wikipedia_full_width_always
-// @version      0.6
+// @version      0.7
 // @description  Automatically set wikipedia pages to full width and remove sidebar.
 // @author       Kuuube
 // @match        *://*.wikipedia.org/*
