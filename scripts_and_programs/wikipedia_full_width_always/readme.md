@@ -1,6 +1,6 @@
 # Wikipedia Full Width Always
 
-Automatically set wikipedia pages to full width.
+Automatically set wikipedia pages to full width and remove sidebar.
 
 ## Usage
 
