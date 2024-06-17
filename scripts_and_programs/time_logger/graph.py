@@ -88,7 +88,7 @@ def parse_log_file(log_file, stacked, day_offset):
 
     return (x_list, y_dict)
 
-def show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, csv_has_header, day_offset):
+def show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, csv_has_header, day_offset, max_display_months):
     filename = "log.csv"
     log_file = list(map(str.strip, open(filename, "r", encoding="UTF-8").readlines()))
     if csv_has_header:
@@ -130,6 +130,12 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, c
     if (graph_total_label):
         add_total(flattened_y_lists, graph_total_label)
 
+    if x_list[-1] - x_list[0] > datetime.timedelta(days = max_display_months * 30):
+        matplotlib.pyplot.gca().set_xlim(xmin = x_list[-1] - datetime.timedelta(days = max_display_months * 30))
+    else:
+        matplotlib.pyplot.gca().set_xlim(xmin = x_list[0] - datetime.timedelta(days = 1))
+    matplotlib.pyplot.gca().set_xlim(xmax = x_list[-1] + datetime.timedelta(days = 1))
+
     matplotlib.pyplot.gca().yaxis.set_major_formatter(matplotlib.dates.DateFormatter('%H:%M'))
     matplotlib.pyplot.yticks(numpy.arange(datetime.datetime.strptime("00", "%S"), top_limit, datetime.timedelta(minutes = 30)))
 
@@ -141,5 +147,5 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, c
     matplotlib.pyplot.show()
 
 if __name__ == "__main__":
-    #show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, csv_has_header, day_offset)
-    show_graph("bar", False, False, True, True, "Total: %d hours", True, -4)
+    #show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, csv_has_header, day_offset, max_display_months)
+    show_graph("bar", False, False, True, True, "Total: %d hours", True, -4, 4)

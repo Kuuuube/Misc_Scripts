@@ -183,8 +183,9 @@ def time_logger_graph():
     graph_total_label = maybe_read_config("", "config", "graph_total_label").strip()
     csv_has_header = True if maybe_read_config("true", "config", "csv_has_header").strip() == "true" else False
     graph_day_offset = float(maybe_read_config(0, "config", "graph_day_offset").strip())
+    maximum_graph_display_months = float(maybe_read_config(4, "config", "maximum_graph_display_months").strip())
     import graph
-    graph.show_graph(graph_type, graph_x_grid, graph_y_grid, graph_stacked, graph_legend, graph_total_label, csv_has_header, graph_day_offset)
+    graph.show_graph(graph_type, graph_x_grid, graph_y_grid, graph_stacked, graph_legend, graph_total_label, csv_has_header, graph_day_offset, maximum_graph_display_months)
 
 root = tkinter.Tk()
 root.title("Time Logger")
