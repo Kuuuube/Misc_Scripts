@@ -12,6 +12,7 @@ def zero_filler(input_list, target_len):
 def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limit, bar_bottom):
     if graph_type == "plot":
         matplotlib.pyplot.plot(x_list, y_list, label = key)
+        matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
     elif graph_type == "bar":
         matplotlib.pyplot.bar(x_list, [x - datetime.datetime(1900, 1, 1) for x in y_list], bottom = bar_bottom, label = key)
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
@@ -20,6 +21,7 @@ def setup_graph(graph_type, x_list, y_list, stacked, key, bottom_limit, top_limi
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
     elif graph_type == "scatter":
         matplotlib.pyplot.scatter(x_list, y_list, label = key)
+        matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
     elif graph_type == "stairs":
         matplotlib.pyplot.stairs(y_list, x_list + [max(x_list) + datetime.timedelta(days = 1)], linewidth = 2.5, label = key.replace("\"", ""), baseline = datetime.datetime.strptime("00", "%S"))
         matplotlib.pyplot.ylim(bottom = bottom_limit, top = top_limit + datetime.timedelta(minutes = 10))
@@ -33,13 +35,6 @@ def add_total(flattened_y_lists, graph_total_label):
         total += value - datetime.datetime(1900, 1, 1)
     hours_string = str(total.seconds // 3600 + total.days * 24)
     matplotlib.pyplot.title(graph_total_label.replace("%d", hours_string), loc = 'right')
-
-def get_top_limit(x_list, flattened_y_lists, log_file, day_offset, stacked, graph_type, max_display_months):
-    filtered_y_list = []
-    for x_item, y_item in zip(x_list, flattened_y_lists):
-        if x_item > x_list[-1] - datetime.timedelta(days = max_display_months * 30):
-            filtered_y_list.append(y_item)
-    return max(filtered_y_list)
 
 def parse_log_file(log_file, stacked, day_offset):
     x_list = []
@@ -102,9 +97,13 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, c
             for item in y_list:
                 duration_list.append(item - datetime.datetime(1900, 1, 1))
             flattened_y_lists = list(map(operator.add, flattened_y_lists, duration_list))
+    filtered_y_list = []
+    for x_item, y_item in zip(x_list, flattened_y_lists):
+        if x_item > x_list[-1] - datetime.timedelta(days = max_display_months * 30):
+            filtered_y_list.append(y_item)
 
     bottom_limit = min(flattened_y_lists)
-    top_limit = get_top_limit(x_list, flattened_y_lists, log_file, day_offset, stacked, graph_type, max_display_months)
+    top_limit = max(filtered_y_list)
 
     bar_bottom = numpy.full(len(x_list), datetime.datetime.strptime("00", "%S"))
 
