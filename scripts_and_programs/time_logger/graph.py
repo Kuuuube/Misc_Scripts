@@ -2,6 +2,7 @@ import matplotlib.pyplot
 import matplotlib.dates
 import numpy
 import datetime
+import operator
 
 def zero_filler(input_list, target_len):
     while len(input_list) < target_len:
@@ -33,20 +34,12 @@ def add_total(flattened_y_lists, graph_total_label):
     hours_string = str(total.seconds // 3600 + total.days * 24)
     matplotlib.pyplot.title(graph_total_label.replace("%d", hours_string), loc = 'right')
 
-def get_stacked_bar_top_limit(log_file, day_offset):
-    y_list = []
-    x_list = []
-    for item in log_file:
-        raw_day = datetime.datetime.strptime(item.split(",")[0], "%Y-%m-%d %H:%M:%S.%f")
-        day = (raw_day + datetime.timedelta(hours = day_offset)).replace(hour=0, minute=0, second=0, microsecond=0)
-        duration = datetime.datetime.strptime(item.split(",")[1], "%H:%M:%S.%f")
-        if day in x_list:
-            y_list[x_list.index(day)] += duration - datetime.datetime(1900, 1, 1)
-        else:
-            x_list.append(day)
-            y_list.append(duration)
-
-    return max(y_list)
+def get_top_limit(x_list, flattened_y_lists, log_file, day_offset, stacked, graph_type, max_display_months):
+    filtered_y_list = []
+    for x_item, y_item in zip(x_list, flattened_y_lists):
+        if x_item > x_list[-1] - datetime.timedelta(days = max_display_months * 30):
+            filtered_y_list.append(y_item)
+    return max(filtered_y_list)
 
 def parse_log_file(log_file, stacked, day_offset):
     x_list = []
@@ -102,13 +95,17 @@ def show_graph(graph_type, x_grid, y_grid, stacked, legend, graph_total_label, c
 
     flattened_y_lists = []
     for key, y_list in y_dict.items():
-        for y_item in y_list:
-            if isinstance(y_item, datetime.date):
-                flattened_y_lists.append(y_item)
+        if len(flattened_y_lists) == 0:
+            flattened_y_lists = y_list
+        else:
+            duration_list = []
+            for item in y_list:
+                duration_list.append(item - datetime.datetime(1900, 1, 1))
+            flattened_y_lists = list(map(operator.add, flattened_y_lists, duration_list))
+
     bottom_limit = min(flattened_y_lists)
-    top_limit = max(flattened_y_lists)
-    if stacked and (graph_type == "bar" or graph_type == "fill_between"):
-        top_limit = get_stacked_bar_top_limit(log_file, day_offset)
+    top_limit = get_top_limit(x_list, flattened_y_lists, log_file, day_offset, stacked, graph_type, max_display_months)
+
     bar_bottom = numpy.full(len(x_list), datetime.datetime.strptime("00", "%S"))
 
     for key, y_list in y_dict.items():
