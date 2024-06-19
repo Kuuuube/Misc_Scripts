@@ -1,0 +1,1 @@
+ps aux | grep -iF free_badge | grep -v grep

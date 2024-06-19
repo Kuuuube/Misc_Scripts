@@ -26,6 +26,10 @@ Forces searching from the URL instead of POST when using html.duckduckgo.
 
 Calculates how long it takes to lock target on a ship in [EVE Online](https://www.eveonline.com/).
 
+## [Free Badge Bot](./scripts_and_programs/free_badge)
+
+A discord bot with a single slash command that returns a string of text.
+
 ## [Hex to Binary Text](./scripts_and_programs/hex_to_binary_text)
 
 Simple script to convert hex to binary text. This will not read or write a file's hex or binary data. It only reads and writes text.
