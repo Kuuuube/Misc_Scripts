@@ -12,8 +12,6 @@ A discord bot with a single slash command that returns a string of text.
 
 ## Commands
 
-### General
-
 - `/free_badge`: Returns the contents of a random line in `command_output.txt`.
 
 ## Dependencies
