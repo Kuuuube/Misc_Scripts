@@ -1,6 +1,6 @@
 # Free Badge Bot
 
-A discord bot with a single slash command that returns a string of text.
+A discord bot with slash commands that return a string of text.
 
 ## Usage
 
@@ -12,7 +12,9 @@ A discord bot with a single slash command that returns a string of text.
 
 ## Commands
 
-- `/free_badge`: Returns the contents of a random line in `command_output.txt`.
+- `/free badge`: Returns the contents of a random line in `command_output.txt`.
+
+- `/fun command`: Returns the contents of a random line in `command_output2.txt`.
 
 ## Dependencies
 
@@ -27,4 +29,4 @@ pip install python-dotenv
 
 ## Notes
 
-The contents of `command_output.txt` are fetched on command use. You do not need to restart the bot to edit the command output.
+The contents of files are fetched on command use. You do not need to restart the bot to edit the command output.
