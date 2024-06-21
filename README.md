@@ -58,6 +58,10 @@ Automatically accepts League of Legends match ready checks by moving the mouse i
 
 Occasionally I get a bug in League of Legends where none of my hotkeys work. Restarting the game fixes the bug 95% of the time. This script restarts the game efficiently to avoid as much downtime as possible.
 
+## [Misc Macros](./scripts_and_programs/misc_macros)
+
+Misc macros for things such as window management and keyboard shortcuts.
+
 ## [Monkeytype JP Fixer](./scripts_and_programs/monkeytype_jp_fixer)
 
 Automatically inserts a space when after enter is pressed to make typing Japanese less awkward.
