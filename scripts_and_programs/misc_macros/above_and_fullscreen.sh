@@ -1,11 +1,7 @@
 active_window=$(xdotool getactivewindow)
+active_window_state=$(xprop -id "$active_window" | grep "_NET_WM_STATE(ATOM)" | grep -o "_NET_WM_STATE_FULLSCREEN")
 
-active_window_size=$(xdotool getwindowgeometry $active_window)
-active_window_size=$(echo "$active_window_size" | sed -z 's/Window.*Geometry: //' | sed 's/x/ /')
-
-active_monitor_size=$(xdotool getdisplaygeometry)
-
-if [[ "$active_window_size" == "$active_monitor_size" ]]; then
+if [[ "$active_window_state" == "_NET_WM_STATE_FULLSCREEN" ]]; then
     xdotool windowstate --remove FULLSCREEN $active_window
     xdotool windowstate --remove ABOVE $active_window
 else
