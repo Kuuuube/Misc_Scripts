@@ -78,7 +78,7 @@ strip numgen.exe
 Compiled using [GnuCobol](https://gnucobol.sourceforge.io/) 3.2.0
 
 ```
-cobc -x *.cob -O2 -o numgen
+cobc -x numgen.cob -O2 -o numgen
 ```
 
 ### Notes
