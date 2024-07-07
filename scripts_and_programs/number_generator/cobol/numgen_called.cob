@@ -35,6 +35,7 @@
            DISPLAY "Still in numgen_called.cob, finished writing file".
 
            EXIT PROGRAM.
+
        RUNWRITE.
            MOVE CURRENTNUMBER TO CURRENTNUMBERSTRING.
            STRING
@@ -47,4 +48,6 @@
            MOVE CONCATSTRING TO OUTPUTFILESTRING.
            WRITE OUTPUTFILESTRING.
            COMPUTE CURRENTNUMBER = CURRENTNUMBER + 1.
+           EXIT.
+
        END PROGRAM NUMGENCALLED.

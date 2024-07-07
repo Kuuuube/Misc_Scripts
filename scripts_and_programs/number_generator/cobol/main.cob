@@ -41,5 +41,6 @@
                 ENDNUMBER,
                 PREFIX,
                 SUFFIX.
+           EXIT.
 
        END PROGRAM MAIN.
