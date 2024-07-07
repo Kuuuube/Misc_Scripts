@@ -30,7 +30,7 @@ c gfortran -O2 numgen.f -o numgen.exe
       WRITE (*,'(A)') "Number Suffix: "
       READ *,SUFFIX
 
-      OPEN (UNIT=1, FILE="testfile.txt")
+      OPEN (UNIT=1, FILE="output.txt")
       CURRENT_NUMBER = START_NUMBER
 
       DO WHILE (CURRENT_NUMBER <= END_NUMBER)
