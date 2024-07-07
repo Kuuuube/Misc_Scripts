@@ -1,0 +1,50 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. NUMGENCALLED.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT OUTPUTFILE
+           ASSIGN TO 'output.txt'
+           ORGANISATION LINE SEQUENTIAL.
+       DATA DIVISION.
+       FILE SECTION.
+       FD OUTPUTFILE.
+       01 OUTPUTFILESTRING PIC X(100).
+       WORKING-STORAGE SECTION.
+      *Using N(20) is probably better than X(20) but with GnuCobol 3.2.0 the
+      *national picture symbol is considered unstable
+       01 CURRENTNUMBER PIC 9(25).
+       01 CURRENTNUMBERSTRING PIC Z(25)9.
+       01 CONCATSTRING PIC X(100).
+       LINKAGE SECTION.
+       01 PREFIX PIC X(50).
+       01 SUFFIX PIC X(50).
+       01 STARTNUMBER PIC 9(25).
+       01 ENDNUMBER PIC 9(25).
+       PROCEDURE DIVISION
+           USING STARTNUMBER, ENDNUMBER, PREFIX, SUFFIX.
+
+           DISPLAY "This is running in numgen_called.cob".
+
+           MOVE STARTNUMBER TO CURRENTNUMBER.
+
+           OPEN OUTPUT OUTPUTFILE.
+           PERFORM RUNWRITE UNTIL CURRENTNUMBER > ENDNUMBER
+           CLOSE OUTPUTFILE.
+
+           DISPLAY "Still in numgen_called.cob, finished writing file".
+
+           EXIT PROGRAM.
+       RUNWRITE.
+           MOVE CURRENTNUMBER TO CURRENTNUMBERSTRING.
+           STRING
+               FUNCTION TRIM(PREFIX)
+               FUNCTION TRIM(CURRENTNUMBERSTRING)
+               FUNCTION TRIM(SUFFIX)
+               DELIMITED BY 9999999999
+               INTO CONCATSTRING
+               END-STRING.
+           MOVE CONCATSTRING TO OUTPUTFILESTRING.
+           WRITE OUTPUTFILESTRING.
+           COMPUTE CURRENTNUMBER = CURRENTNUMBER + 1.
+       END PROGRAM NUMGENCALLED.
