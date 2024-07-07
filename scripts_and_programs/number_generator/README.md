@@ -85,7 +85,9 @@ cobc -x numgen.cob -O2 -o numgen
 
 - Prefix and suffix have all leading and trailing whitespace stripped.
 
-- The full length of each line written to file cannot exceed 100 characters. Any characters above this limit will be cut off.
+- The length of prefix or suffix cannot exceed 500 characters.
+
+- The full length of each line written to file cannot exceed 1000 characters. Any characters above this limit will be cut off.
 
 <br>
 
@@ -160,7 +162,7 @@ Each numgen is tested with `Start number: 0`, `End number: 10000000`, `Prefix: t
 | Rust          | 813ms         |
 | C             | 891ms         |
 | Haskell       | 3.5s          |
-| Cobol         | 5.1s          |
 | Python        | 5.7s          |
+| Cobol         | 14.1s         |
 | Fortran       | 15.2s         |
 | B             | 3.3m          |

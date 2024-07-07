@@ -8,20 +8,21 @@
            ORGANISATION LINE SEQUENTIAL.
        DATA DIVISION.
        FILE SECTION.
-       FD OUTPUTFILE.
-       01 OUTPUTFILESTRING PIC X(100).
+       FD OUTPUTFILE
+           RECORD IS VARYING FROM 0 to 10000000 CHARACTERS.
+       01 OUTPUTFILESTRING PIC X(1000).
        WORKING-STORAGE SECTION.
       *Using N(20) is probably better than X(20) but with GnuCobol 3.2.0 the
       *national picture symbol is considered unstable
-       01 PREFIX PIC X(50).
-       01 SUFFIX PIC X(50).
+       01 PREFIX PIC X(500).
+       01 SUFFIX PIC X(500).
        01 STARTNUMBERSTRING PIC X(25).
        01 ENDNUMBERSTRING PIC X(25).
        01 STARTNUMBER PIC 9(25).
        01 ENDNUMBER PIC 9(25).
        01 CURRENTNUMBER PIC 9(25).
        01 CURRENTNUMBERSTRING PIC Z(25)9.
-       01 CONCATSTRING PIC X(100).
+       01 CONCATSTRING PIC X(1000).
        PROCEDURE DIVISION.
            DISPLAY "Enter start number:"
            ACCEPT STARTNUMBERSTRING.
