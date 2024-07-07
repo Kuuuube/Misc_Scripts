@@ -69,7 +69,7 @@ strip numgen.exe
 
 ## Cobol
 
-## Usage
+### Usage
 
 1. Run `numgen` and follow the prompts.
 
