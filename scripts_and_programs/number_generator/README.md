@@ -67,6 +67,40 @@ strip numgen.exe
 
 <br>
 
+## Cobol
+
+## Usage
+
+1. Run `numgen` and follow the prompts.
+
+### Building
+
+Compiled using [GnuCobol](https://gnucobol.sourceforge.io/) 3.2.0
+
+```
+cobc -x *.cob -O2 -o numgen
+```
+
+### Notes
+
+- Prefix and suffix have all leading and trailing whitespace stripped.
+
+- The full length of each line written to file cannot exceed 100 characters. Any characters above this limit will be cut off.
+
+<br>
+
+## Python
+
+### Usage
+
+- Run `numgen.py` and follow the prompts.
+
+## Dependencies
+
+- Python 3: [Download link](https://www.python.org/downloads/)
+
+<br>
+
 ## Fortran
 
 ### Usage
@@ -86,18 +120,6 @@ gfortran -O2 numgen.f -o numgen
 ### Notes
 
 - Has F77 syntax but (I think) uses some non-F77 features.
-
-<br>
-
-## Python
-
-### Usage
-
-- Run `numgen.py` and follow the prompts.
-
-## Dependencies
-
-- Python 3: [Download link](https://www.python.org/downloads/)
 
 <br>
 
@@ -131,14 +153,14 @@ bcompile numgen.b numgen
 
 These are not objective rankings for the speed of these languages, only how fast my code runs. My code is not perfectly optimized.
 
-1. Rust
+Each numgen is tested with `Start number: 0`, `End number: 10000000`, `Prefix: test`, `Suffix: test`.
 
-2. C
-
-3. Haskell
-
-4. Fortran
-
-5. Python
-
-6. B
+| Language      | Runtime       |
+| ------------- | ------------- |
+| Rust          | 813ms         |
+| C             | 891ms         |
+| Haskell       | 3.5s          |
+| Cobol         | 5.1s          |
+| Python        | 5.7s          |
+| Fortran       | 15.2s         |
+| B             | 3.3m          |
