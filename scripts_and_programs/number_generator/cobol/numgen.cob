@@ -9,32 +9,36 @@
        DATA DIVISION.
        FILE SECTION.
        FD OUTPUTFILE.
-       01 OUTPUTSTRING PIC X(100).
+       01 OUTPUTFILESTRING PIC X(100).
        WORKING-STORAGE SECTION.
       *Using N(20) is probably better than X(20) but with GnuCobol 3.2.0 the
       *national picture symbol is considered unstable
-       01 PREFIX PIC X(20) VALUE "123".
-       01 SUFFIX PIC X(20) VALUE "456".
-       01 STARTNUMBER PIC 9(10) VALUE 0.
-       01 ENDNUMBER PIC 9(10) VALUE 10.
-       01 CURRENTNUMBER PIC 9(10) VALUE 0.
-       01 CURRENTNUMBERSTRING PIC Z(9)9 VALUE 0.
+       01 PREFIX PIC X(50).
+       01 SUFFIX PIC X(50).
+       01 STARTNUMBER PIC 9(25) VALUE 0.
+       01 ENDNUMBER PIC 9(25) VALUE 10.
+       01 CURRENTNUMBER PIC 9(25) VALUE 0.
+       01 CURRENTNUMBERSTRING PIC Z(25)9 VALUE 0.
        01 CONCATSTRING PIC X(100).
        PROCEDURE DIVISION.
+           DISPLAY "Enter prefix:"
+           ACCEPT PREFIX.
+           DISPLAY "Enter suffix:"
+           ACCEPT SUFFIX.
            OPEN OUTPUT OUTPUTFILE.
-           PERFORM RunDisplay UNTIL CurrentNumber > EndNumber
+           PERFORM RUNWRITE UNTIL CURRENTNUMBER > ENDNUMBER
            CLOSE OUTPUTFILE.
            STOP RUN.
-       RunDisplay.
+       RUNWRITE.
            MOVE CURRENTNUMBER TO CURRENTNUMBERSTRING.
            STRING
                FUNCTION TRIM(PREFIX)
                FUNCTION TRIM(CURRENTNUMBERSTRING)
                FUNCTION TRIM(SUFFIX)
-               DELIMITED BY 0
+               DELIMITED BY 9999999999
                INTO CONCATSTRING
                END-STRING.
-           MOVE CONCATSTRING TO OUTPUTSTRING.
-           WRITE OUTPUTSTRING.
+           MOVE CONCATSTRING TO OUTPUTFILESTRING.
+           WRITE OUTPUTFILESTRING.
            COMPUTE CURRENTNUMBER = CURRENTNUMBER + 1.
        END PROGRAM NUMGEN.
