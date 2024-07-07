@@ -32,8 +32,18 @@
            MOVE ENDNUMBERSTRING TO ENDNUMBER.
            DISPLAY "Enter prefix:"
            ACCEPT PREFIX.
+           STRING
+               FUNCTION TRIM(PREFIX) X'00'
+               DELIMITED BY 9999
+               INTO PREFIX
+               END-STRING.
            DISPLAY "Enter suffix:"
            ACCEPT SUFFIX.
+           STRING
+               FUNCTION TRIM(SUFFIX) X'00'
+               DELIMITED BY 9999
+               INTO SUFFIX
+               END-STRING.
 
            MOVE STARTNUMBER TO CURRENTNUMBER.
 
@@ -45,10 +55,9 @@
        RUNWRITE.
            MOVE CURRENTNUMBER TO CURRENTNUMBERSTRING.
            STRING
-               FUNCTION TRIM(PREFIX)
+               PREFIX DELIMITED BY X'00'
                FUNCTION TRIM(CURRENTNUMBERSTRING)
-               FUNCTION TRIM(SUFFIX)
-               DELIMITED BY 9999999999
+               SUFFIX DELIMITED BY X'00'
                INTO CONCATSTRING
                END-STRING.
            MOVE CONCATSTRING TO OUTPUTFILESTRING.
