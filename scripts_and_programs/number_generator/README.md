@@ -6,7 +6,7 @@ Generates a newline separated list of numbers with customizeable start, end, pre
 
 ### Usage
 
-- Run `numgen.exe` and follow the prompts.
+- Run `numgen` and follow the prompts.
 
 ### Building
 
@@ -20,7 +20,7 @@ cargo build --release
 
 ### Usage
 
-- Run `numgen.exe` and follow the prompts.
+- Run `numgen` and follow the prompts.
 
 - `Set Input Length` is the length in characters that can be input into the other prompts. 
 
@@ -41,7 +41,7 @@ numgen_block_dumping_test.exe only:
 Compiled using gcc 12.1.0:
 
 ```
-gcc numgen.c -O2 -o numgen.exe
+gcc numgen.c -O2 -o numgen
 ```
 
 ### Notes
@@ -56,7 +56,7 @@ gcc numgen.c -O2 -o numgen.exe
 
 ### Usage
 
-- Extract `numgen.7z` (7-zip Archive), run `numgen.exe`, and follow the prompts.
+- Run `numgen`, and follow the prompts.
 
 ### Building
 
@@ -80,7 +80,7 @@ strip numgen.exe
 Compiled using gcc 12.1.0:
 
 ```
-gfortran -O2 numgen.f -o numgen.exe
+gfortran -O2 numgen.f -o numgen
 ```
 
 ### Notes
@@ -121,7 +121,7 @@ bcompile numgen.b numgen
 
 ### Notes
 
-- I have included a build of the compiler and compile script.
+- I have included a build of the compiler, compile script, and built binary as this can be difficult to get set up and working.
 
 - This compiler does not support windows and all binaries included target Linux-x64. Other B compilers do exist that support windows but this code may not compile or function elsewhere.
 
