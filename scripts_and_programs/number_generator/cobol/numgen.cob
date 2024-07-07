@@ -4,7 +4,7 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT OUTPUTFILE
-           ASSIGN TO 'outfile.txt'
+           ASSIGN TO 'output.txt'
            ORGANISATION LINE SEQUENTIAL.
        DATA DIVISION.
        FILE SECTION.
