@@ -107,7 +107,7 @@ cobc -x numgen.cob -O2 -o numgen
 
 ### Usage
 
-- Run `numgen.exe` and follow the prompts.
+- Run `numgen` and follow the prompts.
 
     Enter "" to use an empty prefix or suffix. The prompt will not let you continue by only sending a newline.
 
