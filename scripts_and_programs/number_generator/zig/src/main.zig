@@ -39,9 +39,8 @@ pub fn main() !void {
     var string_format_buf: [30000]u8 = undefined;
 
     for (start_number..(end_number + 1)) |_| {
-        const numAsString = try std.fmt.bufPrint(&string_format_buf, "{s}{d}{s}\n", .{prefix, current_number, suffix});
-
-        _ = try file.writeAll(numAsString);
+        const formatted_string = try std.fmt.bufPrint(&string_format_buf, "{s}{d}{s}\n", .{ prefix, current_number, suffix });
+        _ = try file.writeAll(formatted_string);
         current_number += 1;
     }
 
