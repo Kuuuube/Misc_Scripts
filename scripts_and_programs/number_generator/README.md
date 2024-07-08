@@ -125,6 +125,22 @@ gfortran -O2 numgen.f -o numgen
 
 <br>
 
+## Zig
+
+### Usage
+
+- Run `numgen` and follow the prompts.
+
+### Building
+
+Compiled using zig 0.12.1:
+
+```
+zig build --release=fast
+```
+
+<br>
+
 ## B
 
 ### Usage
@@ -165,4 +181,5 @@ Each numgen is tested with `Start number: 0`, `End number: 10000000`, `Prefix: t
 | Python        | 5.7s          |
 | Cobol         | 10.4s         |
 | Fortran       | 15.2s         |
+| Zig           | 21.0s         |
 | B             | 3.3m          |
