@@ -1,14 +1,6 @@
 const std = @import("std");
 
 pub fn main() !void {
-    // const stdin = std.io.getStdIn().reader();
-
-    // var end_number_raw: [10000]u8 = undefined;
-    // _ = try stdin.read(&end_number_raw);
-    // var end_number_string = std.mem.splitAny(u8, &end_number_raw, "\n");
-    // const end_number = try std.fmt.parseInt(usize, end_number_string.first(), 10);
-    // std.debug.print("{d}\n", .{end_number});
-
     const stdin = std.io.getStdIn().reader();
 
     std.debug.print("Start number: ", .{});
@@ -55,10 +47,4 @@ pub fn main() !void {
 
     const end_time: f64 = @floatFromInt((try std.time.Instant.now()).since(start_time));
     std.debug.print("Generated in: {d:.3}ms\n", .{end_time / std.time.ns_per_ms});
-}
-
-fn get_stdin(stdin: std.fs.File.Reader) []const u8 {
-    var input_raw: [10000]u8 = undefined;
-    _ = try stdin.read(&input_raw);
-    return std.mem.split(u8, &input_raw, "\n").first();
 }
