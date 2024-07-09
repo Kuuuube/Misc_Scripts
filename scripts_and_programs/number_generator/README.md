@@ -157,7 +157,7 @@ gm2 numgen.mod -O2 -o numgen
 
 Notes:
 
-- References for Modula-2: [https://gcc.gnu.org/onlinedocs/gm2/](gm2 docs) [https://www.modula2.org/reference/index.php](modula2 docs)
+- References for Modula-2: [gm2 docs](https://gcc.gnu.org/onlinedocs/gm2/), [modula-2 docs](https://www.modula2.org/reference/index.php)
 
 <br>
 
