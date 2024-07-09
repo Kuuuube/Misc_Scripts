@@ -141,26 +141,6 @@ zig build --release=fast
 
 <br>
 
-## Modula-2
-
-### Usage
-
-- Run `numgen` and follow the prompts.
-
-### Building
-
-Compiled using gm2 14.1.1:
-
-```
-gm2 numgen.mod -O2 -o numgen
-```
-
-Notes:
-
-- References for Modula-2: [gm2 docs](https://gcc.gnu.org/onlinedocs/gm2/), [modula-2 docs](https://www.modula2.org/reference/index.php)
-
-<br>
-
 ## B
 
 ### Usage
@@ -184,6 +164,26 @@ bcompile numgen.b numgen
 - I have included a build of the compiler, compile script, and built binary as this can be difficult to get set up and working.
 
 - This compiler does not support windows and all binaries included target Linux-x64. Other B compilers do exist that support windows but this code may not compile or function elsewhere.
+
+<br>
+
+## Modula-2
+
+### Usage
+
+- Run `numgen` and follow the prompts.
+
+### Building
+
+Compiled using gm2 14.1.1:
+
+```
+gm2 numgen.mod -O2 -o numgen
+```
+
+Notes:
+
+- References for Modula-2: [gm2 docs](https://gcc.gnu.org/onlinedocs/gm2/), [modula-2 docs](https://www.modula2.org/reference/index.php)
 
 <br>
 
