@@ -155,6 +155,10 @@ Compiled using gm2 14.1.1:
 gm2 numgen.mod -O2 -o numgen
 ```
 
+Notes:
+
+- References for Modula-2: [https://gcc.gnu.org/onlinedocs/gm2/](gm2 docs) [https://www.modula2.org/reference/index.php](modula2 docs)
+
 <br>
 
 ## B
