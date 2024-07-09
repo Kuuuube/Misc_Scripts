@@ -141,6 +141,22 @@ zig build --release=fast
 
 <br>
 
+## Modula-2
+
+### Usage
+
+- Run `numgen` and follow the prompts.
+
+### Building
+
+Compiled using gm2 14.1.1:
+
+```
+gm2 numgen.mod -O2 -o numgen
+```
+
+<br>
+
 ## B
 
 ### Usage
@@ -183,3 +199,4 @@ Each numgen is tested with `Start number: 0`, `End number: 10000000`, `Prefix: t
 | Fortran       | 15.2s         |
 | Zig           | 21.0s         |
 | B             | 3.3m          |
+| Modula-2      | 4.4m          |
