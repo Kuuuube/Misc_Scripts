@@ -1,0 +1,9 @@
+[package]
+name = "free_badge"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serenity = { git = "https://github.com/serenity-rs/serenity.git" }
+tokio = { version = "1.38.0", features = ["macros", "rt-multi-thread"] }
+rand = "0.8.5"

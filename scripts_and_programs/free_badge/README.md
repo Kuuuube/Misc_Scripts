@@ -4,29 +4,24 @@ A discord bot with slash commands that return a string of text.
 
 ## Usage
 
-- Add your discord bot token to `.env` after `TOKEN=`
+1. Set up your Discord bot token in one of two ways:
 
-    (DO NOT share your token with anyone, it is more valuable than a password)
+    - Set an env variable named `FREE_BADGE_BOT_DISCORD_TOKEN` to your token.
 
-- Run `app.py` (I have also included my deploy scripts which could help you deploy this on your own server)
+    - Create a file named `.env` in the directory you are running the bookmarker bot from containing `TOKEN=` followed by your token.
+
+2. Create `free_badge_file.txt` and `fun_command_file.txt` in the directory you are running the bot.
+
+3. Run the bot:
+
+    ```
+    cargo run --release
+    ```
 
 ## Commands
 
-- `/free badge`: Returns the contents of a random line in `command_output.txt`.
+- `/free badge`: Returns the contents of a random line in `free_badge_file.txt`.
 
-- `/fun command`: Returns the contents of a random line in `command_output2.txt`.
+- `/fun command`: Returns the contents of a random line in `fun_command_file.txt`.
 
-## Dependencies
-
-Python 3: [Download link](https://www.python.org/downloads/)
-
-Python `nextcord` and `python-dotenv` modules: To install it, enter the following command in cmd or a terminal:
-
-```
-pip install nextcord
-pip install python-dotenv
-```
-
-## Notes
-
-The contents of files are fetched on command use. You do not need to restart the bot to edit the command output.
+- `/reload`: Reloads the contents of `free_badge_file.txt` and `fun_command_file.txt`.
