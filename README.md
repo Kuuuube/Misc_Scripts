@@ -10,6 +10,10 @@ Generates blank files from a newline separated list of filenames in `list.txt`.
 
 A discord bot that anonymizes messages and threads created in a forums channel.
 
+## [Discord Message Splitter](./scripts_and_programs/discord_message_splitter)
+
+Splits long discord messages into parts to be posted individually.
+
 ## [Discord Thread Locker](./scripts_and_programs/discord_thread_locker)
 
 A simple discord bot that locks and archives inactive or old discord threads.
