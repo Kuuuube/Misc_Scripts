@@ -15,6 +15,7 @@ for line in file_lines:
         message_list.append(current_message)
         current_message = ""
 
+message_list.append(current_message)
 
 from tkinter import Tk
 r = Tk()
