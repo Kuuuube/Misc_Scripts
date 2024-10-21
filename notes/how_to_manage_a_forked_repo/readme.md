@@ -16,7 +16,13 @@ I will use Github as the host in these examples but the same applies to other ho
 
 ## Making a pull request
 
-1. Create a new branch and checkout that branch. There are two ways to do this:
+1. Checkout the branch you are basing your pull request off of. Usually this will be the default branch. If you are unsure, pull up the repo in your web browser and check which branch the repo shows by default.
+
+    ```
+    git checkout master
+    ```
+
+2. Create a new branch and checkout that branch. There are two ways to do this:
 
     ```
     git branch YOUR_BRANCH_NAME
@@ -27,9 +33,9 @@ I will use Github as the host in these examples but the same applies to other ho
     git checkout -b YOUR_BRANCH_NAME
     ```
 
-2. Make all the changes you need to on the files in the repo. Commit your changes. Push the changes.
+3. Make all the changes you need to on the files in the repo. Commit your changes. Push the changes.
 
-3. In your browser, go to the upstream repo (the one you created the fork from). You should see a banner that asks if you want to make a pull request. Click `Compare & pull request`.
+4. In your browser, go to the upstream repo (the one you created the fork from). You should see a banner that asks if you want to make a pull request. Click `Compare & pull request`.
 
     ![](./pull_request_compare_pull_request.png)
 
