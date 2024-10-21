@@ -90,7 +90,7 @@ git checkout -b super-cool-feature
 # Changes to the files in the repo are made at this point
 
 git commit -m "Added super cool feature"
-git push origin/super-cool-feature
+git push origin super-cool-feature
 ```
 
 All of the above instructions still apply with other branches. Just replace the default `master` branch with the branch you're working on.
