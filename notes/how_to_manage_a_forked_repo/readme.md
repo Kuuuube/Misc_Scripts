@@ -6,7 +6,7 @@ I will use Github as the host in these examples but the same applies to other ho
 
 1. Navigate to the repo and in the top right, click the fork button.
 
-2. Clone the repo locally by taking the URL of the repo and running this:
+2. Clone the repo locally by taking the URL of the forked repo and running this:
 
     ```
     git clone YOUR_URL
