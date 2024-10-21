@@ -80,12 +80,14 @@ ONLY do this if `git merge upstream/master` does not work or it does not sync yo
 
 You might not always be working on the default branch. Here's an example of updating a branch named `other-branch` and making a pull request targeting that branch.
 
-```
+```sh
 git checkout other-branch
 git fetch upstream
 git merge upstream/other-branch
 
 git checkout -b super-cool-feature
+
+# Changes to the files in the repo are made at this point
 
 git commit -m "Added super cool feature"
 git push origin/super-cool-feature
