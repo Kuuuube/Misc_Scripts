@@ -65,7 +65,7 @@ For more information check Github's documentation on pull requests: [Creating a 
 
 If something has gone horribly wrong and when you run `git merge upstream/master` it comes up with merge conflicts and chaos, don't worry it can be force reset.
 
-ONLY do this if `git merge upstream/master` does not work.
+ONLY do this if `git merge upstream/master` does not work or it does not sync your branch to the upstream (makes merge commits or some other mess).
 
 1. Triple check that you know what the default branch is. Most commonly it will be named `master` or `main`. If you are unsure, pull up the repo in your web browser and check which branch the repo shows by default.
 
