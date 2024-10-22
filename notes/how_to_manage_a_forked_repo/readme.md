@@ -16,6 +16,8 @@ I will use Github as the host in these examples but the same applies to other ho
 
 ## Making a pull request
 
+Usually, you will want to update your fork before creating a pull request. See [Updating the fork](#updating-the-fork).
+
 1. Checkout the branch you are basing your pull request off of. Usually this will be the default branch. If you are unsure, pull up the repo in your web browser and check which branch the repo shows by default.
 
     ```
