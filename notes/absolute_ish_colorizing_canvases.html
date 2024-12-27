@@ -1,0 +1,72 @@
+<style type="text/css">
+.tg  {border-collapse:collapse;}
+.tg td{border-style:solid;border-width:1px;}
+.tg th{border-style:solid;border-width:1px;}
+</style>
+<table class="tg"><thead>
+  <tr>
+    <th>Target color</th>
+    <th>One shadow</th>
+    <th>Two shadows</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td><canvas width="120" height="120" id="canvasrect1"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect2"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect3"></canvas></td>
+  </tr>
+  <tr class="gray-bg">
+    <td><canvas width="120" height="120" id="canvasrect4"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect5"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect6"></canvas></td>
+  </tr>
+  <tr class="black-bg">
+    <td><canvas width="120" height="120" id="canvasrect7"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect8"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect9"></canvas></td>
+  </tr>
+</tbody>
+</table>
+<style>
+:root {
+    --target-color: rgb(255,0,0);
+    background-color: white;
+}
+.black-bg {
+    background-color: black;
+}
+.gray-bg {
+    background-color: rgb(127, 127, 127);
+}
+#canvasrect2,
+#canvasrect5,
+#canvasrect8 {
+    filter: grayscale(1) opacity(0.5) drop-shadow(0 0 0.01px var(--target-color)) saturate(1000%) brightness(1000%);
+}
+#canvasrect3,
+#canvasrect6,
+#canvasrect9 {
+    filter: grayscale(1) opacity(0.5) drop-shadow(0 0 0.01px var(--target-color)) drop-shadow(0 0 0.01px var(--target-color)) saturate(1000%) brightness(1000%);
+}
+</style>
+<script>
+function initCanvasRect(id, color) {
+    const canvas = document.querySelector(id);
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = color;
+    ctx.fillRect(10, 10, 100, 100);
+}
+const targetcolor = getComputedStyle(document.documentElement).getPropertyValue('--target-color');
+initCanvasRect("#canvasrect1", targetcolor);
+initCanvasRect("#canvasrect2", "black");
+initCanvasRect("#canvasrect3", "black");
+
+initCanvasRect("#canvasrect4", targetcolor);
+initCanvasRect("#canvasrect5", "black");
+initCanvasRect("#canvasrect6", "black");
+
+initCanvasRect("#canvasrect7", targetcolor);
+initCanvasRect("#canvasrect8", "black");
+initCanvasRect("#canvasrect9", "black");
+</script>
+
