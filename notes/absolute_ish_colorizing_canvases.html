@@ -5,25 +5,29 @@
 </style>
 <table class="tg"><thead>
   <tr>
-    <th>Target color</th>
-    <th>One shadow</th>
-    <th>Two shadows</th>
+    <th scope="col">Target color</th>
+    <th scope="col">One shadow</th>
+    <th scope="col">Two shadows</th>
+    <th scope="col">SVG filter</th>
   </tr></thead>
 <tbody>
   <tr>
-    <td><canvas width="120" height="120" id="canvasrect1"></canvas></td>
-    <td><canvas width="120" height="120" id="canvasrect2"></canvas></td>
-    <td><canvas width="120" height="120" id="canvasrect3"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect1-target"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect1-shadow"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect1-doubleshadow"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect1-svgfilter"></canvas></td>
   </tr>
   <tr class="gray-bg">
-    <td><canvas width="120" height="120" id="canvasrect4"></canvas></td>
-    <td><canvas width="120" height="120" id="canvasrect5"></canvas></td>
-    <td><canvas width="120" height="120" id="canvasrect6"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect2-target"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect2-shadow"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect2-doubleshadow"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect2-svgfilter"></canvas></td>
   </tr>
   <tr class="black-bg">
-    <td><canvas width="120" height="120" id="canvasrect7"></canvas></td>
-    <td><canvas width="120" height="120" id="canvasrect8"></canvas></td>
-    <td><canvas width="120" height="120" id="canvasrect9"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect3-target"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect3-shadow"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect3-doubleshadow"></canvas></td>
+    <td><canvas width="120" height="120" id="canvasrect3-svgfilter"></canvas></td>
   </tr>
 </tbody>
 </table>
@@ -38,15 +42,14 @@
 .gray-bg {
     background-color: rgb(127, 127, 127);
 }
-#canvasrect2,
-#canvasrect5,
-#canvasrect8 {
+[id$='-shadow'] {
     filter: grayscale(1) opacity(0.5) drop-shadow(0 0 0.01px var(--target-color)) saturate(1000%) brightness(1000%);
 }
-#canvasrect3,
-#canvasrect6,
-#canvasrect9 {
+[id$='-doubleshadow'] {
     filter: grayscale(1) opacity(0.5) drop-shadow(0 0 0.01px var(--target-color)) drop-shadow(0 0 0.01px var(--target-color)) saturate(1000%) brightness(1000%);
+}
+[id$='-svgfilter'] {
+  filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><defs><filter id="FF0000" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/></filter></defs></svg>#FF0000');
 }
 </style>
 <script>
@@ -57,16 +60,19 @@ function initCanvasRect(id, color) {
     ctx.fillRect(10, 10, 100, 100);
 }
 const targetcolor = getComputedStyle(document.documentElement).getPropertyValue('--target-color');
-initCanvasRect("#canvasrect1", targetcolor);
-initCanvasRect("#canvasrect2", "black");
-initCanvasRect("#canvasrect3", "black");
+initCanvasRect("#canvasrect1-target", targetcolor);
+initCanvasRect("#canvasrect1-shadow", "black");
+initCanvasRect("#canvasrect1-doubleshadow", "black");
+initCanvasRect("#canvasrect1-svgfilter", "black");
 
-initCanvasRect("#canvasrect4", targetcolor);
-initCanvasRect("#canvasrect5", "black");
-initCanvasRect("#canvasrect6", "black");
+initCanvasRect("#canvasrect2-target", targetcolor);
+initCanvasRect("#canvasrect2-shadow", "black");
+initCanvasRect("#canvasrect2-doubleshadow", "black");
+initCanvasRect("#canvasrect2-svgfilter", "black");
 
-initCanvasRect("#canvasrect7", targetcolor);
-initCanvasRect("#canvasrect8", "black");
-initCanvasRect("#canvasrect9", "black");
+initCanvasRect("#canvasrect3-target", targetcolor);
+initCanvasRect("#canvasrect3-shadow", "black");
+initCanvasRect("#canvasrect3-doubleshadow", "black");
+initCanvasRect("#canvasrect3-svgfilter", "black");
 </script>
 
