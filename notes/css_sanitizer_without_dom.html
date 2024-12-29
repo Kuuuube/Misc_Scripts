@@ -1,0 +1,10 @@
+<script>
+    function sanitizeCSS(css) {
+        const sanitizer = new CSSStyleSheet();
+        sanitizer.replaceSync(css);
+        return Array.from(sanitizer.cssRules).map(rule => rule.cssText || '').join('\n');
+    }
+    const malicious_stylesheet = 'span[data-sc-content="registered-symbol"] {\n    vertical-align: super;\n    font-size: 0.6em;\n}\n\ndiv[data-sc-content="attribution"] {\n    font-size: 0.7em;\n    text-align: right;\n}\n\n</style>\n<script>\nalert("hello");\n<\/script>\n<style>\n';
+    console.log(malicious_stylesheet);
+    console.log(sanitizeCSS(malicious_stylesheet));
+</script>
