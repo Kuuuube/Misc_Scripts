@@ -20,11 +20,14 @@ The module can now be imported in one of the following ways:
 
     ```
     import sys
+    import os
     # add lib folder to path to allow accessing modules there
-    sys.path.append(sys.path[0] + "/lib")
+    sys.path.append(os.path.dirname(__file__) + "/lib")
 
     import requests
     ```
+
+    Sometimes `sys.argv[0]` or `sys.path[0]` could work too, but they are less reliable.
 
 2. `from x import y`:
 
