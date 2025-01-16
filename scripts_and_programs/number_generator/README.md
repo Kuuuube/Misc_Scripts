@@ -189,7 +189,7 @@ Notes:
 
 ## Speed Rankings
 
-These are not objective rankings for the speed of these languages, only how fast my code runs. My code is not perfectly optimized.
+These are NOT objective or fair rankings for the speed of these languages, only how fast my code runs. My code is not perfectly optimized. Do not take these results as any representation of the speed of a language.
 
 Each numgen is tested with `Start number: 0`, `End number: 10000000`, `Prefix: test`, `Suffix: test`.
 
