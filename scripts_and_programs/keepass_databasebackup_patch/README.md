@@ -12,6 +12,8 @@ Minor changes to the KeePass DataBaseBackup plugin.
 
 ## Building
 
+Build targetting the `dbBackup` directory. `dbBackup.plgx` will be created in the parent directory of `dbBackup`.
+
 ```
 KeePass.exe --plgx-create dbBackup
 ```
