@@ -18,6 +18,6 @@ KeePass.exe --plgx-create dbBackup
 
 ## Notes
 
-- The original version by Francis Noël can be found here: [databasebackup](https://keepass.info/plugins.html#databasebackup).
+- The original version by Francis Noël can be found here: [databasebackup](https://keepass.info/plugins.html#databasebackup). This fork was built off of `DataBaseBackup-2.0.8.6`.
 
 - The following note is provided with the original version: `Note: DataBaseBackup does not use KeePass' I/O infrastructure, therefore the plugin is incompatible with most other plugins that are providing support for more protocols (like IOProtocolExt).`
