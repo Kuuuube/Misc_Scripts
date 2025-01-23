@@ -8,7 +8,9 @@ Minor changes to the KeePass DataBaseBackup plugin.
 
 ## Usage
 
-- Download the `dbBackup.plgx` file and place it in the keepass `Plugins` directory.
+- Download the `dbBackup.plgx` file (SHA256: 409201cd3ed8327e5eb6b82d17801d4c2817343cb6500b2c5da86d2cfd9a1c76).
+
+- Place the file in the keepass `Plugins` directory.
 
 ## Building
 
