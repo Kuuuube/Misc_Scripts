@@ -13,7 +13,7 @@ for line in file_lines:
         current_message += line
     else:
         message_list.append(current_message)
-        current_message = ""
+        current_message = line
 
 message_list.append(current_message)
 
