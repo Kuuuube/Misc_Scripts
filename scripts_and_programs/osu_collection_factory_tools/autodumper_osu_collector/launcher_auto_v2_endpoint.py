@@ -15,11 +15,10 @@ try:
 
     print(start_number)
 
-    check_latest = requests.get(url="https://osucollector.com/api/metadata")
-    json_text = json.loads(check_latest.text)
-    total_collections = json_text['totalCollections']
+    check_latest = requests.get(url="https://osucollector.com/all?sortBy=dateUploaded&orderBy=desc")
+    total_collections = re.search(r"(?<=href=\"/collections/)\d+", check_latest.text)[0]
 
-    end_number = total_collections * 10
+    end_number = total_collections
 
     print(end_number)
 
