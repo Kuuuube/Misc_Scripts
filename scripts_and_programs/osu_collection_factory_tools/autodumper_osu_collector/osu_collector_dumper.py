@@ -11,7 +11,7 @@ def osu_collector_dump(collection_id, collection_path):
     
     collection_id_regex = re.search("\d*$", collection_id)
     
-    csv_filepath = 'CollectionConverter\\' + collection_path_no_extension_2 + '.csv'
+    csv_filepath = 'CollectionConverter/' + collection_path_no_extension_2 + '.csv'
 
     with open(csv_filepath, 'w') as id_dump:
         id_dump.close()
@@ -44,7 +44,7 @@ def osu_collector_dump(collection_id, collection_path):
             print("No maps found")
             pass
 
-    subprocess.check_call([r"CollectionConverter\CollectionConverter.exe", csv_filepath, collection_path, "3", "2", "0"])
+    subprocess.check_call([r"CollectionConverter\CollectionConverter", csv_filepath, collection_path, "3", "2", "0"])
 
     #metadata dumper tacked on:
     
@@ -91,7 +91,7 @@ def osu_collector_dump_v2_endpoint(collection_id, collection_path):
 
     hasMore = True
     cursor = "0"
-    csv_filepath = 'CollectionConverter\\' + collection_path_no_extension_2 + '.csv'
+    csv_filepath = 'CollectionConverter/' + collection_path_no_extension_2 + '.csv'
 
     with open(csv_filepath, 'w') as id_dump:
         id_dump.close()
@@ -142,7 +142,7 @@ def osu_collector_dump_v2_endpoint(collection_id, collection_path):
 
     metadata_dumper(collection_id)
 
-    subprocess.check_call([r"CollectionConverter\CollectionConverter.exe", csv_filepath, collection_path, "3", "2", "0"])
+    subprocess.check_call([r"CollectionConverter/CollectionConverter", csv_filepath, collection_path, "3", "2", "0"])
 
     print ("osu!Collectior: waiting.")
     time.sleep(5)
