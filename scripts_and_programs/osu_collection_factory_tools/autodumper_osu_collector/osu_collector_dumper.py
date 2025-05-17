@@ -130,7 +130,7 @@ def osu_collector_dump_v2_endpoint(collection_id, collection_path):
         with open (csv_filepath, "a", encoding="utf8") as osdb_data_dump:
             try:
                 for Maps in maps_json:
-                    osdb_data_dump.write("\"" + collection_id_regex.group(0) + "\",\"" + str(Maps['id']) + "\",\"" + str(Maps['beatmapset']['id']) + "\",\"" + str(Maps['checksum']) + "\",\"" + str(resolve_mode(Maps['mode_int'])) + "\",\"" + str(Maps['beatmapset']['artist']) + "\",\"" + str(Maps['beatmapset']['artist_unicode']) + "\",\"" + str(Maps['beatmapset']['title']) + "\",\"" + str(Maps['beatmapset']['title_unicode']) + "\",\"" + str(Maps['version']) + "\",\"" + str(Maps['difficulty_rating']) + "\"")
+                    osdb_data_dump.write("\"" + collection_id_regex.group(0) + "\",\"" + str(Maps['id']) + "\",\"" + str(Maps['beatmapset']['id']) + "\",\"" + str(Maps['checksum']) + "\",\"" + str(resolve_mode(Maps['mode'])) + "\",\"" + str(Maps['beatmapset']['artist']) + "\",\"" + str(Maps['beatmapset']['artist_unicode']) + "\",\"" + str(Maps['beatmapset']['title']) + "\",\"" + str(Maps['beatmapset']['title_unicode']) + "\",\"" + str(Maps['version']) + "\",\"" + str(Maps['difficulty_rating']) + "\"")
                     osdb_data_dump.write('\n')
             except Exception as e:
                 print (e)

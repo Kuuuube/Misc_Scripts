@@ -17,18 +17,21 @@ try:
 
     check_latest = requests.get(url="https://osucollector.com/api/metadata")
     json_text = json.loads(check_latest.text)
-    json1 = json_text['highestCollectionId']
-    end_number = json1
+    total_collections = json_text['totalCollections']
+
+    end_number = total_collections * 10
 
     print(end_number)
+
+    collection_failcount = 0
 
     if int(start_number) > int(end_number):
         print ("There are no collections to download or something broke")
         input()
 
     current_number = start_number
-        
-    while not int(current_number) > (int(end_number)):
+
+    while not int(current_number) > (int(end_number)) and collection_failcount < 100:
         try:
             collection_id = current_number
             collection_path = current_number
@@ -38,6 +41,7 @@ try:
             current_number = str(int(current_number) + 1)
         except Exception as e:
             current_number = str(int(current_number) + 1)
+            collection_failcount += 1
             print("Failed")
             print (e)
             with open ("errorlog.txt", "a") as error_log:
