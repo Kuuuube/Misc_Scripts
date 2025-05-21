@@ -14,6 +14,8 @@ If your distro lacks pytorch packages you with want to install cuda separate ins
 
 ## Verify cuda and pytorch installation
 
+(Skip this if you didn't install pytorch from your package manager)
+
 1. Get into the python shell:
 
     ```
