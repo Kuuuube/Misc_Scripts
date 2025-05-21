@@ -8,6 +8,8 @@ I'm using arch so this is the arch install command, use whatever your distro has
 sudo pacman -S pipx python-pytorch-cuda python-torchvision-cuda
 ```
 
+If pipx complains about `~/.local/bin` not being on PATH, add it.
+
 You could get away with just installing the base cuda package since pipx will install the pytorch python package but installing the pytorch packages ensures they have all system dependencies.
 
 If your distro lacks pytorch packages you with want to install cuda separate instead.
