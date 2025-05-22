@@ -12,7 +12,7 @@ If pipx complains about `~/.local/bin` not being on PATH, add it.
 
 You could get away with just installing the base cuda package since pipx will install the pytorch python package but installing the pytorch packages ensures they have all system dependencies.
 
-If your distro lacks pytorch packages you with want to install cuda separate instead.
+If your distro lacks pytorch packages you will want to install cuda separately instead.
 
 ## Verify cuda and pytorch installation
 
