@@ -71,3 +71,30 @@ pipx inject mokuro torch torchvision --pip-args="--pre" --index-url https://down
     ```
 
 (Use `.` for current directory)
+
+## Future Troubleshooting
+
+Sometimes python packages can get messed up over time. It is rarely worth troubleshooting the exact cause of these cases and quicker to just reinstall.
+
+Here are a few steps you can try when this happens. Test if it's still broken after each step.
+
+1. Upgrade the package:
+
+    ```
+    pipx upgrade mokuro
+    ```
+
+2. Fast Reinstall (keeps all dependencies):
+
+    ```
+    pipx runpip mokuro uninstall mokuro
+    pipx runpip mokuro install mokuro
+    ```
+
+3. Full Reinstall:
+
+    ```
+    pipx reinstall mokuro
+    ```
+
+    If needed, redo the [Edit pytorch version inside pipx](#edit-pytorch-version-inside-pipx) section of this guide.
