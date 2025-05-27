@@ -158,6 +158,10 @@ Opens windows `.url` files in the default browser on Linux.
 
 Scripts to compress a word list into the smallest amount of words by removing duplicate trigrams. (Original script written by [ClemenPine](https://github.com/ClemenPine/word-compressor))
 
+## [Youtube Remove Members Only](./scripts_and_programs/youtube_remove_members_only)
+
+Removes members only videos from channel video lists.
+
 ## [Youtube Shorts Desktop Redirect](./scripts_and_programs/youtube_shorts_desktop_redirect)
 
 Redirects youtube shorts to the desktop player.
