@@ -13,3 +13,15 @@ Removes members only videos from channel video lists.
 ## Dependencies
 
 Any userscript extension/add-on. I use [TamperMonkey](https://www.tampermonkey.net/).
+
+## Notes
+
+- If you are a member of certain channels and would like to still see their member only videos, you can add an exclude.
+
+    You can exclude one url per line. Place the exclude on a new line inside the top block between `// ==UserScript==` and `// ==/UserScript==`.
+
+    An exclude looks like this:
+
+    ```
+    // @exclude    *://www.youtube.com/@kuuube*
+    ```
