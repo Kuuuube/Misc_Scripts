@@ -209,7 +209,13 @@ time_label = tkinter.ttk.Label(frame, text = "0:00:00")
 time_label.grid(column = 0, row = button_rows + 2, columnspan = button_columns // 2)
 time_label.config(font = ("TkDefaultFont", 20 * font_scale))
 
-entry_box = tkinter.ttk.Entry(frame, width = 1, justify="center")
+def validate_time(action, index, value_if_allowed, prior_value, inserted_text, validation_type, trigger_type, widget_name):
+    if len(value_if_allowed) == 0 or inserted_text.isdigit() or re.search("^\\d+:\\d{1,2}:\\d{1,2}(\\.\\d+|)$", inserted_text):
+        return True
+    return False
+vcmd = (root.register(validate_time), '%d', '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+
+entry_box = tkinter.ttk.Entry(frame, width = 1, justify = "center", validate = "all", validatecommand = vcmd)
 entry_box.grid(column = button_columns // 2, row = button_rows + 2, columnspan = button_columns // 2, sticky = "EWNS")
 reset_entry_box()
 entry_box.config(font = ("TkDefaultFont", 20 * font_scale), state = tkinter.DISABLED)
