@@ -6,7 +6,7 @@ My terminal emulator and shell config files.
 
 ## Nerd Font
 
-- Install CaskaydiaCove nerdfont [https://www.nerdfonts.com/font-downloads](https://www.nerdfonts.com/font-downloads)
+- Install [CaskaydiaCoveNerdFont](./font/CascadiaCoveNerdFont.7z) ([Source](https://www.nerdfonts.com/font-downloads))
 
 ## Alacritty
 
