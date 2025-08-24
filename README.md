@@ -30,6 +30,10 @@ Forces searching from the URL instead of POST when using html.duckduckgo.
 
 Calculates how long it takes to lock target on a ship in [EVE Online](https://www.eveonline.com/).
 
+## [FPC Get Swatch Color](./scripts_and_programs/fpc_copy_swatch_color)
+
+On [FPC](https://www.fountainpencompanion.com/) allows viewing any ink swatch color by hovering over it or copying it by clicking on it.
+
 ## [Free Badge Bot](./scripts_and_programs/free_badge)
 
 A discord bot with a single slash command that returns a string of text.
