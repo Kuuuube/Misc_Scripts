@@ -16,4 +16,4 @@ ser = serial.Serial(port = SERIAL_PORT, baudrate = SERIAL_RATE, bytesize = BYTE_
 while True:
     data = ser.readline()
     if (data != b'\r\n'):
-        print(str(data).replace("b'\\x02","").replace("\\r\\n'", ""))
+        print(str(data).replace("b'\\x02","").replace("\\r\\n'", "").replace(" ", ""))
