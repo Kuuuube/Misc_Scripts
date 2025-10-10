@@ -6,7 +6,7 @@ Reads OTD tablet data recordings and does some analysis.
 
 - Run `tablet_data_analysis.py {data_capture_filename} {filter}`
 
-    `{filter}` is optional.
+    `{filter}` is optional. Lines not containing the filtered string will be filtered out of the analysis.
 
     Examples:
     ```
