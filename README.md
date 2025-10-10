@@ -94,6 +94,10 @@ Tools for handling and generating large collections and large amounts of collect
 
 Tools for tracking osu! data from a list of users.
 
+## [OpenTabletDriver Tablet Data Analysis](./scripts_and_programs/otd_tablet_data_analysis)
+
+Reads OTD tablet data recordings and does some analysis.
+
 ## [Pcap to Hex](./scripts_and_programs/pcap_to_hex)
 
 Script to write a hex dump from pcap data for every packet using tshark.
