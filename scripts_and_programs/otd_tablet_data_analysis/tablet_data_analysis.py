@@ -51,15 +51,21 @@ pressure_hold_times_on.sort()
 pressure_time_deltas_off.sort()
 pressure_time_deltas_on.sort()
 
-print("pressure_hold_times_off: " + str(pressure_hold_times_off))
-print("pressure_hold_times_on: " + str(pressure_hold_times_on))
-print("pressure_time_deltas_off: " + str(pressure_time_deltas_off))
-print("pressure_time_deltas_on: " + str(pressure_time_deltas_on))
+splitter_line = "------------------------"
 
-print("Average Pressure On Delta: " + str(sum(pressure_time_deltas_on) / len(pressure_time_deltas_on)) + "ms")
-print("Average Pressure Off Delta: " + str(sum(pressure_time_deltas_off) / len(pressure_time_deltas_off)) + "ms")
+print(splitter_line + "\nPressure Hold Times Off\n" + splitter_line + "\n" + str(pressure_hold_times_off))
+print(splitter_line + "\nPressure Hold Times On\n" + splitter_line + "\n" + str(pressure_hold_times_on))
+print(splitter_line + "\nPressure Time Deltas Off\n" + splitter_line + "\n" + str(pressure_time_deltas_off))
+print(splitter_line + "\nPressure Time Deltas On\n" + splitter_line + "\n" + str(pressure_time_deltas_on))
+
+print(splitter_line)
+
+print("Pressure On Delta: (" + "Min: " + str(min(pressure_time_deltas_on)) + "ms, Max: " + str(max(pressure_time_deltas_on)) + "ms, Average: " + str(sum(pressure_time_deltas_on) / len(pressure_time_deltas_on)) + "ms)")
+print("Pressure Off Delta: (" + "Min: " + str(min(pressure_time_deltas_off)) + "ms, Max: " + str(max(pressure_time_deltas_off)) + "ms, Average: " + str(sum(pressure_time_deltas_off) / len(pressure_time_deltas_off)) + "ms)")
 
 print("Min hold time on: " + str(min(pressure_hold_times_on)) + "ms")
 print("Min hold time off: " + str(min(pressure_hold_times_off)) + "ms")
 
-print("Skipped " + str(skipped_lines) + " lines, filtered " + str(filtered_lines) + " lines")
+print(splitter_line)
+
+print("Skipped " + str(skipped_lines) + " lines. Filtered " + str(filtered_lines) + " lines.")
