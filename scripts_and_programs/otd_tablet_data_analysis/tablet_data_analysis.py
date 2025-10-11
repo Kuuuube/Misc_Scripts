@@ -76,8 +76,8 @@ print(splitter_line + "\nPressure Time Deltas On\n" + splitter_line + "\n" + str
 
 print(splitter_line)
 
-print("Pressure On Delta: (" + "Min: " + str(min(pressure_time_deltas_on)) + "ms, Max: " + str(max(pressure_time_deltas_on)) + "ms, Average: " + str(sum(pressure_time_deltas_on) / len(pressure_time_deltas_on)) + "ms)")
-print("Pressure Off Delta: (" + "Min: " + str(min(pressure_time_deltas_off)) + "ms, Max: " + str(max(pressure_time_deltas_off)) + "ms, Average: " + str(sum(pressure_time_deltas_off) / len(pressure_time_deltas_off)) + "ms)")
+print("Pressure on delta: (" + "Min: " + str(min(pressure_time_deltas_on)) + "ms, Max: " + str(max(pressure_time_deltas_on)) + "ms, Average: " + str(sum(pressure_time_deltas_on) / len(pressure_time_deltas_on)) + "ms)")
+print("Pressure off delta: (" + "Min: " + str(min(pressure_time_deltas_off)) + "ms, Max: " + str(max(pressure_time_deltas_off)) + "ms, Average: " + str(sum(pressure_time_deltas_off) / len(pressure_time_deltas_off)) + "ms)")
 
 print("Min hold time on: " + str(min(pressure_hold_times_on)) + "ms")
 print("Min hold time off: " + str(min(pressure_hold_times_off)) + "ms")
