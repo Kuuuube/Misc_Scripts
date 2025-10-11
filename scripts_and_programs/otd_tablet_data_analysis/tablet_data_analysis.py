@@ -82,8 +82,8 @@ print("Pressure off delta: (" + "Min: " + str(min(pressure_time_deltas_off)) + "
 print("Min hold time on: " + str(min(pressure_hold_times_on)) + "ms")
 print("Min hold time off: " + str(min(pressure_hold_times_off)) + "ms")
 
-print("Position state on pressure on: (Match count: " + str(position_state_on_pressure_off["match"]) + ", Change count: " + str(position_state_on_pressure_off["change"]) + ")")
-print("Position state on pressure off: (Match count: " + str(position_state_on_pressure_on["match"]) + ", Change count: " + str(position_state_on_pressure_on["change"]) + ")")
+print("Position state on pressure on: (Match count: " + str(position_state_on_pressure_on["match"]) + ", Change count: " + str(position_state_on_pressure_on["change"]) + ")")
+print("Position state on pressure off: (Match count: " + str(position_state_on_pressure_off["match"]) + ", Change count: " + str(position_state_on_pressure_off["change"]) + ")")
 
 print(splitter_line)
 
