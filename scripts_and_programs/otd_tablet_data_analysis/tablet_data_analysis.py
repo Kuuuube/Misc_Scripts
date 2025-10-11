@@ -25,7 +25,7 @@ with open(data_capture_filename) as tablet_data:
             position_search = re.search(r"(?<=Position:\[).*?(?=\])", line)
             timedelta_search = re.search(r"(?<=Delta:)\d+\.?\d*", line)
 
-            if not pressure_search or not timedelta_search:
+            if not pressure_search or not timedelta_search or not position_search:
                 skipped_lines += 1
                 continue
 
