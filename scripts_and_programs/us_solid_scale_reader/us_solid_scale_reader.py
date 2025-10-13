@@ -3,7 +3,7 @@ import serial.tools.list_ports
 
 ports = serial.tools.list_ports.comports()
 
-for i, (port, desc, hwid) in enumerate(sorted(ports)):
+for i, (port, desc, hwid) in enumerate(ports):
     print("{}. {}: {} [{}]".format(i, port, desc, hwid))
 
 SERIAL_PORT, _, _ = ports[int(input("Input serial port number: "))]
