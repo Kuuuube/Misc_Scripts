@@ -12,7 +12,7 @@ try:
     print("Updating to version: " + latest_version_tag)
 
     download_link = "https://github.com/ungoogled-software/ungoogled-chromium-windows/releases/download/" + latest_version_tag + "/ungoogled-chromium_" + latest_version_tag + "_installer_" + architecture + ".exe"
-    print("Downloading: " + "ungoogled-chromium_" + latest_version_tag + "_installer_x64.exe")
+    print("Downloading: " + "ungoogled-chromium_" + latest_version_tag + "_installer_" + architecture + ".exe")
 
     installer_download = requests.get(download_link, stream=True)
     with open(latest_version_tag + "_installer_" + architecture + ".exe", "wb") as installer_file:
