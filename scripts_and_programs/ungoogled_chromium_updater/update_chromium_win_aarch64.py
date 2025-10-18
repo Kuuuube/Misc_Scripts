@@ -4,7 +4,7 @@ import subprocess
 import os
 import traceback
 
-architecture = "x64"
+architecture = "arm64"
 
 try:
     github_latest = requests.get("https://github.com/ungoogled-software/ungoogled-chromium-windows/releases/latest", allow_redirects=False)
