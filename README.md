@@ -174,6 +174,10 @@ Removes members only videos from channel video lists.
 
 Redirects youtube shorts to the desktop player.
 
+## [Youtube Shorts Remover](./scripts_and_programs/youtube_shorts_remover)
+
+Removes shorts from the Youtube homepage and search results.
+
 <br>
 
 ## Contributing
