@@ -6,9 +6,9 @@ Removes shorts from the Youtube homepage and search results.
 
 - Install the userscript. This can be done in many ways, below are two ways to install through TamperMonkey. Other extensions/add-ons may require different methods.
 
-    Create a new script and copy-paste the contents of `youtube_shorts_remove.js` into it.
+    Create a new script and copy-paste the contents of `youtube_shorts_remover.js` into it.
 
-    Open the `Dashboard`, navigate to the `Installed Userscripts` tab, and drag `youtube_shorts_remove.js` into it.
+    Open the `Dashboard`, navigate to the `Installed Userscripts` tab, and drag `youtube_shorts_remover.js` into it.
 
 ## Dependencies
 
