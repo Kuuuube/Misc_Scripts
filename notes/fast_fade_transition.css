@@ -1,0 +1,7 @@
+.some-class {
+    /*
+      Very snappy and responsive looking fade transition. About as fast as possible without looking like the change is fully instant.
+    */
+    --fast-fade: 0.25s cubic-bezier(0,0,0,1);
+    transition: background-color var(--fast-fade), filter var(--fast-fade);
+}
