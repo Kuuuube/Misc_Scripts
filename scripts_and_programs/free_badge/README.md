@@ -1,3 +1,7 @@
+## This badge has been discontinued
+
+https://support-dev.discord.com/hc/en-us/articles/10113997751447-Active-Developer-Badge
+
 # Free Badge Bot
 
 A discord bot with slash commands that return a string of text.
