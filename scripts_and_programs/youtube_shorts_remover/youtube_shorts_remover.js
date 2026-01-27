@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Shorts Remover
 // @namespace    https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/youtube_shorts_remover
-// @version      0.1
+// @version      0.2
 // @description  Removes youtube shorts.
 // @author       Kuuube
 // @run-at       document-start
@@ -10,7 +10,7 @@
 // ==/UserScript==
 
 function remove() {
-    for (const shorts_section_renderer of document.querySelectorAll("ytd-rich-section-renderer")) {
+    for (const shorts_section_renderer of document.querySelectorAll("grid-shelf-view-model")) {
         shorts_section_renderer.hidden = true;
     }
 }
