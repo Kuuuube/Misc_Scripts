@@ -6,6 +6,10 @@ Miscellaneous scripts, small programs, and notes. Everything uploaded here will 
 
 Generates blank files from a newline separated list of filenames in `list.txt`. 
 
+## [Chardiff](./scripts_and_programs/chardiff)
+
+A tool for finding differences in the unique unordered occurrences of unicode characters in two files.
+
 ## [Discord Anonymous Forum](./scripts_and_programs/discord_anonymous_forum)
 
 A discord bot that anonymizes messages and threads created in a forums channel.
