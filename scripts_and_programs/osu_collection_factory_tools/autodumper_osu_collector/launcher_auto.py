@@ -27,7 +27,7 @@ try:
         input()
 
     current_number = start_number
-        
+
     while not int(current_number) > (int(end_number)):
         try:
             collection_id = current_number
@@ -48,7 +48,7 @@ try:
 
     with open("start_number.txt", "w") as end_number_file:
         end_number_file.writelines([str(end_number)])
-        
+
 except Exception as e:
     print("Failed")
     print (e)

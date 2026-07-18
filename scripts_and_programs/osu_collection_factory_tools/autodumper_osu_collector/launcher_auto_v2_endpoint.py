@@ -2,6 +2,7 @@ import re
 import osu_collector_dumper
 import requests
 import json
+import sys
 
 try:
     html_check = "0"
@@ -26,7 +27,7 @@ try:
 
     if int(start_number) > int(end_number):
         print ("There are no collections to download or something broke")
-        input()
+        sys.exit()
 
     current_number = start_number
 
@@ -51,7 +52,7 @@ try:
 
     with open("start_number.txt", "w") as end_number_file:
         end_number_file.writelines([str(end_number)])
-        
+
 except Exception as e:
     print("Failed")
     print (e)
