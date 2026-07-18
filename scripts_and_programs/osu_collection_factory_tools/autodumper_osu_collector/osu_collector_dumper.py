@@ -5,17 +5,16 @@ import time
 import subprocess
 
 def osu_collector_dump(collection_id, collection_path):
-    
     collection_path_no_extension_1 = re.sub(".*(\\\|\\\\)", "", collection_path)
-    collection_path_no_extension_2 = re.sub("\..*", "", collection_path_no_extension_1)
-    
-    collection_id_regex = re.search("\d*$", collection_id)
-    
+    collection_path_no_extension_2 = re.sub(r"\..*", "", collection_path_no_extension_1)
+
+    collection_id_regex = re.search(r"\d*$", collection_id)
+
     csv_filepath = 'CollectionConverter/' + collection_path_no_extension_2 + '.csv'
 
     with open(csv_filepath, 'w') as id_dump:
         id_dump.close()
-    
+
     url = "https://osucollector.com/api/collections/" + collection_id_regex.group(0)
 
     r = requests.get(url)
@@ -44,10 +43,10 @@ def osu_collector_dump(collection_id, collection_path):
             print("No maps found")
             pass
 
-    subprocess.check_call([r"CollectionConverter\CollectionConverter", csv_filepath, collection_path, "3", "2", "0"])
+    subprocess.check_call([r"CollectionConverter/CollectionConverter", csv_filepath, collection_path, "3", "2", "0"])
 
     #metadata dumper tacked on:
-    
+
     metdata_filepath = "metadata_list.txt"
 
     try:
@@ -59,22 +58,22 @@ def osu_collector_dump(collection_id, collection_path):
         name = collection['name']
     except Exception:
         name = ""
-    
+
     try:
         #python is awful so "\\\\n" is required to write a literal "\n" instead of a newline
         description = re.sub("(\n|\r\n)", "\\\\n", collection['description'])
     except Exception:
         description = ""
-    
+
     try:
         beatmapcount = collection['beatmapCount']
     except Exception:
         beatmapcount = ""
-    
+
     mapped_string = "CollectionID: " + str(collection_id_regex.group(0)) + ", Collection Name: " + name + ", Collection Description: " + description + ", Beatmapcount: " + str(beatmapcount) + ", Uploader: " + username
 
     print (mapped_string)
-        
+
     with open (metdata_filepath, "a", encoding="utf8") as id_dump:
         id_dump.writelines([mapped_string])
         id_dump.writelines(["\n"])
@@ -87,7 +86,7 @@ def osu_collector_dump_v2_endpoint(collection_id, collection_path):
     collection_path_no_extension_1 = re.sub(".*(\\\|\\\\)", "", collection_path)
     collection_path_no_extension_2 = re.sub("\..*", "", collection_path_no_extension_1)
 
-    collection_id_regex = re.search("\d*$", collection_id)
+    collection_id_regex = re.search(r"\d*$", collection_id)
 
     hasMore = True
     cursor = "0"
@@ -159,7 +158,7 @@ def resolve_mode(mode_int):
 
 def metadata_dumper(collection_id):
 
-    collection_id_regex = re.search("\d*$", collection_id)
+    collection_id_regex = re.search(r"\d*$", collection_id)
 
     url = "https://osucollector.com/api/collections/" + collection_id_regex.group(0)
 
