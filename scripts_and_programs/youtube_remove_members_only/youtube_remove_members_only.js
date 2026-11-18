@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Remove Members Only
 // @namespace    https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/youtube_remove_members_only
-// @version      0.1
+// @version      0.2
 // @description  Removes members only videos from channel video lists.
 // @author       Kuuube
 // @match        *://www.youtube.com/*
@@ -11,8 +11,11 @@
 function remove_members_only() {
     let video_containers = document.querySelectorAll("ytd-rich-item-renderer.ytd-rich-grid-renderer")
     for (let i = video_containers.length - 1; i >= 0; i--) {
-        if (video_containers[i].querySelector(".badge-style-type-members-only")) {
-            video_containers[i].remove();
+        // video length badges (present on all videos) also have `.ytBadgeShapeText`
+        for (const badge_shape_text of video_containers[i].querySelectorAll(".ytBadgeShapeText")) {
+            if (badge_shape_text.textContent.match(/(Members first|Members only)/g)) {
+                video_containers[i].remove();
+            }
         }
     }
 }
