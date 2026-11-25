@@ -118,6 +118,10 @@ Resizes all images in a folder to a specified size.
 
 Command line study tool. Supports flashcards and repetition practice.
 
+## [Reddit Remove Login Force](./scripts_and_programs/reddit_remove_login_force)
+
+Remove client side nsfw login forcing from reddit.
+
 ## [RTINGS Bypass](./scripts_and_programs/rtings_bypass)
 
 Disables RTINGS' three review limit.
