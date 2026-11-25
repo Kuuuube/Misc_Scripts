@@ -9,6 +9,7 @@
 // ==/UserScript==
 
 function remove_login_force() {
+    // Desktop
     try {
         document.querySelector(".configured-xpromo-modal").remove();
     } catch {}
@@ -18,6 +19,11 @@ function remove_login_force() {
     } catch {}
 
     document.querySelector("body").classList.remove("rpl-scroll-lock");
+
+    // Mobile
+    try {
+        document.querySelector(".configured-xpromo-bottom-sheet").remove();
+    } catch {}
 }
 
 (function() {
