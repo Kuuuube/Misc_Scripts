@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reddit Remove Login Force
 // @namespace    https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/reddit_remove_login_force
-// @version      0.1
+// @version      0.2
 // @description  Remove client side nsfw login forcing from reddit.
 // @author       Kuuube
 // @match        https://www.reddit.com/*
