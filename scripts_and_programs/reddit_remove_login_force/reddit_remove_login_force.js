@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reddit Remove Login Force
 // @namespace    https://github.com/Kuuuube/Misc_Scripts/tree/main/scripts_and_programs/reddit_remove_login_force
-// @version      0.2
+// @version      0.3
 // @description  Remove client side nsfw login forcing from reddit.
 // @author       Kuuube
 // @match        https://www.reddit.com/*
@@ -10,20 +10,19 @@
 
 function remove_login_force() {
     // Desktop
-    try {
-        document.querySelector(".configured-xpromo-modal").remove();
-    } catch {}
-    try {
-        let container = document.querySelector("xpromo-nsfw-blocking-container").shadowRoot;
-        container.querySelector(".prompt").remove();
-    } catch {}
+    document.querySelectorAll(".configured-xpromo-modal").forEach(x => x.remove());
+
+    let containers = document.querySelectorAll("xpromo-nsfw-blocking-container");
+    for (const container of containers) {
+        try {
+            container.shadowRoot.querySelector(".prompt").remove();
+        } catch {}
+    }
 
     document.querySelector("body").classList.remove("rpl-scroll-lock");
 
     // Mobile
-    try {
-        document.querySelector(".configured-xpromo-bottom-sheet").remove();
-    } catch {}
+    document.querySelectorAll(".configured-xpromo-bottom-sheet").forEach(x => x.remove());
 }
 
 (function() {
