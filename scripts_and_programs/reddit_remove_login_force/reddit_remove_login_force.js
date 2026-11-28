@@ -23,6 +23,7 @@ function remove_login_force() {
 
     // Mobile
     document.querySelectorAll(".configured-xpromo-bottom-sheet").forEach(x => x.remove());
+    document.querySelectorAll(".configured-xpromo-bottom-sheet-v2").forEach(x => x.remove());
 }
 
 (function() {
